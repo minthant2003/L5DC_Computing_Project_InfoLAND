@@ -124,31 +124,6 @@
                 <i class="mdi mdi-contact-mail menu-icon"></i>
               </a>
             </li>
-
-            <!--  -->
-            <!--  -->
-            
-            
-
-            <!--  -->
-            <!--  -->
-
-            <li class="nav-item">
-              <a class="nav-link" data-bs-toggle="collapse" href="#general-pages" aria-expanded="false" aria-controls="general-pages">
-                <span class="menu-title">Sample Pages</span>
-                <i class="menu-arrow"></i>
-                <i class="mdi mdi-medical-bag menu-icon"></i>
-              </a>
-              <div class="collapse" id="general-pages">
-                <ul class="nav flex-column sub-menu">
-                  <li class="nav-item"> <a class="nav-link" href="pages/samples/blank-page.php"> Blank Page </a></li>
-                  <li class="nav-item"> <a class="nav-link" href="pages/samples/login.php"> Login </a></li>
-                  <li class="nav-item"> <a class="nav-link" href="pages/samples/register.php"> Register </a></li>
-                  <li class="nav-item"> <a class="nav-link" href="pages/samples/error-404.php"> 404 </a></li>
-                  <li class="nav-item"> <a class="nav-link" href="pages/samples/error-500.php"> 500 </a></li>
-                </ul>
-              </div>
-            </li>
           </ul>
         </nav>
         <!-- partial -->
