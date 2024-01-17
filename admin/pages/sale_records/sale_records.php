@@ -130,6 +130,162 @@
         <div class="main-panel">
           <div class="content-wrapper">
             
+            <div class="col-md-12">
+              <form class="d-flex forms-sample" action="sale_records.php" method="">
+                <div class="col-md-2 stretch-card grid-margin">
+                  <div class="card bg-gradient-success card-img-holder text-white">
+                    <div class="card-body">
+                      <img src="../../assets/images/dashboard/circle.svg" class="card-img-absolute" alt="circle-image" />
+                                 
+                      <select class="form-control" name="" id="">
+                        <option value="">Yearly</option>
+                        <option value="">2022</option>
+                        <option value="">2023</option>
+                        <option value="">2024</option>
+                      </select>
+                    </div>
+                  </div>  
+                </div>
+                <div class="col-md-2 card-stretch grid-margin">
+                  <div class="card bg-gradient-danger card-img-holder text-white">
+                    <div class="card-body">      
+                      <img src="../../assets/images/dashboard/circle.svg" class="card-img-absolute" alt="circle-image" />
+                                   
+                      <select class="form-control" name="" id="">
+                        <option value="">Monthly</option>
+                        <option value="">January</option>
+                        <option value="">February</option>
+                        <option value="">March</option>
+                        <option value="">April</option>
+                        <option value="">May</option>
+                        <option value="">June</option>
+                        <option value="">July</option>
+                        <option value="">August</option>
+                        <option value="">September</option>
+                        <option value="">October</option>
+                        <option value="">November</option>
+                        <option value="">Decemberss</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-2 card-stretch grid-margin">
+                  <div class="card bg-gradient-info card-img-holder text-white">
+                    <div class="card-body">  
+                      <img src="../../assets/images/dashboard/circle.svg" class="card-img-absolute" alt="circle-image" />
+                                        
+                      <select class="form-control" name="" id="">
+                        <option value="">Course Name</option>
+                        <option value="">Web Development</option>
+                        <option value="">Basic Networking</option>
+                        <option value="">Cyber Security</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-2 card-stretch grid-margin">
+                  <div class="card bg-gradient-primary card-img-holder text-white">
+                    <div class="card-body">    
+                      <img src="../../assets/images/dashboard/circle.svg" class="card-img-absolute" alt="circle-image" />
+                                       
+                      <select class="form-control" name="" id="">
+                        <option value="">Category</option>
+                        <option value="">Software Engineering</option>
+                        <option value="">Network Engineering</option>
+                        <option value="">Cyber Security</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>  
+                <div class="col-md-4 card-stretch grid-margin">
+                  <div class="card">
+                    <div class="card-body">
+                      <input type="submit" class="btn btn-gradient-warning me-2" value="Filter">
+                      <input type="reset" value="Reset" class="btn btn-light">                      
+                    </div>
+                  </div>
+                </div>                              
+              </form>
+            </div>
+
+            <div class="col-lg-12 grid-margin stretch-card">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="card-title">Sale Records</h4>
+                  <div class="table-responsive">
+                    <table class="table table-striped">
+                      <thead>
+                        <tr>
+                          <th>Sale ID</th>
+                          <th>Course ID</th>
+                          <th>Course Name</th>
+                          <th>Course Category</th>
+                          <th>Learner ID</th>
+                          <th>Learner Name</th>
+                          <th>Sale Amount</th>
+                          <th>Sale Date</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td class="text-danger">1</td>
+                          <td>3</td>
+                          <td>Programming with JAVA</td>
+                          <td>Software Engineering</td>
+                          <td>14</td>
+                          <td>Min Thant</td>
+                          <td class="text-danger">£ 100</td>
+                          <td class="text-danger">2024-01-18</td>                        
+                        </tr>
+                        <tr>
+                          <td class="text-danger">1</td>
+                          <td>3</td>
+                          <td>Programming with JAVA</td>
+                          <td>Software Engineering</td>
+                          <td>14</td>
+                          <td>Min Thant</td>
+                          <td class="text-danger">£ 100</td>
+                          <td class="text-danger">2024-01-18</td>                        
+                        </tr>
+                        <tr>
+                          <td class="text-danger">1</td>
+                          <td>3</td>
+                          <td>Programming with JAVA</td>
+                          <td>Software Engineering</td>
+                          <td>14</td>
+                          <td>Min Thant</td>
+                          <td class="text-danger">£ 100</td>
+                          <td class="text-danger">2024-01-18</td>                        
+                        </tr>
+                        <tr>
+                          <td class="text-danger">1</td>
+                          <td>3</td>
+                          <td>Programming with JAVA</td>
+                          <td>Software Engineering</td>
+                          <td>14</td>
+                          <td>Min Thant</td>
+                          <td class="text-danger">£ 100</td>
+                          <td class="text-danger">2024-01-18</td>                        
+                        </tr>
+                        <tr>
+                          <td class="text-danger">1</td>
+                          <td>3</td>
+                          <td>Programming with JAVA</td>
+                          <td>Software Engineering</td>
+                          <td>14</td>
+                          <td>Min Thant</td>
+                          <td class="text-danger">£ 100</td>
+                          <td class="text-danger">2024-01-18</td>                        
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            Pagination here
+
           </div>
           <!-- content-wrapper ends -->
           <!-- partial:../../partials/_footer.php -->
