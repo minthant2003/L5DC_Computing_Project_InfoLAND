@@ -130,9 +130,59 @@
         <div class="main-panel">
           <div class="content-wrapper">
             
-            <div class="col-md-12">
-              <form class="d-flex forms-sample" action="sale_records.php" method="">
-                <div class="col-md-2 stretch-card grid-margin">
+            <form action="sale_records.php" method="">
+              <div class="row">
+
+                <div class="col-md-8 stretch-card grid-margin">
+                  <div class="card bg-gradient-danger">
+                    <div class="card-body d-flex">
+                      <select class="form-control" name="" id="">
+                        <option value="">Yearly</option>
+                        <option value="">2022</option>
+                        <option value="">2023</option>
+                        <option value="">2024</option>
+                      </select>
+                      <select class="form-control" name="" id="">
+                        <option value="">Monthly</option>
+                        <option value="">January</option>
+                        <option value="">February</option>
+                        <option value="">March</option>
+                        <option value="">April</option>
+                        <option value="">May</option>
+                        <option value="">June</option>
+                        <option value="">July</option>
+                        <option value="">August</option>
+                        <option value="">September</option>
+                        <option value="">October</option>
+                        <option value="">November</option>
+                        <option value="">Decemberss</option>
+                      </select>
+                      <select class="form-control" name="" id="">
+                        <option value="">Course Name</option>
+                        <option value="">Web Development</option>
+                        <option value="">Basic Networking</option>
+                        <option value="">Cyber Security</option>
+                      </select>
+                      <select class="form-control" name="" id="">
+                        <option value="">Category</option>
+                        <option value="">Software Engineering</option>
+                        <option value="">Network Engineering</option>
+                        <option value="">Cyber Security</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4 stretch-card grid-margin">
+                  <div class="row">
+                    <div class="card">
+                      <div class="card-body">
+                        <input type="submit" value="Filter" class="btn btn-gradient-primary me-2">
+                        <input type="reset" value="Reset" class="btn btn-light btn-gradient-warning">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- <div class="col-md-2 stretch-card grid-margin">
                   <div class="card bg-gradient-success card-img-holder text-white">
                     <div class="card-body">
                       <img src="../../assets/images/dashboard/circle.svg" class="card-img-absolute" alt="circle-image" />
@@ -204,9 +254,11 @@
                       <input type="reset" value="Reset" class="btn btn-light">                      
                     </div>
                   </div>
-                </div>                              
-              </form>
-            </div>
+                </div>    -->
+                
+                
+              </div>
+            </form>
 
             <div class="col-lg-12 grid-margin stretch-card">
               <div class="card">
