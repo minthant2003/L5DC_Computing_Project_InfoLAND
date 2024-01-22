@@ -128,11 +128,9 @@
         </nav>
         <!-- partial -->
         <div class="main-panel">
-          <div class="content-wrapper">
-            
+          <div class="content-wrapper">            
             <form action="sale_records.php" method="">
               <div class="row">
-
                 <div class="col-md-8 stretch-card grid-margin">
                   <div class="card bg-gradient-danger">
                     <div class="card-body d-flex">
@@ -181,85 +179,9 @@
                       </div>
                     </div>
                   </div>
-                </div>
-                <!-- <div class="col-md-2 stretch-card grid-margin">
-                  <div class="card bg-gradient-success card-img-holder text-white">
-                    <div class="card-body">
-                      <img src="../../assets/images/dashboard/circle.svg" class="card-img-absolute" alt="circle-image" />
-                                 
-                      <select class="form-control" name="" id="">
-                        <option value="">Yearly</option>
-                        <option value="">2022</option>
-                        <option value="">2023</option>
-                        <option value="">2024</option>
-                      </select>
-                    </div>
-                  </div>  
-                </div>
-                <div class="col-md-2 card-stretch grid-margin">
-                  <div class="card bg-gradient-danger card-img-holder text-white">
-                    <div class="card-body">      
-                      <img src="../../assets/images/dashboard/circle.svg" class="card-img-absolute" alt="circle-image" />
-                                   
-                      <select class="form-control" name="" id="">
-                        <option value="">Monthly</option>
-                        <option value="">January</option>
-                        <option value="">February</option>
-                        <option value="">March</option>
-                        <option value="">April</option>
-                        <option value="">May</option>
-                        <option value="">June</option>
-                        <option value="">July</option>
-                        <option value="">August</option>
-                        <option value="">September</option>
-                        <option value="">October</option>
-                        <option value="">November</option>
-                        <option value="">Decemberss</option>
-                      </select>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-2 card-stretch grid-margin">
-                  <div class="card bg-gradient-info card-img-holder text-white">
-                    <div class="card-body">  
-                      <img src="../../assets/images/dashboard/circle.svg" class="card-img-absolute" alt="circle-image" />
-                                        
-                      <select class="form-control" name="" id="">
-                        <option value="">Course Name</option>
-                        <option value="">Web Development</option>
-                        <option value="">Basic Networking</option>
-                        <option value="">Cyber Security</option>
-                      </select>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-2 card-stretch grid-margin">
-                  <div class="card bg-gradient-primary card-img-holder text-white">
-                    <div class="card-body">    
-                      <img src="../../assets/images/dashboard/circle.svg" class="card-img-absolute" alt="circle-image" />
-                                       
-                      <select class="form-control" name="" id="">
-                        <option value="">Category</option>
-                        <option value="">Software Engineering</option>
-                        <option value="">Network Engineering</option>
-                        <option value="">Cyber Security</option>
-                      </select>
-                    </div>
-                  </div>
-                </div>  
-                <div class="col-md-4 card-stretch grid-margin">
-                  <div class="card">
-                    <div class="card-body">
-                      <input type="submit" class="btn btn-gradient-warning me-2" value="Filter">
-                      <input type="reset" value="Reset" class="btn btn-light">                      
-                    </div>
-                  </div>
-                </div>    -->
-                
-                
+                </div>                                
               </div>
             </form>
-
             <div class="col-lg-12 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
@@ -335,8 +257,27 @@
                 </div>
               </div>
             </div>
-
-            Pagination here
+            <div class="row justify-content-center">
+              <div class="col-md-8 grind-margin stretch-card">
+                <div class="card">
+                  <div class="card-body d-flex justify-content-around align-items-center">
+                    <h5>Showing 1 of 10 pages</h5>
+                    <nav aria-label="Page navigation example">
+                      <ul class="pagination mb-0">
+                        <li class="page-item"><a class="page-link" href="#">First</a></li>
+                        <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+                        <li class="page-item"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                        <li class="page-item"><a class="page-link" href="#">Last</a></li>
+                      </ul>
+                    </nav>
+                  </div>
+                </div>
+              </div>              
+            </div>
+            
 
           </div>
           <!-- content-wrapper ends -->
