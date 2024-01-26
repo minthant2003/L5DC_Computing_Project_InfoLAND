@@ -128,13 +128,145 @@
         </nav>
         <!-- partial -->
         <div class="main-panel">
-          <div class="content-wrapper">
-            
+          <div class="content-wrapper">            
+            <form action="course_view.php" method="">
+              <div class="row">
+                <div class="col-md-8 stretch-card grid-margin">
+                  <div class="card bg-gradient-success">
+                    <div class="card-body d-flex">
+                      <select class="form-control" name="" id="">
+                        <option value="">Category</option>
+                        <option value="">Programming</option>
+                        <option value="">Networking</option>
+                      </select>
+                      <select class="form-control" name="" id="">
+                        <option value="">Name</option>
+                        <option value="">Java</option>
+                        <option value="">CCNA</option>
+                      </select>
+                      <select class="form-control" name="" id="">
+                        <option value="">Free</option>
+                        <option value="">Paid</option>
+                      </select>                      
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4 stretch-card grid-margin">                
+                  <div class="card">
+                    <div class="card-body d-flex flex-wrap justify-content-around">
+                      <input type="submit" value="Filter" class="px-4 px-md-2 px-xl-4 py-3 rounded-3 btn-gradient-primary">
+                      <input type="reset" value="Reset" class="px-4 px-md-2 px-xl-4 py-3 rounded-3 btn-light btn-gradient-warning">
+                    </div>
+                  </div>                
+                </div>                                
+              </div>
+            </form>
+            <div class="col-lg-12 grid-margin stretch-card">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="card-title">Courses</h4>
+                  <div class="table-responsive">
+                    <table class="table table-striped">
+                      <thead>
+                        <tr>
+                          <th>ID</th>
+                          <th>Name</th>
+                          <th>Description</th>
+                          <th>Category</th>
+                          <th>Entry LP</th>
+                          <th>Goal LP</th>
+                          <th>Price</th>
+                          <th>Learning Material</th>
+                          <th>Quizzes</th>
+                          <th>Action</th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <form action="course_view.php" method="post">
+                          <tr>
+                            <td>1</td>
+                            <td>Programming with JAVA</td>
+                            <td style="white-space:normal;">
+                              <div class="lh-base" style="width:20rem; height:5rem; overflow-y:auto;">
+                                JAVA Introduction to Advanced JAVA Introduction to Advanced JAVA Introduction to Advanced JAVA Introduction to Advanced JAVA Introduction to Advanced JAVA Introduction to Advanced
+                              </div>                              
+                            </td>
+                            <td>Software Engineering</td>
+                            <td>30</td>
+                            <td>5</td>
+                            <td>£ 100</td>
+                            <td>Programming with JAVA.pdf</td>
+                            <td><a href="../quizzes/quizzes.php">View Quizzes</a></td>
+                            <td><a href="course_update.php">Update Course</a></td>
+                            <td><button type="submit" class="btn btn-inverse-danger btn-fw">Delete</button></td>
+                          </tr>
+                          <tr>
+                            <td>1</td>
+                            <td>Programming with JAVA</td>
+                            <td style="white-space:normal;">
+                              <div class="lh-base" style="width:20rem; height:5rem; overflow-y:auto;">
+                                JAVA Introduction to Advanced JAVA Introduction to Advanced JAVA Introduction to Advanced 
+                              </div>                              
+                            </td>
+                            <td>Software Engineering</td>
+                            <td>30</td>
+                            <td>5</td>
+                            <td>£ 100</td>
+                            <td>Programming with JAVA.pdf</td>
+                            <td><a href="../quizzes/quizzes.php">View Quizzes</a></td>
+                            <td><a href="course_update.php">Update Course</a></td>
+                            <td><button type="submit" class="btn btn-inverse-danger btn-fw">Delete</button></td>
+                          </tr>
+                          <tr>
+                            <td>1</td>
+                            <td>Programming with JAVA</td>
+                            <td style="white-space:normal;">
+                              <div class="lh-base" style="width:20rem; height:5rem; overflow-y:auto;">
+                                JAVA Introduction to Advanced JAVA Introduction to Advanced 
+                              </div>                              
+                            </td>
+                            <td>Software Engineering</td>
+                            <td>30</td>
+                            <td>5</td>
+                            <td>£ 100</td>
+                            <td>Programming with JAVA.pdf</td>
+                            <td><a href="../quizzes/quizzes.php">View Quizzes</a></td>
+                            <td><a href="course_update.php">Update Course</a></td>
+                            <td><button type="submit" class="btn btn-inverse-danger btn-fw">Delete</button></td>
+                          </tr>
+                        </form>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row justify-content-center">
+              <div class="col-md-8 grind-margin stretch-card">
+                <div class="card">
+                  <div class="card-body d-flex justify-content-around align-items-center flex-wrap">
+                    <h5>Showing 1 of 10 pages</h5>
+                    <nav aria-label="Page navigation example">
+                      <ul class="pagination mb-0">
+                        <li class="page-item"><a class="page-link" href="#">First</a></li>
+                        <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+                        <li class="page-item"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                        <li class="page-item"><a class="page-link" href="#">Last</a></li>
+                      </ul>
+                    </nav>
+                  </div>
+                </div>
+              </div>              
+            </div>            
           </div>
           <!-- content-wrapper ends -->
           <!-- partial:../../partials/_footer.php -->
           <footer class="footer">
-            <div class="container-fluid d-flex justify-content-between">
+            <div class="container-fluid d-flex justify-content-between flex-wrap">
               <span class="text-muted fs-6 d-block text-center text-sm-start d-sm-inline-block">Copyright © InfoLAND_admin.com 2024</span>
               <span class="text-muted fs-6 float-none float-sm-end mt-1 mt-sm-0 text-end">Made with Love <i class="mdi mdi-heart"></i></span>
             </div>
