@@ -138,7 +138,186 @@
                   <li class="breadcrumb-item active" aria-current="page">Quizzes</li>
                 </ol>
               </nav>
-            </div>    
+            </div>   
+            <div class="row">
+              <div class="col-12 stretch-card grid-margin">
+                <div class="card">
+                  <div class="card-body">
+                    <h3 class="page-title mb-4"> Quiz Number 1 </h3>                    
+                    <form action="#" method="post">
+                      <div class="d-flex">
+                        <p class="me-2 mb-4">Q)</p>
+                        <p class="mb-4">What is HTML? What is HTML? What is HTML? What is HTML?</p>
+                        <!-- <textarea class="form-control mb-4" id="" rows="3" placeholder="Enter the Question"></textarea> -->
+                      </div>                    
+                      <div class="d-flex">
+                        <p class="me-2 mb-0">a)</p>
+                        <p class="mb-0">HTML is a programming language. HTML is a programming language.</p>
+                        <!-- <textarea class="form-control mb-1" id="" rows="3" placeholder="Enter the first answer"></textarea> -->
+                      </div>
+                      <div class="d-flex">
+                        <p class="me-2 mb-0">b)</p>
+                        <p class="mb-0">It is a style-sheet language.</p>
+                        <!-- <textarea class="form-control mb-1" id="" rows="3" placeholder="Enter the second answer"></textarea> -->
+                      </div>
+                      <div class="d-flex">
+                        <p class="me-2">c)</p>
+                        <p class="">HTML is used in networking device.</p>
+                        <!-- <textarea class="form-control mb-4" id="" rows="3" placeholder="Enter the third answer"></textarea> -->
+                      </div>
+                      <div class="d-flex mb-4 align-items-center">
+                        <p class="me-2 mb-0">Right answer is</p>
+                        <mark class="bg-warning text-white mb-0">a</mark>
+                        <!-- <div class="d-flex">
+                          <div class="form-check me-3">
+                            <label class="form-check-label">
+                              <input type="radio" class="form-check-input" name="membershipRadios" id="" value="" checked>
+                              a <i class="input-helper"></i>
+                            </label>
+                          </div>
+                          <div class="form-check me-3">
+                            <label class="form-check-label">
+                              <input type="radio" class="form-check-input" name="membershipRadios" id="" value="">
+                              b <i class="input-helper"></i>
+                            </label>
+                          </div>
+                          <div class="form-check">
+                            <label class="form-check-label">
+                              <input type="radio" class="form-check-input" name="membershipRadios" id="" value="">
+                              c <i class="input-helper"></i>
+                            </label>
+                          </div>
+                        </div> -->
+                      </div>
+                      <div class="d-flex flex-wrap justify-content-around">
+                        <button type="button" class="btn-lg btn-gradient-primary btn-fw">Update</button>
+                        <!-- <button type="submit" class="btn-lg btn-gradient-success btn-fw">Submit</button>
+                        <button type="reset" class="btn-lg btn-gradient-danger btn-fw">Reset</button>
+                        <button type="button" class="btn-lg btn-gradient-info btn-fw">Cancel</button> -->
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>   
+              <div class="col-12 stretch-card grid-margin">
+                <div class="card">
+                  <div class="card-body">
+                    <h3 class="page-title mb-4"> Quiz Number 1 </h3>                    
+                    <form action="#" method="post">
+                      <div class="d-flex">
+                        <p class="me-2 mb-4">Q)</p>
+                        <p class="mb-4">What is HTML? What is HTML? What is HTML? What is HTML?</p>
+                        <!-- <textarea class="form-control mb-4" id="" rows="3" placeholder="Enter the Question"></textarea> -->
+                      </div>                    
+                      <div class="d-flex">
+                        <p class="me-2 mb-0">a)</p>
+                        <p class="mb-0">HTML is a programming language. HTML is a programming language.</p>
+                        <!-- <textarea class="form-control mb-1" id="" rows="3" placeholder="Enter the first answer"></textarea> -->
+                      </div>
+                      <div class="d-flex">
+                        <p class="me-2 mb-0">b)</p>
+                        <p class="mb-0">It is a style-sheet language.</p>
+                        <!-- <textarea class="form-control mb-1" id="" rows="3" placeholder="Enter the second answer"></textarea> -->
+                      </div>
+                      <div class="d-flex">
+                        <p class="me-2">c)</p>
+                        <p class="">HTML is used in networking device.</p>
+                        <!-- <textarea class="form-control mb-4" id="" rows="3" placeholder="Enter the third answer"></textarea> -->
+                      </div>
+                      <div class="d-flex mb-4 align-items-center">
+                        <p class="me-2 mb-0">Right answer is</p>
+                        <mark class="bg-warning text-white mb-0">a</mark>
+                        <!-- <div class="d-flex">
+                          <div class="form-check me-3">
+                            <label class="form-check-label">
+                              <input type="radio" class="form-check-input" name="membershipRadios" id="" value="" checked>
+                              a <i class="input-helper"></i>
+                            </label>
+                          </div>
+                          <div class="form-check me-3">
+                            <label class="form-check-label">
+                              <input type="radio" class="form-check-input" name="membershipRadios" id="" value="">
+                              b <i class="input-helper"></i>
+                            </label>
+                          </div>
+                          <div class="form-check">
+                            <label class="form-check-label">
+                              <input type="radio" class="form-check-input" name="membershipRadios" id="" value="">
+                              c <i class="input-helper"></i>
+                            </label>
+                          </div>
+                        </div> -->
+                      </div>
+                      <div class="d-flex flex-wrap justify-content-around">
+                        <button type="button" class="btn-lg btn-gradient-primary btn-fw">Update</button>
+                        <!-- <button type="submit" class="btn-lg btn-gradient-success btn-fw">Submit</button>
+                        <button type="reset" class="btn-lg btn-gradient-danger btn-fw">Reset</button>
+                        <button type="button" class="btn-lg btn-gradient-info btn-fw">Cancel</button> -->
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+              <div class="col-12 stretch-card grid-margin">
+                <div class="card">
+                  <div class="card-body">
+                    <h3 class="page-title mb-4"> Quiz Number 1 </h3>                    
+                    <form action="#" method="post">
+                      <div class="d-flex">
+                        <p class="me-2 mb-4">Q)</p>
+                        <p class="mb-4">What is HTML? What is HTML? What is HTML? What is HTML?</p>
+                        <!-- <textarea class="form-control mb-4" id="" rows="3" placeholder="Enter the Question"></textarea> -->
+                      </div>                    
+                      <div class="d-flex">
+                        <p class="me-2 mb-0">a)</p>
+                        <p class="mb-0">HTML is a programming language. HTML is a programming language.</p>
+                        <!-- <textarea class="form-control mb-1" id="" rows="3" placeholder="Enter the first answer"></textarea> -->
+                      </div>
+                      <div class="d-flex">
+                        <p class="me-2 mb-0">b)</p>
+                        <p class="mb-0">It is a style-sheet language.</p>
+                        <!-- <textarea class="form-control mb-1" id="" rows="3" placeholder="Enter the second answer"></textarea> -->
+                      </div>
+                      <div class="d-flex">
+                        <p class="me-2">c)</p>
+                        <p class="">HTML is used in networking device.</p>
+                        <!-- <textarea class="form-control mb-4" id="" rows="3" placeholder="Enter the third answer"></textarea> -->
+                      </div>
+                      <div class="d-flex mb-4 align-items-center">
+                        <p class="me-2 mb-0">Right answer is</p>
+                        <mark class="bg-warning text-white mb-0">a</mark>
+                        <!-- <div class="d-flex">
+                          <div class="form-check me-3">
+                            <label class="form-check-label">
+                              <input type="radio" class="form-check-input" name="membershipRadios" id="" value="" checked>
+                              a <i class="input-helper"></i>
+                            </label>
+                          </div>
+                          <div class="form-check me-3">
+                            <label class="form-check-label">
+                              <input type="radio" class="form-check-input" name="membershipRadios" id="" value="">
+                              b <i class="input-helper"></i>
+                            </label>
+                          </div>
+                          <div class="form-check">
+                            <label class="form-check-label">
+                              <input type="radio" class="form-check-input" name="membershipRadios" id="" value="">
+                              c <i class="input-helper"></i>
+                            </label>
+                          </div>
+                        </div> -->
+                      </div>
+                      <div class="d-flex flex-wrap justify-content-around">
+                        <button type="button" class="btn-lg btn-gradient-primary btn-fw">Update</button>
+                        <!-- <button type="submit" class="btn-lg btn-gradient-success btn-fw">Submit</button>
+                        <button type="reset" class="btn-lg btn-gradient-danger btn-fw">Reset</button>
+                        <button type="button" class="btn-lg btn-gradient-info btn-fw">Cancel</button> -->
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
           <!-- content-wrapper ends -->
           <!-- partial:../../partials/_footer.php -->
