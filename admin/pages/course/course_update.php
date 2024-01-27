@@ -129,7 +129,103 @@
         <!-- partial -->
         <div class="main-panel">
           <div class="content-wrapper">
-            
+            <div class="col-12">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="card-title">Update form</h4>
+                  <form action="#" method="post" class="form-sample">
+                    <p class="card-description mb-0"> Course Name: Programming with JAVA </p>  
+                    <p class="card-description"> Course ID: 1 </p>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group row">
+                          <label class="col-sm-3 col-form-label">Name</label>
+                          <div class="col-sm-9">
+                            <input type="text" class="form-control" />
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group row">
+                          <label class="col-sm-3 col-form-label">Description</label>
+                          <div class="col-sm-9">
+                            <textarea class="form-control" id="" rows="4"></textarea>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group row">
+                          <label class="col-sm-3 col-form-label">Category</label>
+                          <div class="col-sm-9">
+                            <select class="form-control form-control-sm">
+                              <option>Software Engineering</option>
+                              <option>Networking</option>
+                              <option>Cyber Security</option>
+                              <option>Cloud Computing</option>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group row">
+                          <label class="col-sm-3 col-form-label">Entry LP</label>
+                          <div class="col-sm-9">
+                            <input type="number" class="form-control" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group row">
+                          <label class="col-sm-3 col-form-label">Goal LP</label>
+                          <div class="col-sm-9">
+                            <input type="number" class="form-control" />
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group row">
+                          <label class="col-sm-3 col-form-label">Price</label>
+                          <div class="col-sm-9">
+                            <div class="form-group">
+                              <div class="input-group">
+                                <div class="input-group-prepend">
+                                  <span class="input-group-text bg-gradient-primary text-white">£</span>
+                                </div>
+                                <input type="number" step="any" class="form-control" aria-label="">
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">   
+                      <div class="col-md-12">
+                        <div class="form-group row">
+                          <label class="col-sm-3 col-form-label">Learning Material</label>
+                          <div class="col-sm-9">
+                            <input type="file" name="" class="file-upload-default">
+                            <div class="input-group col-xs-12">
+                              <input type="text" class="form-control file-upload-info" disabled placeholder="Upload Image">
+                              <span class="input-group-append">
+                                <button class="file-upload-browse btn btn-gradient-primary" type="button">Upload</button>
+                              </span>
+                            </div>
+                          </div>
+                        </div> 
+                      </div>                                         
+                    </div>
+                    <div class="d-flex justify-content-around">
+                      <button type="submit" class="btn-lg btn-gradient-success btn-fw">Update</button>
+                      <button type="reset" class="btn-lg btn-gradient-danger btn-fw">Clear</button>
+                    </div>                 
+                  </form>
+                </div>
+              </div>
+            </div>
           </div>
           <!-- content-wrapper ends -->
           <!-- partial:../../partials/_footer.php -->
@@ -157,6 +253,7 @@
     <script src="../../assets/js/misc.js"></script>
     <!-- endinject -->
     <!-- Custom js for this page -->
+    <script src="../../assets/js/file-upload.js"></script>
     <!-- End custom js for this page -->
   </body>
 </html>
