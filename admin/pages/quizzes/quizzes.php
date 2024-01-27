@@ -129,7 +129,16 @@
         <!-- partial -->
         <div class="main-panel">
           <div class="content-wrapper">
-            
+            <div class="page-header">
+              <h3 class="page-title"> Quizzes </h3>
+              <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item"><a href="../../index.php">Dashboard</a></li>
+                  <li class="breadcrumb-item"><a href="../course/course_view.php">Courses</a></li>
+                  <li class="breadcrumb-item active" aria-current="page">Quizzes</li>
+                </ol>
+              </nav>
+            </div>    
           </div>
           <!-- content-wrapper ends -->
           <!-- partial:../../partials/_footer.php -->

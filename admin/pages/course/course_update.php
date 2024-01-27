@@ -129,6 +129,16 @@
         <!-- partial -->
         <div class="main-panel">
           <div class="content-wrapper">
+            <div class="page-header">
+              <h3 class="page-title"> Course Update </h3>
+              <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item"><a href="../../index.php">Dashboard</a></li>
+                  <li class="breadcrumb-item"><a href="course_view.php">Courses</a></li>
+                  <li class="breadcrumb-item active" aria-current="page">Course Update</li>
+                </ol>
+              </nav>
+            </div>  
             <div class="col-12">
               <div class="card">
                 <div class="card-body">

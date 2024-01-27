@@ -128,7 +128,16 @@
         </nav>
         <!-- partial -->
         <div class="main-panel">
-          <div class="content-wrapper">            
+          <div class="content-wrapper">    
+            <div class="page-header">
+              <h3 class="page-title"> Sale Records </h3>
+              <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item"><a href="../../index.php">Dashboard</a></li>
+                  <li class="breadcrumb-item active" aria-current="page">Sale Records</li>
+                </ol>
+              </nav>
+            </div>        
             <form action="sale_records.php" method="">
               <div class="row">
                 <div class="col-md-8 stretch-card grid-margin">
