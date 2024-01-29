@@ -129,7 +129,256 @@
         <!-- partial -->
         <div class="main-panel">
           <div class="content-wrapper">
-            
+            <div class="page-header">
+              <h3 class="page-title"> Add Course </h3>
+              <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item"><a href="../../index.php">Dashboard</a></li>
+                  <li class="breadcrumb-item active" aria-current="page">Add Course</li>
+                </ol>
+              </nav>
+            </div>
+            <form action="#" method="post" class="form-sample">
+              <div class="row">
+                <div class="col-12 grid-margin stretch-card">
+                  <div class="card">
+                    <div class="card-body">
+                      <h4 class="card-title">Course Details</h4>                        
+                      <div class="row">
+                        <div class="col-md-6">
+                          <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Name</label>
+                            <div class="col-sm-9">
+                              <input type="text" class="form-control" />
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Description</label>
+                            <div class="col-sm-9">
+                              <textarea class="form-control" id="" rows="4"></textarea>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-6">
+                          <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Category</label>
+                            <div class="col-sm-9">
+                              <input type="text" class="form-control" />
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Type</label>
+                            <div class="col-sm-9">
+                              <select class="form-control form-control-sm">
+                                <option>Free</option>
+                                <option>Paid</option>
+                              </select>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-6">
+                          <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Price</label>
+                            <div class="col-sm-9">
+                              <div class="form-group">
+                                <div class="input-group">
+                                  <div class="input-group-prepend">
+                                    <span class="input-group-text bg-gradient-primary text-white">£</span>
+                                  </div>
+                                  <input type="number" step="any" class="form-control" aria-label="">
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Entry LP</label>
+                            <div class="col-sm-9">
+                              <input type="number" class="form-control" />
+                            </div>
+                          </div>
+                        </div>
+                      </div>                      
+                      <div class="row">
+                        <div class="col-md-6">
+                          <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Goal LP</label>
+                            <div class="col-sm-9">
+                              <input type="number" class="form-control" />
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Learning Material</label>
+                            <div class="col-sm-9">
+                              <input type="file" name="" class="file-upload-default">
+                              <div class="input-group col-xs-12">
+                                <input type="text" class="form-control file-upload-info" disabled placeholder="Upload Image">
+                                <span class="input-group-append">
+                                  <button class="file-upload-browse btn btn-gradient-primary" type="button">Upload</button>
+                                </span>
+                              </div>
+                            </div>
+                          </div> 
+                        </div>  
+                      </div>                  
+                    </div>
+                  </div>                  
+                </div>
+                <div class="col-12 stretch-card grid-margin">
+                  <div class="card">
+                    <div class="card-body">
+                      <h3 class="page-title mb-4"> Quiz Number 1 </h3>                      
+                      <div class="d-flex">
+                        <p class="me-2 mb-4">Q)</p>                        
+                        <textarea class="form-control mb-4" id="" rows="3" placeholder="Enter the Question"></textarea>
+                      </div>                    
+                      <div class="d-flex">
+                        <p class="me-2 mb-0">a)</p>                        
+                        <textarea class="form-control mb-1" id="" rows="3" placeholder="Enter the first answer"></textarea>
+                      </div>
+                      <div class="d-flex">
+                        <p class="me-2 mb-0">b)</p>                        
+                        <textarea class="form-control mb-1" id="" rows="3" placeholder="Enter the second answer"></textarea>
+                      </div>
+                      <div class="d-flex">
+                        <p class="me-2">c)</p>                        
+                        <textarea class="form-control mb-4" id="" rows="3" placeholder="Enter the third answer"></textarea>
+                      </div>
+                      <div class="d-flex mb-4 align-items-center">
+                        <p class="me-2 mb-0">Right answer is</p>                 
+                        <div class="d-flex">
+                          <div class="form-check me-3">
+                            <label class="form-check-label">
+                              <input type="radio" class="form-check-input" name="membershipRadios" id="" value="">
+                              a <i class="input-helper"></i>
+                            </label>
+                          </div>
+                          <div class="form-check me-3">
+                            <label class="form-check-label">
+                              <input type="radio" class="form-check-input" name="membershipRadios" id="" value="">
+                              b <i class="input-helper"></i>
+                            </label>
+                          </div>
+                          <div class="form-check">
+                            <label class="form-check-label">
+                              <input type="radio" class="form-check-input" name="membershipRadios" id="" value="">
+                              c <i class="input-helper"></i>
+                            </label>
+                          </div>
+                        </div>
+                      </div>                                        
+                    </div>
+                  </div>
+                </div>   
+                <div class="col-12 stretch-card grid-margin">
+                  <div class="card">
+                    <div class="card-body">
+                      <h3 class="page-title mb-4"> Quiz Number 2 </h3>                      
+                      <div class="d-flex">
+                        <p class="me-2 mb-4">Q)</p>                        
+                        <textarea class="form-control mb-4" id="" rows="3" placeholder="Enter the Question"></textarea>
+                      </div>                    
+                      <div class="d-flex">
+                        <p class="me-2 mb-0">a)</p>                        
+                        <textarea class="form-control mb-1" id="" rows="3" placeholder="Enter the first answer"></textarea>
+                      </div>
+                      <div class="d-flex">
+                        <p class="me-2 mb-0">b)</p>                        
+                        <textarea class="form-control mb-1" id="" rows="3" placeholder="Enter the second answer"></textarea>
+                      </div>
+                      <div class="d-flex">
+                        <p class="me-2">c)</p>                        
+                        <textarea class="form-control mb-4" id="" rows="3" placeholder="Enter the third answer"></textarea>
+                      </div>
+                      <div class="d-flex mb-4 align-items-center">
+                        <p class="me-2 mb-0">Right answer is</p>                 
+                        <div class="d-flex">
+                          <div class="form-check me-3">
+                            <label class="form-check-label">
+                              <input type="radio" class="form-check-input" name="membershipRadios" id="" value="">
+                              a <i class="input-helper"></i>
+                            </label>
+                          </div>
+                          <div class="form-check me-3">
+                            <label class="form-check-label">
+                              <input type="radio" class="form-check-input" name="membershipRadios" id="" value="">
+                              b <i class="input-helper"></i>
+                            </label>
+                          </div>
+                          <div class="form-check">
+                            <label class="form-check-label">
+                              <input type="radio" class="form-check-input" name="membershipRadios" id="" value="">
+                              c <i class="input-helper"></i>
+                            </label>
+                          </div>
+                        </div>
+                      </div>                                        
+                    </div>
+                  </div>
+                </div>   
+                <div class="col-12 stretch-card grid-margin">
+                  <div class="card">
+                    <div class="card-body">
+                      <h3 class="page-title mb-4"> Quiz Number 3 </h3>                      
+                      <div class="d-flex">
+                        <p class="me-2 mb-4">Q)</p>                        
+                        <textarea class="form-control mb-4" id="" rows="3" placeholder="Enter the Question"></textarea>
+                      </div>                    
+                      <div class="d-flex">
+                        <p class="me-2 mb-0">a)</p>                        
+                        <textarea class="form-control mb-1" id="" rows="3" placeholder="Enter the first answer"></textarea>
+                      </div>
+                      <div class="d-flex">
+                        <p class="me-2 mb-0">b)</p>                        
+                        <textarea class="form-control mb-1" id="" rows="3" placeholder="Enter the second answer"></textarea>
+                      </div>
+                      <div class="d-flex">
+                        <p class="me-2">c)</p>                        
+                        <textarea class="form-control mb-4" id="" rows="3" placeholder="Enter the third answer"></textarea>
+                      </div>
+                      <div class="d-flex mb-4 align-items-center">
+                        <p class="me-2 mb-0">Right answer is</p>                 
+                        <div class="d-flex">
+                          <div class="form-check me-3">
+                            <label class="form-check-label">
+                              <input type="radio" class="form-check-input" name="membershipRadios" id="" value="">
+                              a <i class="input-helper"></i>
+                            </label>
+                          </div>
+                          <div class="form-check me-3">
+                            <label class="form-check-label">
+                              <input type="radio" class="form-check-input" name="membershipRadios" id="" value="">
+                              b <i class="input-helper"></i>
+                            </label>
+                          </div>
+                          <div class="form-check">
+                            <label class="form-check-label">
+                              <input type="radio" class="form-check-input" name="membershipRadios" id="" value="">
+                              c <i class="input-helper"></i>
+                            </label>
+                          </div>
+                        </div>
+                      </div>                                        
+                    </div>
+                  </div>
+                </div>                  
+                <div class="col-12 d-flex justify-content-around">
+                  <button type="submit" class="btn-lg btn-gradient-success btn-fw">Add Course</button>
+                  <button type="reset" class="btn-lg btn-gradient-danger btn-fw">Clear</button>
+                </div>   
+              </div>              
+            </form>
           </div>
           <!-- content-wrapper ends -->
           <!-- partial:../../partials/_footer.php -->
@@ -157,6 +406,7 @@
     <script src="../../assets/js/misc.js"></script>
     <!-- endinject -->
     <!-- Custom js for this page -->
+    <script src="../../assets/js/file-upload.js"></script>
     <!-- End custom js for this page -->
   </body>
 </html>
