@@ -219,9 +219,9 @@
                               </div>                              
                             </td>
                             <td>Software Engineering</td>
-                            <td>30</td>
+                            <td>0</td>
                             <td>5</td>
-                            <td>£ 100</td>
+                            <td>Free</td>
                             <td>Programming with JAVA.pdf</td>
                             <td><a href="../quizzes/quizzes.php">View Quizzes</a></td>
                             <td><a href="course_update.php">Update Course</a></td>
