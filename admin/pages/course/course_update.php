@@ -180,22 +180,17 @@
                       </div>
                       <div class="col-md-6">
                         <div class="form-group row">
-                          <label class="col-sm-3 col-form-label">Entry LP</label>
+                          <label class="col-sm-3 col-form-label">Type</label>
                           <div class="col-sm-9">
-                            <input type="number" class="form-control" />
+                            <select class="form-control form-control-sm">
+                              <option>Free</option>
+                              <option>Paid</option>
+                            </select>
                           </div>
                         </div>
                       </div>
                     </div>
                     <div class="row">
-                      <div class="col-md-6">
-                        <div class="form-group row">
-                          <label class="col-sm-3 col-form-label">Goal LP</label>
-                          <div class="col-sm-9">
-                            <input type="number" class="form-control" />
-                          </div>
-                        </div>
-                      </div>
                       <div class="col-md-6">
                         <div class="form-group row">
                           <label class="col-sm-3 col-form-label">Price</label>
@@ -211,9 +206,25 @@
                           </div>
                         </div>
                       </div>
+                      <div class="col-md-6">
+                        <div class="form-group row">
+                          <label class="col-sm-3 col-form-label">Entry LP</label>
+                          <div class="col-sm-9">
+                            <input type="number" class="form-control" />
+                          </div>
+                        </div>
+                      </div>
                     </div>
                     <div class="row">   
-                      <div class="col-md-12">
+                      <div class="col-md-6">
+                        <div class="form-group row">
+                          <label class="col-sm-3 col-form-label">Goal LP</label>
+                          <div class="col-sm-9">
+                            <input type="number" class="form-control" />
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
                         <div class="form-group row">
                           <label class="col-sm-3 col-form-label">Learning Material</label>
                           <div class="col-sm-9">
