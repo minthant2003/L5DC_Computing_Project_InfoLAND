@@ -129,7 +129,136 @@
         <!-- partial -->
         <div class="main-panel">
           <div class="content-wrapper">
-            
+            <div class="page-header">
+              <h3 class="page-title"> Students Management </h3>
+              <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item"><a href="../../index.php">Dashboard</a></li>
+                  <li class="breadcrumb-item active" aria-current="page">Students Management</li>
+                </ol>
+              </nav>
+            </div>
+            <div class="col-12 stretch-card grid-margin">
+              <div class="card">              
+                <div class="card-body">
+                  <h4 class="card-title">Certificate Availability Status</h4>
+                  <div class="d-sm-flex justify-content-evenly">
+                    <div><i class="mdi mdi-checkbox-blank-circle me-2 text-info fs-5"></i>Still Learning</div>
+                    <div><i class="mdi mdi-checkbox-blank-circle me-2 text-danger fs-5"></i>Certificate Taken</div>
+                    <div><i class="mdi mdi-checkbox-blank-circle me-2 text-success fs-5"></i>Certificate Ready</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <form action="#" method="">
+              <div class="row">
+                <div class="col-md-8 stretch-card grid-margin">
+                  <div class="card bg-gradient-primary">
+                    <div class="card-body d-flex">
+                      <select class="form-control" name="" id="">
+                        <option value="">Category</option>
+                        <option value="">Programming</option>
+                        <option value="">Networking</option>
+                      </select>
+                      <select class="form-control" name="" id="">
+                        <option value="">Name</option>
+                        <option value="">Java</option>
+                        <option value="">CCNA</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4 stretch-card grid-margin">                
+                  <div class="card">
+                    <div class="card-body d-flex flex-wrap justify-content-around">
+                      <input type="submit" value="Filter" class="px-4 px-md-2 px-xl-4 py-3 rounded-3 btn-gradient-primary">
+                      <input type="reset" value="Reset" class="px-4 px-md-2 px-xl-4 py-3 rounded-3 btn-light btn-gradient-warning">
+                    </div>
+                  </div>                
+                </div>                                
+              </div>
+            </form>
+            <div class="col-lg-12 grid-margin stretch-card">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="card-title">Students</h4>
+                  <div class="table-responsive">
+                    <table class="table table-striped">
+                      <thead>
+                        <tr>
+                          <th>Student ID</th>
+                          <th>Username</th>
+                          <th>Fullname</th>
+                          <th>Email</th>
+                          <th>Phone No</th>
+                          <th>Course ID</th>
+                          <th>Name</th>
+                          <th>Status</th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <form action="../mail/mail.php" method="post">
+                          <tr>
+                            <td>1</td>
+                            <td>Min Thant 123</td>
+                            <td>Min Thant Win</td>
+                            <td>minthant123@gmail.com</td>
+                            <td>09123456789</td>
+                            <td class="text-danger">2</td>                            
+                            <td class="text-danger">Data Structures and Algorithms</td>
+                            <td><i class="mdi mdi-checkbox-blank-circle me-2 text-info fs-5"></i></td>
+                            <td><button type="submit" class="btn btn-inverse-primary btn-fw">Give Certificate</button></td>
+                          </tr>
+                          <tr>
+                            <td>1</td>
+                            <td>Min Thant 123</td>
+                            <td>Min Thant Win</td>
+                            <td>minthant123@gmail.com</td>
+                            <td>09123456789</td>
+                            <td class="text-danger">2</td>                            
+                            <td class="text-danger">Data Structures and Algorithms</td>
+                            <td><i class="mdi mdi-checkbox-blank-circle me-2 text-danger fs-5"></td>
+                            <td><button type="submit" class="btn btn-inverse-primary btn-fw">Give Certificate</button></td>
+                          </tr>
+                          <tr>
+                            <td>1</td>
+                            <td>Min Thant 123</td>
+                            <td>Min Thant Win</td>
+                            <td>minthant123@gmail.com</td>
+                            <td>09123456789</td>
+                            <td class="text-danger">2</td>                            
+                            <td class="text-danger">Data Structures and Algorithms</td>
+                            <td><i class="mdi mdi-checkbox-blank-circle me-2 text-success fs-5"></td>
+                            <td><button type="submit" class="btn btn-inverse-primary btn-fw">Give Certificate</button></td>
+                          </tr>
+                        </form>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row justify-content-center">
+              <div class="col-md-8 grind-margin stretch-card">
+                <div class="card">
+                  <div class="card-body d-flex justify-content-around align-items-center flex-wrap">
+                    <h5>Showing 1 of 10 pages</h5>
+                    <nav aria-label="Page navigation example">
+                      <ul class="pagination mb-0">
+                        <li class="page-item"><a class="page-link" href="#">First</a></li>
+                        <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+                        <li class="page-item"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                        <li class="page-item"><a class="page-link" href="#">Last</a></li>
+                      </ul>
+                    </nav>
+                  </div>
+                </div>
+              </div>              
+            </div> 
           </div>
           <!-- content-wrapper ends -->
           <!-- partial:../../partials/_footer.php -->
