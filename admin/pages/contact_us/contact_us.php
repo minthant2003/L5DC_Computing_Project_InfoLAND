@@ -130,33 +130,26 @@
         <div class="main-panel">
           <div class="content-wrapper">
             <div class="page-header">
-              <h3 class="page-title"> All Courses </h3>
+              <h3 class="page-title"> Contacts Management </h3>
               <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                   <li class="breadcrumb-item"><a href="../../index.php">Dashboard</a></li>
-                  <li class="breadcrumb-item active" aria-current="page">Courses</li>
+                  <li class="breadcrumb-item active" aria-current="page">Contacts Management</li>
                 </ol>
               </nav>
-            </div>           
-            <form action="course_view.php" method="">
+            </div>
+            <form action="#" method="">
               <div class="row">
                 <div class="col-md-8 stretch-card grid-margin">
-                  <div class="card bg-gradient-success">
+                  <div class="card bg-gradient-primary">
                     <div class="card-body d-flex">
                       <select class="form-control" name="" id="">
-                        <option value="">Category</option>
-                        <option value="">Programming</option>
-                        <option value="">Networking</option>
+                        <option value="">Topic</option>
+                        <option value="">Price</option>
+                        <option value="">Courses</option>
+                        <option value="">Certificate</option>
+                        <option value="">Quizzes</option>
                       </select>
-                      <select class="form-control" name="" id="">
-                        <option value="">Name</option>
-                        <option value="">Java</option>
-                        <option value="">CCNA</option>
-                      </select>
-                      <select class="form-control" name="" id="">
-                        <option value="">Free</option>
-                        <option value="">Paid</option>
-                      </select>                      
                     </div>
                   </div>
                 </div>
@@ -173,76 +166,80 @@
             <div class="col-lg-12 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
-                  <h4 class="card-title">Courses</h4>
+                  <h4 class="card-title">Contacts</h4>
                   <div class="table-responsive">
                     <table class="table table-striped">
                       <thead>
                         <tr>
-                          <th>ID</th>
-                          <th>Name</th>
+                          <th>Student ID</th>
+                          <th>Username</th>
+                          <th>Fullname</th>
+                          <th>Email</th>
+                          <th>Phone No</th>
+                          <th>Topic</th>
+                          <th>Title</th>
                           <th>Description</th>
-                          <th>Category</th>
-                          <th>Entry LP</th>
-                          <th>Goal LP</th>
-                          <th>Price</th>
-                          <th>Learning Material</th>
-                          <th>Quizzes</th>
-                          <th>Action</th>
                           <th>Action</th>
                         </tr>
                       </thead>
                       <tbody>
-                        <form action="course_view.php" method="post">
+                        <form action="../mail/mail.php" method="post">
                           <tr>
                             <td>1</td>
-                            <td>Programming with JAVA</td>
+                            <td>Min Thant 123</td>
+                            <td>Min Thant Win</td>
+                            <td>minthant123@gmail.com</td>
+                            <td>09123456789</td>
+                            <td class="text-danger">Quizzes</td>                            
                             <td style="white-space:normal;">
                               <div class="lh-base" style="width:20rem; height:5rem; overflow-y:auto;">
-                                JAVA Introduction to Advanced JAVA Introduction to Advanced JAVA Introduction to Advanced JAVA Introduction to Advanced JAVA Introduction to Advanced JAVA Introduction to Advanced
+                                Quizzes modification Quizzes modification
                               </div>                              
                             </td>
-                            <td>Software Engineering</td>
-                            <td>30</td>
-                            <td>5</td>
-                            <td>£ 100</td>
-                            <td>Programming with JAVA.pdf</td>
-                            <td><a href="../quizzes/quizzes.php">View Quizzes</a></td>
-                            <td><a href="course_update.php">Update Course</a></td>
-                            <td><button type="submit" class="btn btn-inverse-danger btn-fw">Delete</button></td>
+                            <td style="white-space:normal;">
+                              <div class="lh-base" style="width:20rem; height:5rem; overflow-y:auto;">
+                              I would like you to modify the quizzes of Programming with JAVA. I would like you to modify the quizzes of Programming with JAVA. I would like you to modify the quizzes of Programming with JAVA. I would like you to modify the quizzes of Programming with JAVA. 
+                              </div>                              
+                            </td>                            
+                            <td><button type="submit" class="btn btn-inverse-primary btn-fw">Send Mail</button></td>
                           </tr>
                           <tr>
                             <td>1</td>
-                            <td>Programming with JAVA</td>
+                            <td>Min Thant 123</td>
+                            <td>Min Thant Win</td>
+                            <td>minthant123@gmail.com</td>
+                            <td>09123456789</td>
+                            <td class="text-danger">Quizzes</td>                            
                             <td style="white-space:normal;">
                               <div class="lh-base" style="width:20rem; height:5rem; overflow-y:auto;">
-                                JAVA Introduction to Advanced JAVA Introduction to Advanced JAVA Introduction to Advanced 
+                                Quizzes modification Quizzes modification
                               </div>                              
                             </td>
-                            <td>Software Engineering</td>
-                            <td>0</td>
-                            <td>5</td>
-                            <td>Free</td>
-                            <td>Programming with JAVA.pdf</td>
-                            <td><a href="../quizzes/quizzes.php">View Quizzes</a></td>
-                            <td><a href="course_update.php">Update Course</a></td>
-                            <td><button type="submit" class="btn btn-inverse-danger btn-fw">Delete</button></td>
+                            <td style="white-space:normal;">
+                              <div class="lh-base" style="width:20rem; height:5rem; overflow-y:auto;">
+                              I would like you to modify the quizzes of Programming with JAVA. I would like you to modify the quizzes of Programming with JAVA. I would like you to modify the quizzes of Programming with JAVA. I would like you to modify the quizzes of Programming with JAVA. 
+                              </div>                              
+                            </td>                            
+                            <td><button type="submit" class="btn btn-inverse-primary btn-fw">Send Mail</button></td>
                           </tr>
                           <tr>
                             <td>1</td>
-                            <td>Programming with JAVA</td>
+                            <td>Min Thant 123</td>
+                            <td>Min Thant Win</td>
+                            <td>minthant123@gmail.com</td>
+                            <td>09123456789</td>
+                            <td class="text-danger">Quizzes</td>                            
                             <td style="white-space:normal;">
                               <div class="lh-base" style="width:20rem; height:5rem; overflow-y:auto;">
-                                JAVA Introduction to Advanced JAVA Introduction to Advanced 
+                                Quizzes modification Quizzes modification
                               </div>                              
                             </td>
-                            <td>Software Engineering</td>
-                            <td>30</td>
-                            <td>5</td>
-                            <td>£ 100</td>
-                            <td>Programming with JAVA.pdf</td>
-                            <td><a href="../quizzes/quizzes.php">View Quizzes</a></td>
-                            <td><a href="course_update.php">Update Course</a></td>
-                            <td><button type="submit" class="btn btn-inverse-danger btn-fw">Delete</button></td>
+                            <td style="white-space:normal;">
+                              <div class="lh-base" style="width:20rem; height:5rem; overflow-y:auto;">
+                                I would like you to modify the quizzes of Programming with JAVA. I would like you to modify the quizzes of Programming with JAVA. I would like you to modify the quizzes of Programming with JAVA. I would like you to modify the quizzes of Programming with JAVA. 
+                              </div>                              
+                            </td>                            
+                            <td><button type="submit" class="btn btn-inverse-primary btn-fw">Send Mail</button></td>
                           </tr>
                         </form>
                       </tbody>
