@@ -130,15 +130,15 @@
         <div class="main-panel">
           <div class="content-wrapper">
             <div class="page-header">
-              <h3 class="page-title"> All Courses </h3>
+              <h3 class="page-title"> Comments </h3>
               <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                   <li class="breadcrumb-item"><a href="../../index.php">Dashboard</a></li>
-                  <li class="breadcrumb-item active" aria-current="page">Courses</li>
+                  <li class="breadcrumb-item active" aria-current="page">Comments</li>
                 </ol>
               </nav>
             </div>           
-            <form action="course_view.php" method="">
+            <form action="#" method="">
               <div class="row">
                 <div class="col-md-8 stretch-card grid-margin">
                   <div class="card bg-gradient-success">
@@ -152,11 +152,7 @@
                         <option value="">Name</option>
                         <option value="">Java</option>
                         <option value="">CCNA</option>
-                      </select>
-                      <select class="form-control" name="" id="">
-                        <option value="">Free</option>
-                        <option value="">Paid</option>
-                      </select>                      
+                      </select>         
                     </div>
                   </div>
                 </div>
@@ -173,76 +169,72 @@
             <div class="col-lg-12 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
-                  <h4 class="card-title">Courses</h4>
+                  <h4 class="card-title">Comments</h4>
                   <div class="table-responsive">
                     <table class="table table-striped">
                       <thead>
                         <tr>
-                          <th>ID</th>
-                          <th>Name</th>
-                          <th>Description</th>
+                          <th>Student ID</th>
+                          <th>Username</th>
+                          <th>Fullname</th>
+                          <th>Email</th>
+                          <th>Course ID</th>
                           <th>Category</th>
-                          <th>Entry LP</th>
-                          <th>Goal LP</th>
-                          <th>Price</th>
-                          <th>Learning Material</th>
-                          <th>Quizzes</th>
+                          <th>Name</th>
+                          <th>Comment</th>
                           <th>Action</th>
                           <th>Action</th>
                         </tr>
                       </thead>
                       <tbody>
-                        <form action="course_view.php" method="post">
+                        <form action="#" method="post">
                           <tr>
                             <td>1</td>
-                            <td>Programming with JAVA</td>
+                            <td>Min Thant</td>
+                            <td>Min Thant Win</td>
+                            <td>minthant123@gmail.com</td>
+                            <td class="text-danger">3</td>
+                            <td class="text-danger">Software Engineering</td>
+                            <td class="text-danger">Programming with JAVA</td>
                             <td style="white-space:normal;">
                               <div class="lh-base" style="width:20rem; height:5rem; overflow-y:auto;">
                                 JAVA Introduction to Advanced JAVA Introduction to Advanced JAVA Introduction to Advanced JAVA Introduction to Advanced JAVA Introduction to Advanced JAVA Introduction to Advanced
                               </div>                              
                             </td>
-                            <td>Software Engineering</td>
-                            <td>30</td>
-                            <td>5</td>
-                            <td>£ 100</td>
-                            <td>Programming with JAVA.pdf</td>
-                            <td><a href="../quizzes/quizzes.php">View Quizzes</a></td>
-                            <td><a href="course_update.php">Update Course</a></td>
-                            <td><button type="submit" class="btn btn-inverse-danger btn-fw">Delete</button></td>
+                            <td><button type="submit" class="btn btn-inverse-info btn-fw">Accept</button></td>
+                            <td><button type="submit" class="btn btn-inverse-danger btn-fw">Deny</button></td>
                           </tr>
                           <tr>
                             <td>1</td>
-                            <td>Programming with JAVA</td>
+                            <td>Min Thant</td>
+                            <td>Min Thant Win</td>
+                            <td>minthant123@gmail.com</td>
+                            <td class="text-danger">3</td>
+                            <td class="text-danger">Software Engineering</td>
+                            <td class="text-danger">Programming with JAVA</td>
                             <td style="white-space:normal;">
                               <div class="lh-base" style="width:20rem; height:5rem; overflow-y:auto;">
-                                JAVA Introduction to Advanced JAVA Introduction to Advanced JAVA Introduction to Advanced 
+                                JAVA Introduction to Advanced JAVA Introduction to Advanced JAVA Introduction to Advanced JAVA Introduction to Advanced JAVA Introduction to Advanced JAVA Introduction to Advanced
                               </div>                              
                             </td>
-                            <td>Software Engineering</td>
-                            <td>0</td>
-                            <td>5</td>
-                            <td>Free</td>
-                            <td>Programming with JAVA.pdf</td>
-                            <td><a href="../quizzes/quizzes.php">View Quizzes</a></td>
-                            <td><a href="course_update.php">Update Course</a></td>
-                            <td><button type="submit" class="btn btn-inverse-danger btn-fw">Delete</button></td>
+                            <td><button type="submit" class="btn btn-inverse-info btn-fw">Accept</button></td>
+                            <td><button type="submit" class="btn btn-inverse-danger btn-fw">Deny</button></td>
                           </tr>
                           <tr>
                             <td>1</td>
-                            <td>Programming with JAVA</td>
+                            <td>Min Thant</td>
+                            <td>Min Thant Win</td>
+                            <td>minthant123@gmail.com</td>
+                            <td class="text-danger">3</td>
+                            <td class="text-danger">Software Engineering</td>
+                            <td class="text-danger">Programming with JAVA</td>
                             <td style="white-space:normal;">
                               <div class="lh-base" style="width:20rem; height:5rem; overflow-y:auto;">
-                                JAVA Introduction to Advanced JAVA Introduction to Advanced 
+                                JAVA Introduction to Advanced JAVA Introduction to Advanced JAVA Introduction to Advanced JAVA Introduction to Advanced JAVA Introduction to Advanced JAVA Introduction to Advanced
                               </div>                              
                             </td>
-                            <td>Software Engineering</td>
-                            <td>30</td>
-                            <td>5</td>
-                            <td>£ 100</td>
-                            <td>Programming with JAVA.pdf</td>
-                            <td><a href="../quizzes/quizzes.php">View Quizzes</a></td>
-                            <td><a href="course_update.php">Update Course</a></td>
-                            <td><button type="submit" class="btn btn-inverse-danger btn-fw">Delete</button></td>
+                            <td><button type="submit" class="btn btn-inverse-info btn-fw">Accept</button></td>
+                            <td><button type="submit" class="btn btn-inverse-danger btn-fw">Deny</button></td>
                           </tr>
                         </form>
                       </tbody>
