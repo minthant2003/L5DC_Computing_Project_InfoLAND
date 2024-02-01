@@ -141,7 +141,7 @@
             <form action="#" method="">
               <div class="row">
                 <div class="col-md-8 stretch-card grid-margin">
-                  <div class="card bg-gradient-primary">
+                  <div class="card bg-gradient-info">
                     <div class="card-body d-flex">
                       <select class="form-control" name="" id="">
                         <option value="">Topic</option>
