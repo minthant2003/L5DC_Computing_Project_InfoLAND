@@ -6,10 +6,10 @@
     <title>InfoLAND | Online Learning Platform</title>
     <link rel="icon shortcut" href="images/tabicon.ico" type="image/x-icon" />
 
-    <?php include("cssExternal.php"); ?>
+    <?php include("cssExternal.html"); ?>
 </head>
 <body class="login">
-    <?php include("loader.php"); ?>
+    <?php include("loader.html"); ?>
 
     <div id="wrapper">
         <div class="container">
@@ -94,7 +94,7 @@
         </div>
     </div>
 
-    <?php include("jsExternal.php"); ?>
-    <script type="text/javascript" src="passwordtoggle.js"></script>
+    <?php include("jsExternal.html"); ?>
+    <script type="text/javascript" src="my_js/passwordtoggle.js"></script>
 </body>
 </html>

@@ -6,10 +6,10 @@
     <title>InfoLAND | Online Learning Platform</title>
     <link rel="shortcut icon" href="images/tabicon.ico" type="image/x-icon" />
 
-    <?php include("cssExternal.php"); ?>
+    <?php include("cssExternal.html"); ?>
 </head>
 <body>
-    <?php include("loader.php"); ?>
+    <?php include("loader.html"); ?>
 
     <div id="wrapper">
         <?php include("topbar&header.php"); ?>
@@ -202,6 +202,6 @@
         <?php include("footer&copyright.php"); ?>
     </div>
 
-    <?php include("jsExternal.php"); ?>
+    <?php include("jsExternal.html"); ?>
 </body>
 </html>

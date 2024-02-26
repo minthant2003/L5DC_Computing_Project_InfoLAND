@@ -1,0 +1,5 @@
+/* css file to override some features from original file that cannot be changed */
+
+.checkbox label {
+    padding-left: 0;
+}
