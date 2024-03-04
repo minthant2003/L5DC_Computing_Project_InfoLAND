@@ -31,7 +31,7 @@
   <?php include("loader.html"); ?>
 
   <div id="wrapper">
-    <?php include("topbar&header.php"); ?>
+    <?php include("topbar_header.php"); ?>
 
     <section class="grey page-title">
       <div class="container">
@@ -129,7 +129,7 @@
                         In progress
                       </td>
                       <td>
-                        <form action="download&Quiz.php" method="post">
+                        <form action="download_Quiz.php" method="post">
                           <button type="submit" class="btn btn-primary">Take Course & Quizzes</button>
                         </form>
                       </td>
@@ -142,7 +142,7 @@
                         In progress
                       </td>
                       <td>
-                        <form action="download&Quiz.php" method="post">
+                        <form action="download_Quiz.php" method="post">
                           <button type="submit" class="btn btn-primary">Take Course & Quizzes</button>
                         </form>
                       </td>
@@ -155,7 +155,7 @@
                         In progress
                       </td>
                       <td>
-                        <form action="download&Quiz.php" method="post">
+                        <form action="download_Quiz.php" method="post">
                           <button type="submit" class="btn btn-primary">Take Course & Quizzes</button>
                         </form>
                       </td>
@@ -215,7 +215,7 @@
       </div>
     </section>
 
-    <?php include("footer&copyright.php"); ?>
+    <?php include("footer_copyright.php"); ?>
   </div>
 
   <?php include("jsExternal.html"); ?>

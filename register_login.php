@@ -10,7 +10,7 @@
   
   <script type="text/javascript">
     document.addEventListener('DOMContentLoaded', () => {
-      // Send register form data to the server
+      // Send Register form data to the Server
       const regis_form = document.getElementById('register-form');
 
       regis_form.addEventListener('submit', async (event) => {
@@ -38,6 +38,31 @@
         if (res.msg) document.getElementById('register-msg').innerText = res.msg;
         // Redirect to the Index page
         if (res.success) setTimeout(() => window.location.href = "index.php", 2000);
+      })
+
+      // Send Login form data to ther Server
+      const login_form = document.getElementById('login-form');
+
+      login_form.addEventListener('submit', async (event) => {
+        document.getElementById('uname-login-msg').innerText = "";
+        document.getElementById('pass-login-msg').innerText = "";
+        document.getElementById('login-msg').innerText = "";
+
+        event.preventDefault();
+        let form_data = new FormData(login_form);
+
+        let response = await fetch('learnerLogin.php', {
+          method: 'POST',
+          body: form_data
+        })
+        let res = await response.json();
+        
+        if (res.uname) document.getElementById('uname-login-msg').innerText = res.uname;
+        if (res.pass) document.getElementById('pass-login-msg').innerText = res.pass;
+        if (res.msg) document.getElementById('login-msg').innerText = res.msg;
+        // Redirect to the Index page
+        if (res.success) setTimeout(() => window.location.href = "index.php", 1500);
+
       })
 
     })
@@ -69,13 +94,17 @@
               <div class="row">
                 <div class="col-lg-12">
                   <!-- login form -->
-                  <form id="login-form" action="#" method="post" role="form" style="display: block;">
+                  <form id="login-form" action="register_login.php" method="post" role="form" style="display: block;">
                     <div class="form-group">
-                      <input type="text" name="username" id="username-login" tabindex="1" class="form-control" placeholder="Username" value="">
+                      <input type="text" name="uname_login" id="username-login" tabindex="1" class="form-control" placeholder="Username" value="" required>
+                      <p id="uname-login-msg" class="text-danger"></p>
                     </div>
                     <div class="form-group text-right">
-                      <input type="password" name="password" id="passwordlogin" tabindex="2" class="form-control" placeholder="Password">
-                      <p id="togglelogin" style="cursor: pointer;"><i class="fa fa-eye"></i><span>Show</span></p>
+                      <input type="password" name="pass_login" id="passwordlogin" tabindex="2" class="form-control" placeholder="Password" required>
+                      <div style="display:flex; justify-content:space-between;">
+                        <p id="pass-login-msg" class="text-danger"></p>
+                        <p id="togglelogin" style="cursor: pointer;"><i class="fa fa-eye"></i><span>Show</span></p>
+                      </div>
                     </div>
                     <div class="form-group text-center">
                       <input type="checkbox" tabindex="3" class="" name="remember" id="remember">
@@ -85,6 +114,7 @@
                       <div class="row">
                         <div class="col-sm-12">
                           <button type="submit" class="form-control btn btn-default">Log into Account</button>
+                          <p id="login-msg" class="text-info"></p>
                         </div>
                       </div>
                     </div>
@@ -92,14 +122,14 @@
                       <div class="row">
                         <div class="col-lg-12">
                           <div class="text-center">
-                            <a href="#" tabindex="5" class="forgot-password">Forgot Password?</a>
+                            <a href="#" class="forgot-password">Forgot Password?</a>
                           </div>
                         </div>
                       </div>
                     </div>
                   </form>
                   <!-- register form -->
-                  <form id="register-form" action="register&login.php" method="post" role="form" style="display: none;" enctype="mutipart/form-data">
+                  <form id="register-form" action="register_login.php" method="post" role="form" style="display: none;" enctype="mutipart/form-data">
                     <div class="form-group">
                       <input type="text" name="uname_register" id="username-register" tabindex="1" class="form-control" placeholder="Username" value="" required>
                       <p id="uname-register-msg" class="text-danger"></p>

@@ -41,7 +41,7 @@
 <body>
   <?php include("loader.html"); ?>
   <div id="wrapper">
-    <?php include("topbar&header.php"); ?>
+    <?php include("topbar_header.php"); ?>
 
     <section class="slider-section">
       <div class="tp-banner-container">
@@ -317,7 +317,7 @@
       </div>
     </section>
 
-    <?php include("footer&copyright.php"); ?>
+    <?php include("footer_copyright.php"); ?>
   </div>
 
   <?php include("jsExternal.html"); ?>

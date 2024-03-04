@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,7 +13,7 @@
   <?php include("loader.html"); ?>
 
   <div id="wrapper">
-    <?php include("topbar&header.php"); ?>
+    <?php include("topbar_header.php"); ?>
 
     <section class="grey section">
       <div class="container">
@@ -48,7 +49,7 @@
       </div>
     </section>
 
-    <?php include("footer&copyright.php"); ?>
+    <?php include("footer_copyright.php"); ?>
   </div>
 
   <?php include("jsExternal.html"); ?>
