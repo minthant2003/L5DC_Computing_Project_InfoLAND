@@ -1,4 +1,5 @@
 <?php
+    session_start();
     require("db_config.php");
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -62,24 +63,44 @@
         } else {
             $hash = password_hash($pass, PASSWORD_DEFAULT);
             
-            $sql = "INSERT INTO learner (Username, Password, Fullname, Email, Image) VALUES (?,?,?,?,?)";
+            $sql = "INSERT INTO learner (Username, Password, Fullname, Email, Profile) VALUES (?,?,?,?,?)";
             $stmt = mysqli_prepare($conn, $sql);
             mysqli_stmt_bind_param($stmt, "sssss", $uname, $hash, $fname, $email, $profile_name);
        
             // Success or Fail
             if (is_uploaded_file($profile_tmp) && mysqli_stmt_execute($stmt)) {
                 move_uploaded_file($profile_tmp, "learner_profile/{$profile_name}");
-                $response['msg'] = "Registration is successful.";
+                $response['msg'] = "Registration is successful. Please wait for a moment.";
                 $response['success'] = true;
 
-                $_SESSION['register'] = true;
-                
-                echo json_encode($response);                
-            } else {
-                $response['msg'] = "Registration is not successful. Please try again.";
+                // Retrieving data for the Authorised learner
+                $sql = "SELECT * FROM learner WHERE Username=?";
+                $stmt = mysqli_prepare($conn, $sql);
+                mysqli_stmt_bind_param($stmt, "s", $uname);
+                mysqli_stmt_execute($stmt);
+        
+                $result = mysqli_stmt_get_result($stmt);
+                $learner = mysqli_fetch_assoc($result);
 
+                if (mysqli_num_rows($result) === 1) {
+                    // Authorised learner
+                    $_SESSION['authorised'] = true;
+                    $_SESSION['learner'] = [
+                        "id" => $learner['Learner_ID'],
+                        "uname" => $learner['Username'],
+                        "LP" => $learner['Personal_LP'],
+                        "fname" => $learner['Fullname'],
+                        "email" => $learner['Email'],
+                        "profile" => $learner['Profile']
+                    ];
+                }  
+                
                 echo json_encode($response);
-            }            
+            } else {
+                $response['msg'] = "Registration is not successful. Please try again.";   
+                
+                echo json_encode($response);  
+            }                             
         }
     }
 
