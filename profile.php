@@ -10,6 +10,48 @@
   <?php include("cssExternal.html"); ?>
   <script type="text/javascript">
     document.addEventListener('DOMContentLoaded', () => {
+      // Edit form show impl
+      document.getElementById('profile-edit-btn').addEventListener('click', (event) => {
+        event.preventDefault();
+        document.getElementById('profile-edit').style.display = "block";
+        document.getElementById('profile-details').style.display = "none";
+      })
+      document.getElementById('profile-edit-cancel-btn').addEventListener('click', (event) => {
+        event.preventDefault();
+        document.getElementById('profile-details').style.display = "block";
+        document.getElementById('profile-edit').style.display = "none";
+      })
+
+      // Edit Profile Details impl
+      const profileEditForm = document.getElementById('profile-edit-form');
+
+      profileEditForm.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        document.getElementById('uname-edit-msg').innerText = "";
+        document.getElementById('pass-edit-msg').innerText = "";
+        document.getElementById('con-pass-edit-msg').innerText = "";
+        document.getElementById('fname-edit-msg').innerText = "";        
+        document.getElementById('profile-edit-msg').innerText = "";
+        document.getElementById('edit-msg').innerText = "";
+
+        let profileEditFormData = new FormData(profileEditForm);
+
+        let response = await fetch('learnerProfileEdit.php', {
+          method: "POST",
+          body: profileEditFormData
+        });
+        let res = await response.json();
+
+        if (res.uname) document.getElementById('uname-edit-msg').innerText = res.uname;
+        if (res.pass) document.getElementById('pass-edit-msg').innerText = res.pass;
+        if (res.con_pass) document.getElementById('con-pass-edit-msg').innerText = res.con_pass;
+        if (res.fname) document.getElementById('fname-edit-msg').innerText = res.fname;
+        if (res.profile) document.getElementById('profile-edit-msg').innerText = res.profile;
+        if (res.msg) document.getElementById('edit-msg').innerText = res.msg;
+        // Redirect to this page again to highlight updates
+        if (res.success) setTimeout(() => window.location.href = "profile.php", 1500);
+      })    
+
       // Fetch the server to Log out
       const logout_form = document.getElementById('logout-form');
 
@@ -56,16 +98,13 @@
         <div class="row">
           <div id="course-left-sidebar" class="col-md-3">
             <div class="course-image-widget">
-              <img src="upload/xstudent_06.png.pagespeed.ic.M4STWuf1XS.png" alt="profilePic" class="img-responsive">
+              <img src="learner_profile/<?php if (isset($_SESSION['learner']['profile'])) echo $_SESSION['learner']['profile']; ?>" 
+                alt="profilePic" class="img-responsive">
             </div>
-            <div class="course-meta">
-              <p>Min Thant Win</p>
-              <hr>
-              <p>minnthantwinn@gmail.com</p>
-              <hr>
-              <p>minthant2003</p>
+            <div class="widget-title" style="display: flex; justify-content: start; align-items: center; margin-bottom: 15px;">
+              <h3 style="margin: 0; padding: 0;">Learning Points &nbsp;: &nbsp;</h3>
+              <h4 style="margin: 0; padding: 0;"><?php if (isset($_SESSION['learner']['LP'])) echo $_SESSION['learner']['LP']; ?> LP</h4>
             </div>
-            <hr class="invis">
             <form id="logout-form" class="col-12" action="profile.php" method="get">
               <button style="width: 100%;" type="submit" class="btn btn-danger">Log Out from Account</button>
               <p id="logout-msg" class="text-info"></p>
@@ -73,40 +112,79 @@
           </div>
           <div id="course-content" class="col-md-9">
             <div class="course-description">
-              <h1 class="course-title">Total Learning Points : 500 LP</h1>
-              <h3 class="course-title">Edit Profile</h3>
-              <div class="edit-profile">
-                <form role="form" action="profile.php" method="post">
-                  <div class="form-group">
-                    <label>First / Last Name</label>
-                    <input type="text" class="form-control" placeholder="Amanda FOX">
-                  </div>
-                  <div class="form-group">
-                    <label>Email Address</label>
-                    <input type="email" class="form-control" placeholder="example@email.com">
-                  </div>
-                  <div class="form-group">
-                    <label>Username</label>
-                    <input type="text" class="form-control" placeholder="Amanda">
-                  </div>
-                  <div class="form-group">
-                    <label>Old Password</label>
-                    <input type="password" class="form-control" placeholder="************">
-                  </div>
-                  <div class="form-group">
-                    <label>New Password</label>
-                    <input type="password" class="form-control" placeholder="************">
-                  </div>
-                  <div class="form-group">
-                    <label>Re-Enter New Password</label>
-                    <input type="password" class="form-control" placeholder="************">
-                  </div>
-                  <div class="form-group">
-                    <label>Upload Profile Picture</label>
-                    <input type="file" class="btn btn-primary">
-                  </div>
-                  <input type="submit" class="btn btn-primary" value="Submit Changes">
-                </form>
+              <!-- Profile details view -->
+              <div id="profile-details" style="display: block;">
+                <div class="widget-title">
+                  <h4>Profile Details</h4>
+                </div>
+                <table class="table table-striped">
+                  <tbody>
+                    <tr>
+                      <td>Username:</td>
+                      <td><?php if (isset($_SESSION['learner']['uname'])) echo $_SESSION['learner']['uname']; ?></td>
+                    </tr>
+                    <tr>
+                      <td>Fullname:</td>
+                      <td><?php if (isset($_SESSION['learner']['fname'])) echo $_SESSION['learner']['fname']; ?></td>
+                    </tr>         
+                    <tr>
+                      <td>Email:</td>
+                      <td><?php if (isset($_SESSION['learner']['email'])) echo $_SESSION['learner']['email']; ?></td>
+                    </tr>                      
+                  </tbody>
+                </table>    
+                <button id="profile-edit-btn" class="btn btn-primary">Edit Profile</button>
+              </div>
+              <!-- Profile details edit -->
+              <div id="profile-edit" style="display: none;">
+                <div class="widget-title">
+                  <h4>Edit Profile</h4>
+                </div>   
+                <div class="edit-profile">
+                  <form id="profile-edit-form" role="form" action="profile.php" method="post" enctype="multipart/form-data">
+                    <div class="form-group">
+                      <label>Username</label>
+                      <input type="text" name="pro_edit_uname" class="form-control" value="<?php if (isset($_SESSION['learner']['uname'])) echo $_SESSION['learner']['uname']; ?>" 
+                        tabindex="1" required>
+                      <p id="uname-edit-msg" class="text-danger"></p>
+                    </div>
+                    <div class="form-group">
+                      <label>New Password</label> 
+                      <input type="password" name="pro_edit_pass" id="profile-pass" tabindex="2" class="form-control" placeholder="********" required>
+                      <div style="display:flex; justify-content:space-between;">
+                        <p id="pass-edit-msg" class="text-danger"></p>
+                        <p id="profile-pass-toggle" style="cursor: pointer;"><i class="fa fa-eye"></i><span>Show</span></p>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label>Confirm New Password</label> 
+                      <input type="password" name="pro_edit_con_pass" id="profile-con-pass" tabindex="3" class="form-control" placeholder="********" required>
+                      <div style="display:flex; justify-content:space-between;">
+                        <p id="con-pass-edit-msg" class="text-danger"></p>
+                        <p id="profile-con-pass-toggle" style="cursor: pointer;"><i class="fa fa-eye"></i><span>Show</span></p>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label>Fullname</label> 
+                      <input type="text" name="pro_edit_fname" class="form-control" value="<?php if (isset($_SESSION['learner']['fname'])) echo $_SESSION['learner']['fname']; ?>" 
+                        tabindex="4" required>
+                      <p id="fname-edit-msg" class="text-danger"></p>
+                    </div>
+                    <div class="form-group">
+                      <label>Email</label> 
+                      <input type="email" name="pro_edit_email" class="form-control" value="<?php if (isset($_SESSION['learner']['email'])) echo $_SESSION['learner']['email']; ?>" 
+                        tabindex="5" required>
+                    </div>
+                    <div class="form-group">
+                      <label>Upload Profile Picture</label>
+                      <input type="file" name="pro_edit_file" class="btn btn-primary" tabindex="6" required>
+                      <p id="profile-edit-msg" class="text-danger"></p>
+                    </div>
+                    <input type="submit" class="btn btn-primary" value="Submit Changes">
+                    <button id="profile-edit-cancel-btn" class="btn btn-danger">Cancel</button>
+                    <p id="edit-msg" class="text-danger"></p>
+                  </form>
+                </div>
               </div>
               <hr class="invis">
 
@@ -219,5 +297,6 @@
   </div>
 
   <?php include("jsExternal.html"); ?>
+  <script type="text/javascript" src="my_js/passwordtoggle.js"></script>
 </body>
 </html>

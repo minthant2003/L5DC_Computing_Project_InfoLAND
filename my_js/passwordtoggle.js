@@ -9,6 +9,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const toggleChg = document.getElementById("togglechg");    
     const passConChg = document.getElementById("confirm-password-chg");
     const toggleConChg = document.getElementById("toggleconfirm-chg");    
+    const passProfile = document.getElementById("profile-pass");    
+    const toggleProfile = document.getElementById("profile-pass-toggle");    
+    const passConProfile = document.getElementById("profile-con-pass");    
+    const toggleConProfile = document.getElementById("profile-con-pass-toggle");    
 
     const process = (input, toggle) => {
         var type = input.getAttribute('type') === 'password' ? 'text' : 'password';
@@ -19,9 +23,17 @@ document.addEventListener('DOMContentLoaded', () => {
         toggle.children[1].innerHTML = output;
     }
 
-    toggleLogin.addEventListener('click', () => process(passLogin, toggleLogin));
-    toggleRegis.addEventListener('click', () => process(passRegis, toggleRegis));
-    toggleConRegis.addEventListener('click', () => process(passConRegis, toggleConRegis));
-    toggleChg.addEventListener('click', () => process(passChg, toggleChg));
-    toggleConChg.addEventListener('click', () => process(passConChg, toggleConChg));
+    // To be able to use this .js file across all the entire project
+    let filename = window.location.pathname.split('/').pop();
+
+    if (filename === 'register_login.php') {
+        toggleLogin.addEventListener('click', () => process(passLogin, toggleLogin));
+        toggleRegis.addEventListener('click', () => process(passRegis, toggleRegis));
+        toggleConRegis.addEventListener('click', () => process(passConRegis, toggleConRegis));
+        toggleChg.addEventListener('click', () => process(passChg, toggleChg));
+        toggleConChg.addEventListener('click', () => process(passConChg, toggleConChg));
+    } else if (filename === 'profile.php') {
+        toggleProfile.addEventListener('click', () => process(passProfile, toggleProfile));
+        toggleConProfile.addEventListener('click', () => process(passConProfile, toggleConProfile));
+    }
 })
