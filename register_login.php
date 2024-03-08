@@ -37,7 +37,7 @@
         if (res.profile) document.getElementById('profile-register-msg').innerText = res.profile;
         if (res.msg) document.getElementById('register-msg').innerText = res.msg;
         // Redirect to the Index page
-        if (res.success) setTimeout(() => window.location.href = "index.php", 2000);
+        if (res.success) setTimeout(() => window.location.href = "index.php", 1500);
       })
 
       // Send Login form data to the Server
@@ -98,7 +98,7 @@
       // Password change client impl
       const chg_form = document.getElementById('chg-form');
 
-      chg_form.addEventListener('submit', async (event) => {
+      chg_form.addEventListener('submit', async (event) => {        
         event.preventDefault();
         document.getElementById('otp-msg').innerText = "";
         document.getElementById('pass-chg-msg').innerText = "";

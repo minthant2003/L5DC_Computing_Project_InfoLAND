@@ -43,26 +43,35 @@
                 $stmt = mysqli_prepare($conn, $sql);
                 mysqli_stmt_bind_param($stmt, "ss", $hash, $email);
                 
-                // Success or Fail
+                // Password change Success or Fail
                 if (mysqli_stmt_execute($stmt)) {
                     $response['chgMsg'] = "Update is successful. Please Login again.";
                     $response['success'] = true;
 
-                    // Clear data of different scenario and Tmp data
-                    setcookie("learner_id", "", time() -  60*60, "/");
-                    $_SESSION['authorised'] = false;
-                    unset($_SESSION['learner']);
+                    // Clear data and Tmp data
+                    if (isset($_COOKIE['learner_id'])) {
+                        setcookie("learner_id", "", time() - 60*60, "/");  
+                    }                                       
                     unset($_SESSION['tmp_OTP']);
                     unset($_SESSION['tmp_email']);
+                    $_SESSION['authorised'] = false;
+                    unset($_SESSION['learner']);                    
                 } else {
                     $response['chgMsg'] = "Update is not successful. Please try again later.";
                 }
+
+                echo json_encode($response);
             }
         } else {
             $response['chgMsg'] = "Send OTP to Email first.";
-        }
 
-        echo json_encode($response);
+            echo json_encode($response);
+        }        
     }
 
     mysqli_close($conn);
+
+    // Clear data of different scenarios
+    // 1. Cookie learner (Remember me)
+    // 2. Authorised learner
+    // 3. Unauthorised learner -> Only this is sufficient

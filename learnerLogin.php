@@ -32,11 +32,11 @@
                     "profile" => $learner['Profile']
                 ];
             } else {
-                $response['pass'] = "Enter Password again.";
+                $response['pass'] = "Password is not correct.";
             }
 
         } else {
-            $response['uname'] = "Enter Username again.";
+            $response['uname'] = "Username is not correct.";
         }
 
         // Remember me implementation
