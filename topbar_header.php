@@ -51,51 +51,9 @@
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li class=""><a href="index.php" class="">Home</a></li>
+            <li><a href="index.php">Home</a></li>
             <li><a href="aboutUs.php">About Us</a></li>
-            <li class="dropdown ttmenu-half"><a href="coursesGrid.php" data-bs-toggle="dropdown" class="dropdown-toggle">Courses <b class="fa fa-angle-down"></b></a>
-              <ul class="dropdown-menu">
-                <li>
-                  <div class="ttmenu-content">
-                    <div class="row">
-                      <div class="col-md-6">
-                        <div class="box">
-                          <ul>
-                            <li><a href="coursesGrid.php" class="dropdown-item">Free Courses</a></li>
-                            <li><a href="coursesGrid.php" class="dropdown-item">Web Development</a></li>
-                            <li><a href="coursesGrid.php" class="dropdown-item">Programming Languages</a></li>
-                          </ul>
-                        </div>
-                      </div>
-                      <div class="col-md-6">
-                        <div class="box">
-                          <ul>
-                            <li><a href="coursesGrid.php" class="dropdown-item">Networking</a></li>
-                            <li><a href="coursesGrid.php" class="dropdown-item">Cyber Security</a></li>
-                            <li><a href="coursesGrid.php" class="dropdown-item">Cloud Computing</a></li>
-                          </ul>
-                        </div>
-                      </div>
-                    </div>
-                    <hr>
-                    <div class="row">
-                      <div class="col-md-3 col-sm-6 nopadding">
-                        <img class="img-thumbnail" src="upload/nav_courses_networking.png" alt="">
-                      </div>
-                      <div class="col-md-3 col-sm-6 nopadding">
-                        <img class="img-thumbnail" src="upload/nav_courses_coding.png" alt="">
-                      </div>
-                      <div class="col-md-3 col-sm-6 nopadding">
-                        <img class="img-thumbnail" src="upload/nav_courses_security.jpg" alt="">
-                      </div>
-                      <div class="col-md-3 col-sm-6 nopadding">
-                        <img class="img-thumbnail" src="upload/nav_courses_web.png" alt="">
-                      </div>
-                    </div>
-                  </div>
-                </li>
-              </ul>
-            </li>
+            <li><a href="coursesView.php">Courses</a></li>
             <li><a href="contactUs.php">Contact Us</a></li>
             <?php if (isset($_COOKIE['learner_id']) || (isset($_SESSION['authorised']) && $_SESSION['authorised'] === true)) { ?>
               <li><a href="profile.php">Profile</a></li>

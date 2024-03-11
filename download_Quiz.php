@@ -144,7 +144,7 @@
               <img src="upload/xcourse_01.png.pagespeed.ic.XTOvCuUmZu.png" alt="course" class="img-responsive">
             </div>
             <div class="course-meta">
-              <p class="course-category">Category : <a href="coursesGrid.php">Web Development</a></p>
+              <p class="course-category">Category : <a href="coursesView.php">Web Development</a></p>
               <hr>
               <div class="rating">
                 <p>Reviews : &nbsp;

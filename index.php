@@ -54,7 +54,7 @@
               <div class="tp-caption slider_layer_02 text-center lft tp-resizeme" data-x="center" data-y="320" data-speed="1000" data-start="800" data-easing="Power3.easeInOut" data-splitin="none" data-splitout="none" data-elementdelay="0.1" data-endelementdelay="0.1" data-endspeed="1000" style="z-index: 9; max-width: auto; max-height: auto; white-space: nowrap;">Great Education Platform for New Learners,
                 <br> with tons of various courses!
               </div>
-              <div class="tp-caption text-center lft tp-resizeme" data-x="center" data-y="390" data-speed="1000" data-start="800" data-easing="Power3.easeInOut" data-splitin="none" data-splitout="none" data-elementdelay="0.1" data-endelementdelay="0.1" data-endspeed="1000" style="z-index: 9; max-width: auto; max-height: auto; white-space: nowrap;"><a href="coursesGrid.php" class="btn btn-default">Start Learning</a> <a href="aboutUs.php" class="btn btn-primary">Learn More</a>
+              <div class="tp-caption text-center lft tp-resizeme" data-x="center" data-y="390" data-speed="1000" data-start="800" data-easing="Power3.easeInOut" data-splitin="none" data-splitout="none" data-elementdelay="0.1" data-endelementdelay="0.1" data-endspeed="1000" style="z-index: 9; max-width: auto; max-height: auto; white-space: nowrap;"><a href="coursesView.php" class="btn btn-default">Start Learning</a> <a href="aboutUs.php" class="btn btn-primary">Learn More</a>
               </div>
             </li>
             <li data-transition="fade" data-slotamount="1" data-masterspeed="500" data-thumb="upload/slider_new_03.jpg" data-saveperformance="off" data-title="Slide">
@@ -89,7 +89,7 @@
                 <br> with tons of various courses!
               </div>
               <div class="tp-caption text-center lft tp-resizeme" data-x="center" data-y="410" data-speed="1000" data-start="800" data-easing="Power3.easeInOut" data-splitin="none" data-splitout="none" data-elementdelay="0.1" data-endelementdelay="0.1" data-endspeed="1000" style="z-index: 9; max-width: auto; max-height: auto; white-space: nowrap;">
-                <a href="coursesGrid.php" class="btn btn-default">Purchase Courses</a>
+                <a href="coursesView.php" class="btn btn-default">Purchase Courses</a>
               </div>
             </li>
           </ul>
@@ -201,7 +201,7 @@
         <div class="row button-wrapper">
           <div class="col-md-12">
             <div class="text-center">
-              <a href="coursesGrid.php" class="btn btn-default">Start a Journey</a>
+              <a href="coursesView.php" class="btn btn-default">Start a Journey</a>
             </div>
           </div>
         </div>
