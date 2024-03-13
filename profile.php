@@ -62,9 +62,14 @@
         let response = await fetch('learnerLogout.php', { method: 'GET' });
         let res = await response.json();
 
-        if (res.msg) document.getElementById('logout-msg').innerText = res.msg;
-        // Redirect to the Index page
-        if (res.success) setTimeout(() => window.location.href = "index.php", 1500);
+        if (res.msg) document.getElementById('logout-msg').innerText = res.msg;        
+        if (res.success) {
+          // Clear Client side data
+          sessionStorage.removeItem('id_arr');
+          sessionStorage.clear();
+          // Redirect to the Index
+          setTimeout(() => window.location.href = "index.php", 1500);
+        }
       })
     })
   </script>

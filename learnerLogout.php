@@ -29,3 +29,5 @@
 
         echo json_encode($response);
     }
+
+    // Clear Server side data
