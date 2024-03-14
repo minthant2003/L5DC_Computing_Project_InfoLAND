@@ -25,6 +25,43 @@
   <link rel="shortcut icon" href="images/tabicon.ico" type="image/x-icon" />
 
   <?php include("cssExternal.html"); ?>
+  <script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', () => {
+      // Add to Shopping cart
+      const addToCart = document.getElementById('add-to-cart');
+      let session_id_arr;
+
+      if (sessionStorage.getItem('id_arr') === null) {
+        session_id_arr = [];
+      } else {
+        session_id_arr = JSON.parse(sessionStorage.getItem('id_arr'));
+      }
+
+      addToCart.addEventListener('click', async (event) => {
+        event.preventDefault();
+        let id = event.target.dataset.id;
+        document.getElementById('add-to-cart-msg').innerText = "";
+        
+        // Request to check whether authorised and meets Entry LP
+        let response = await fetch(`addToShoppingCart.php?id=${id}`, { method: "GET" });
+        let res = await response.json();
+
+        if (res.msg) document.getElementById('add-to-cart-msg').innerText = res.msg;
+        if (res.need_auth) setTimeout(() => window.location.href = "register_login.php", 1500);        
+        if (res.valid) {
+          if (session_id_arr.length === 0) {
+            session_id_arr.push(id);
+          } else {
+            if (!session_id_arr.includes(id)) {
+              session_id_arr.push(id);
+            }
+          }
+          // Store Unique courses in the Session
+          sessionStorage.setItem('id_arr', JSON.stringify(session_id_arr));
+        }
+      });
+    })
+  </script>
 </head>
 <body>
   <?php include("loader.html"); ?>
@@ -65,8 +102,11 @@
                 <p class="course-prize">Completion : <i class="fa fa-trophy"></i> <i class="fa fa-certificate"></i> Certificate</p>              
               </div>
               <div class="course-button">
-                <a href="course.php" data-id="<?php if (isset($course)) echo $course['Course_ID']; ?>"
+                <a id="add-to-cart" href="course.php" data-id="<?php if (isset($course)) echo $course['Course_ID']; ?>"
                   class="btn btn-primary btn-block">ADD TO SHOPPING CART <i class="fa fa-shopping-cart"></i></a>
+              </div>
+              <div>
+                <p id="add-to-cart-msg" class="text-danger"></p>
               </div>
             </div>
             <div id="course-content" class="col-md-8">

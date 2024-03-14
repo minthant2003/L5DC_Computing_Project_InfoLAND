@@ -59,8 +59,9 @@
         </div>
         
         <div id="courses-container" class="row">
-          <!-- Courses Data rendered by JS -->  
-
+          <!-- Courses Data rendered by JS -->
+          
+          
           <!-- Courses Data rendered by JS -->
         </div>
        
@@ -153,7 +154,8 @@
                   <h4><a href="course.php?id=${course.Course_ID}">${course.Name}</a></h4>
                 </div>
                 <div class="visible-buttons">
-                  <a title="Add to Cart" href="coursesView.php" data-id="${course.Course_ID}"><span class="fa fa-cart-arrow-down"></span></a>
+                  <a title="Add to Cart" href="coursesView.php" class="add-to-cart" data-id="${course.Course_ID}">
+                    <span class="fa fa-cart-arrow-down add-to-cart"></span></a>
                   <a title="Read More" href="course.php?id=${course.Course_ID}"><span class="fa fa-search"></span></a>
                 </div>
               </div>
@@ -185,11 +187,46 @@
         coursesDataFetch(param);
       }
     });
+
+    // Add to Shopping cart
+    const container = document.getElementById('courses-container');
+    let session_id_arr;
+
+    if (sessionStorage.getItem('id_arr') === null) {
+      session_id_arr = [];
+    } else {
+      session_id_arr = JSON.parse(sessionStorage.getItem('id_arr'));
+    }
+
+    container.addEventListener('click', async (event) => {
+      let elem = event.target;
+      
+      if ((elem.tagName === 'A' || elem.tagName === 'SPAN') && elem.classList.contains('add-to-cart')) {
+        event.preventDefault();
+        let id = elem.tagName === 'A' ? elem.dataset.id : elem.parentElement.dataset.id;
+        
+        // Request to check whether authorised and meets Entry LP
+        let response = await fetch(`addToShoppingCart.php?id=${id}`, { method: "GET" });
+        let res = await response.json();
+
+        if (res.msg) alert(res.msg);
+        if (res.need_auth) setTimeout(() => window.location.href = "register_login.php", 1000);
+        if (res.valid) {
+          if (session_id_arr.length === 0) {
+            session_id_arr.push(id);
+          } else {
+            if (!session_id_arr.includes(id)) {
+              session_id_arr.push(id);
+            }
+          }
+          // Store Unique courses in the Session
+          sessionStorage.setItem('id_arr', JSON.stringify(session_id_arr));
+        }
+      }
+    });
   </script>
   <?php include("jsExternal.html"); ?>
 </body>
 </html>
 
-<?php
-  mysqli_close($conn);
-?>
+<?php mysqli_close($conn); ?>

@@ -8,6 +8,122 @@
   <link rel="shortcut icon" href="images/tabicon.ico" type="image/x-icon" />
 
   <?php include("cssExternal.html"); ?>
+  <script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', () => {
+      // Method for Shopping cart Items
+      const display_cart_items = async () => {
+        const t_body = document.getElementById('t-body');
+        let parser = new DOMParser();
+
+        t_body.innerHTML = "";
+
+        // Empty Shopping cart case
+        if (sessionStorage.getItem('id_arr') === null || JSON.parse(sessionStorage.getItem('id_arr')).length === 0) {
+          let nodeString = `
+            <table>
+              <tbody>
+                <tr>
+                  <td colspan="3">No items in the Shopping Cart</td>
+                </tr>
+              </tbody>
+            </table>
+          `;
+          let DOM = parser.parseFromString(nodeString, 'text/html');
+          let nodeHTML = DOM.firstChild.children[1].children[0].children[0].children[0];
+          
+          t_body.append(nodeHTML);
+        } else {
+          // Items exit case
+          let courses_id_arr = JSON.parse(sessionStorage.getItem('id_arr'));
+          let courses_param = '?courses[]=' + courses_id_arr.join('&courses[]=');
+          let total = 0;
+
+          document.getElementById('total-display').innerText = "";
+
+          let response = await fetch(`shoppingCartData.php${courses_param}`, { method: "GET" });
+          let items = await response.json();
+
+          items.forEach((item) => {
+            let nodeString = `
+              <table>
+                <tbody>
+                  <tr>
+                    <td>
+                      <a href="course.php?id=${item.Course_ID}"><img src="course_img/${item.Image}" alt="item" 
+                        class="alignleft img-thumbnail">${item.Name}</a>
+                    </td>
+                    <td>£ ${item.Price}</td>
+                    <td class="remove">
+                      <a href="shoppingCart.php" class="remove-item" data-id="${item.Course_ID}">Remove</a>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            `;
+            let DOM = parser.parseFromString(nodeString, 'text/html');
+            let nodeHTML = DOM.firstChild.children[1].children[0].children[0].children[0];
+            
+            t_body.append(nodeHTML);
+            total += parseFloat(item.Price);
+          });
+
+          document.getElementById('total-display').innerText = total;
+        }
+      }
+
+      // Page loaded
+      display_cart_items();
+
+      // Remove Item from Shopping Cart
+      const t_body = document.getElementById('t-body');
+
+      t_body.addEventListener('click', (event) => {
+        let elem = event.target;
+
+        if (elem.tagName === 'A' && elem.classList.contains('remove-item')) {
+          event.preventDefault();
+          let id = elem.dataset.id;
+          let id_arr = JSON.parse(sessionStorage.getItem('id_arr'));
+          let index = id_arr.indexOf(id);
+
+          // Remove the Index
+          id_arr.splice(index, 1);
+          sessionStorage.setItem('id_arr', JSON.stringify(id_arr));
+
+          display_cart_items();         
+        }
+      });
+
+      // Enroll & Payment impl
+      const enroll = document.getElementById('enroll');
+
+      enroll.addEventListener('click', async (event) => {
+        event.preventDefault();
+        document.getElementById('enroll-msg').innerText = "";
+
+        if (sessionStorage.getItem('id_arr') === null || JSON.parse(sessionStorage.getItem('id_arr')).length === 0) {
+          document.getElementById('enroll-msg').innerText = "Shopping Cart is Empty.";
+          setTimeout(() => window.location.href = "coursesView.php", 1500);
+        } else {
+          let items = JSON.parse(sessionStorage.getItem('id_arr'));
+
+          let response = await fetch('coursesEnroll.php', {
+            method: "POST",
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(items)
+          })
+          let res = await response.json();
+
+          if (res.msg) document.getElementById('enroll-msg').innerText = res.msg;
+          if (res.success) {
+            sessionStorage.removeItem('id_arr');
+            sessionStorage.clear();
+            setTimeout(() => window.location.href = "profile.php", 1500);
+          }
+        }
+      })
+    });
+  </script>
 </head>
 <body>
   <?php include("loader.html"); ?>
@@ -22,13 +138,13 @@
             <div class="blog-wrapper">
               <div class="row second-bread">
                 <div class="col-md-6 text-left">
-                  <h1>Shopping Cart & Checkout</h1>
+                  <h1>Shopping Cart & Enroll</h1>
                 </div>
                 <div class="col-md-6 text-right">
                   <div class="bread">
                     <ol class="breadcrumb">
                       <li><a href="index.php">Home</a></li>
-                      <li class="active">Cart & Checkout</li>
+                      <li class="active">Cart & Enroll</li>
                     </ol>
                   </div>
                 </div>
@@ -45,107 +161,23 @@
                         <th>Actions</th>
                       </tr>
                     </thead>
-                    <tbody>
-                      <tr>
-                        <td>
-                          <a href="course.php"><img src="upload/xcourse_01.png.pagespeed.ic.XTOvCuUmZu.png" alt="item" class="alignleft img-thumbnail">Web Design & Development</a>
-                        </td>
-                        <td>
-                          $40.00
-                        </td>
-                        <td class="remove">
-                          <a href="shoppingCart.php">Remove</a>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          <a href="course.php"><img src="upload/xcourse_02.png.pagespeed.ic.PL7Wu2UcSB.png" alt="item" class="alignleft img-thumbnail">Network System Design & Development</a>
-                        </td>
-                        <td>
-                          $40.00
-                        </td>
-                        <td class="remove">
-                          <a href="shoppingCart.php">Remove</a>
-                        </td>
-                      </tr>
+                    <tbody id="t-body">                      
+                      <!-- Data Rendered by javascript -->
+
+
+                      <!-- Data Rendered by javascript -->
                     </tbody>
                     <tfoot>
                       <tr>
                         <th colspan="5" class="text-right">
-                          Total: $80.00
+                          Total: £ <span id="total-display">0.00</span>
                         </th>
-                      </tr>
-                      <tr>
-                        <th colspan="5">
-                          Discount Code: A001 - 5% Off
-                        </th>
-                      </tr>
+                      </tr>                      
                     </tfoot>
-                  </table>
-                  <div class="coupon-code-wrapper">
-                    <p>
-                      <a class="btn btn-default btn-block" role="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-                        Have got a Discount Code? Click Here.
-                      </a>
-                    </p>
-                    <div class="collapse" id="collapseExample">
-                      <div class="well">
-                        <div class="media">
-                          <p>Enter a Discount Code that you have got:</p>
-                          <div class="couponform">
-                            <form action="shoppingCart.php" method="post">
-                              <input type="text" class="form-control" placeholder="Enter discount code here">
-                              <button class="btn btn-primary">Apply Code</button>
-                            </form>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <hr class="invis">
-                  <div class="payment-methods">
-                    <img src="images/xcredit.jpg.pagespeed.ic.lGluDMrwzI.jpg" alt="">
-                  </div>
-                  <hr class="invis">
-                  <div class="payment-check">
-                    <p><strong>Select Payment Method</strong></p>
-                    <div class="checkbox">
-                      <input type="radio" name="method" id="paypal" />
-                      <label for="paypal">PayPal</label>&nbsp;&nbsp;
-                      <input type="radio" name="method" id="credit" />
-                      <label for="credit">Credit Card</label>
-                    </div>
-                  </div>
-                  <hr class="invis">
-                  <div class="edit-profile">
-                    <form role="form" action="shoppingCart.php" method="post">
-                      <div class="form-group">
-                        <label>First / Last Name</label>
-                        <input type="text" class="form-control" placeholder="Amanda FOX">
-                      </div>
-                      <div class="form-group">
-                        <label>Email Address</label>
-                        <input type="email" class="form-control" placeholder="name@InfoLAND.com">
-                      </div>
-                      <div class="form-group">
-                        <label>Username</label>
-                        <input type="text" class="form-control" placeholder="Username">
-                      </div>
-                      <div class="form-group">
-                        <label>Password</label>
-                        <input type="password" class="form-control" placeholder="************">
-                      </div>
-                      <div class="form-group">
-                        <label>Re-Enter Password</label>
-                        <input type="password" class="form-control" placeholder="************">
-                      </div>
-                      <div class="well total-price">
-                        <p><strong> Total Amount:</strong> $80.00 </p>
-                      </div>
-                      <button type="submit" class="btn btn-primary">Check Out & Pay</button>
-                    </form>
-                  </div>
-                  <hr class="invis">
+                  </table>                  
+                  <hr class="invis">                                   
+                  <button id="enroll" class="btn btn-primary">Enroll & Pay</button>
+                  <p id="enroll-msg" class="text-danger"></p>
                 </div>
               </div>
             </div>
