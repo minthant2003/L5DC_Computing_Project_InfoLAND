@@ -39,13 +39,13 @@
                 $mail->Host = "smtp.gmail.com";
                 $mail->SMTPDebug = SMTP::DEBUG_OFF;
                 $mail->SMTPAuth = true;
-                $mail->Username = "mathanwinn2@gmail.com";
-                $mail->Password = "feuu oxjh szzn oybl";
+                $mail->Username = "";
+                $mail->Password = "";
                 $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
                 $mail->Port = "465";
         
                 // Parameter
-                $mail->setFrom("mathanwinn2@gmail.com", "Ma Than Win");
+                $mail->setFrom("", "");
                 $mail->addAddress($learner['Email'], $learner['Fullname']);
         
                 // Content
