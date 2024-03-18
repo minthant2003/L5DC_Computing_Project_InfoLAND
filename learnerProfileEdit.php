@@ -80,7 +80,7 @@
                 $response['success'] = true;
 
                 // Update Old Session data
-                $_SESSION['authorised'] = true;
+                $_SESSION['learner_authorised'] = true;
                 $_SESSION['learner'] = [
                     "id" => $id,
                     "uname" => $uname,

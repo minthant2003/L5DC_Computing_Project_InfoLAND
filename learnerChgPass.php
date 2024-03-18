@@ -54,7 +54,7 @@
                     }                                       
                     unset($_SESSION['tmp_OTP']);
                     unset($_SESSION['tmp_email']);
-                    $_SESSION['authorised'] = false;
+                    $_SESSION['learner_authorised'] = false;
                     unset($_SESSION['learner']);                    
                 } else {
                     $response['chgMsg'] = "Update is not successful. Please try again later.";

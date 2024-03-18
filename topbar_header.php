@@ -55,13 +55,13 @@
             <li><a href="aboutUs.php">About Us</a></li>
             <li><a href="coursesView.php">Courses</a></li>
             <li><a href="contactUs.php">Contact Us</a></li>
-            <?php if (isset($_COOKIE['learner_id']) || (isset($_SESSION['authorised']) && $_SESSION['authorised'] === true)) { ?>
+            <?php if (isset($_COOKIE['learner_id']) || (isset($_SESSION['learner_authorised']) && $_SESSION['learner_authorised'] === true)) { ?>
               <li><a href="profile.php">Profile</a></li>
             <?php } ?>
             <li><a href="shoppingCart.php">Shopping Cart <i class="fa fa-shopping-cart fa-lg"></i></a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
-            <?php if (isset($_COOKIE['learner_id']) || (isset($_SESSION['authorised']) && $_SESSION['authorised'] === true)) { ?>
+            <?php if (isset($_COOKIE['learner_id']) || (isset($_SESSION['learner_authorised']) && $_SESSION['learner_authorised'] === true)) { ?>
               <li>
                 <a id="profile-a" href="profile.php">
                   <img id="profile" src="learner_profile/<?php if (isset($_SESSION['learner']['profile'])) echo $_SESSION['learner']['profile']; ?>" alt="Profile image">

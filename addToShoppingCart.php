@@ -17,7 +17,7 @@
         }
         
         // Check whether Logged in or Registered
-        if (isset($_SESSION['authorised']) && $_SESSION['authorised'] === true && isset($_SESSION['learner'])) {
+        if (isset($_SESSION['learner_authorised']) && $_SESSION['learner_authorised'] === true && isset($_SESSION['learner'])) {
             // Check Entry LP
             if ($_SESSION['learner']['LP'] >= $course['Entry_LP']) {
                 $response['msg'] = "Added to the Shopping Cart.";

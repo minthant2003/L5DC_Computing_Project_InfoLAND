@@ -84,7 +84,7 @@
 
                 if (mysqli_num_rows($result) === 1) {
                     // Authorised learner
-                    $_SESSION['authorised'] = true;
+                    $_SESSION['learner_authorised'] = true;
                     $_SESSION['learner'] = [
                         "id" => $learner['Learner_ID'],
                         "uname" => $learner['Username'],

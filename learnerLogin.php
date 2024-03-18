@@ -22,7 +22,7 @@
                 $response['success'] = true;
 
                 // Authorised learner
-                $_SESSION['authorised'] = true;
+                $_SESSION['learner_authorised'] = true;
                 $_SESSION['learner'] = [
                     "id" => $learner['Learner_ID'],
                     "uname" => $learner['Username'],
@@ -40,7 +40,7 @@
         }
 
         // Remember me implementation
-        if (isset($_POST['remember']) && $_SESSION['authorised']) {
+        if (isset($_POST['remember']) && $_SESSION['learner_authorised']) {
             setcookie("learner_id", $learner['Learner_ID'], time() + 24*60*60*5, "/");
         }
 
