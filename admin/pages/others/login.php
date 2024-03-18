@@ -17,6 +17,32 @@
     <link rel="stylesheet" href="../../assets/css/style.css">
     <!-- End layout styles -->
     <link rel="shortcut icon" href="../../assets/images/tabicon.ico" />
+    <script type="text/javascript">
+      document.addEventListener('DOMContentLoaded', () => {
+        const signInForm = document.getElementById('sign-in-form');
+
+        signInForm.addEventListener('submit', async (event) => {
+          event.preventDefault();
+
+          document.getElementById('sign-in-msg').innerText = "";
+          document.getElementById('pass-msg').innerText = "";
+          document.getElementById('uname-msg').innerText = "";
+
+          let signIn_formData = new FormData(signInForm);
+
+          let response = await fetch('adminLoginServer.php', {
+            method: "POST",
+            body: signIn_formData
+          });
+          let res = await response.json();
+
+          if (res.uname) document.getElementById('uname-msg').innerText = res.uname;
+          if (res.pass) document.getElementById('pass-msg').innerText = res.pass;
+          if (res.msg) document.getElementById('sign-in-msg').innerText = res.msg;
+          if (res.success) setTimeout(() => window.location.href = "../../index.php", 1500);
+        });
+      });
+    </script>
   </head>
   <body>
     <div class="container-scroller">
@@ -29,23 +55,22 @@
                   <img src="../../assets/images/logo.png">
                 </div>
                 <h4>Welcome again InfoLAND admin!</h4>
-                <form action="#" method="post" class="pt-3">
+                <form action="login.php" id="sign-in-form" method="post" class="pt-3">
                   <div class="form-group">
-                    <input type="text" class="form-control form-control-lg" id="" placeholder="Enter Username">
+                    <input type="text" name="uname" class="form-control form-control-lg" placeholder="Enter Username">
+                    <p id="uname-msg" class="text-danger"></p>
                   </div>
                   <div class="form-group">
-                    <input type="password" class="form-control form-control-lg" id="" placeholder="Enter Password">
+                    <input type="password" name="pass" class="form-control form-control-lg" id="pass-login" placeholder="Enter Password">
+                    <div class="d-flex justify-content-between">
+                      <p id="pass-msg" class="text-danger"></p>
+                      <p id="toggle-login" role="button"><i class="mdi mdi-eye"></i><span>Show</span></p>
+                    </div>
                   </div>
                   <div class="mt-3">
                     <button type="submit" class="btn btn-gradient-primary me-2">SIGN IN</button>
+                    <p id="sign-in-msg" class="text-danger"></p>
                   </div>
-                  <div class="my-2 d-flex justify-content-between align-items-center">
-                    <div class="form-check">
-                      <label class="form-check-label text-muted">
-                        <input type="checkbox" class="form-check-input"> Keep me signed in </label>
-                    </div>
-                    <a href="#" class="auth-link text-black">Forgot password?</a>
-                  </div>                  
                 </form>
               </div>
             </div>
@@ -66,5 +91,8 @@
     <script src="../../assets/js/hoverable-collapse.js"></script>
     <script src="../../assets/js/misc.js"></script>
     <!-- endinject -->
+    <!-- Custom js for this page -->
+    <script src="../../my_js/passwordToggle.js"></script>
+    <!-- End custom js for this page -->
   </body>
 </html>
