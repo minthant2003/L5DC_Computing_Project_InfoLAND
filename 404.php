@@ -1,57 +1,60 @@
-<?php session_start(); ?>
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>InfoLAND | Online Learning Platform</title>
-  <link rel="shortcut icon" href="images/tabicon.ico" type="image/x-icon" />
-
-  <?php include("cssExternal.html"); ?>
-</head>
-<body>
-  <?php include("loader.html"); ?>
-
-  <div id="wrapper">
-    <?php include("topbar_header.php"); ?>
-
-    <section class="grey section">
-      <div class="container">
-        <div class="row">
-          <div id="content" class="col-md-12 col-sm-12 col-xs-12">
-            <div class="blog-wrapper">
-              <div class="row second-bread">
-                <div class="col-md-6 text-left">
-                  <h1>Page Not Found</h1>
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>InfoLAND | Online Learning Platform</title>
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="/Computing_Project/admin/assets/vendors/mdi/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="/Computing_Project/admin/assets/vendors/css/vendor.bundle.base.css">
+    <!-- endinject -->
+    <!-- Plugin css for this page -->
+    <!-- End Plugin css for this page -->
+    <!-- inject:css -->
+    <!-- endinject -->
+    <!-- Layout styles -->
+    <link rel="stylesheet" href="/Computing_Project/admin/assets/css/style.css">
+    <!-- End layout styles -->
+    <link rel="shortcut icon" href="/Computing_Project/admin/assets/images/tabicon.ico" />
+  </head>
+  <body>
+    <div class="container-scroller">
+      <div class="container-fluid page-body-wrapper full-page-wrapper">
+        <div class="content-wrapper d-flex align-items-center text-center error-page bg-primary">
+          <div class="row flex-grow">
+            <div class="col-lg-7 mx-auto text-white">
+              <div class="row align-items-center d-flex flex-row">
+                <div class="col-lg-6 text-lg-right pr-lg-4">
+                  <h1 class="display-1 mb-0">404</h1>
                 </div>
-                <div class="col-md-6 text-right">
-                  <div class="bread">
-                    <ol class="breadcrumb">
-                      <li><a href="index.php">Home</a></li>
-                      <li class="active">404</li>
-                    </ol>
-                  </div>
+                <div class="col-lg-6 error-page-divider text-lg-left pl-lg-4">
+                  <h2>SORRY!</h2>
+                  <h3 class="font-weight-light">The page you’re looking for was not found.</h3>
                 </div>
               </div>
-            </div>
-            <div class="blog-wrapper">
-              <div class="blog-desc notfound text-center">
-                <h3>404</h3>
-                <p class="lead">The page you are looking for no longer exists. Perhaps you can return<br> back to the
-                  site's homepage and see if you can find what you are looking for. Or, you can try finding<br> it with
-                  the information below.</p>
-                <a href="index.php" class="btn btn-default">Back to homepage</a>
-                <hr class="invis">
+              <div class="row mt-5">
+                <div class="col-12 mt-xl-2">
+                  <p class="text-white font-weight-medium text-center">Copyright &copy; 2024 All rights reserved.</p>
+                </div>
               </div>
             </div>
           </div>
         </div>
+        <!-- content-wrapper ends -->
       </div>
-    </section>
-
-    <?php include("footer_copyright.php"); ?>
-  </div>
-
-  <?php include("jsExternal.html"); ?>
-</body>
+      <!-- page-body-wrapper ends -->
+    </div>
+    <!-- container-scroller -->
+    <!-- plugins:js -->
+    <script src="/Computing_Project/admin/assets/vendors/js/vendor.bundle.base.js"></script>
+    <!-- endinject -->
+    <!-- Plugin js for this page -->
+    <!-- End plugin js for this page -->
+    <!-- inject:js -->
+    <script src="/Computing_Project/admin/assets/js/off-canvas.js"></script>
+    <script src="/Computing_Project/admin/assets/js/hoverable-collapse.js"></script>
+    <script src="/Computing_Project/admin/assets/js/misc.js"></script>
+    <!-- endinject -->
+  </body>
 </html>
