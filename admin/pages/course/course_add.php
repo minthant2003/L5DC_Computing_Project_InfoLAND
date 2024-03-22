@@ -18,6 +18,150 @@
     <link rel="stylesheet" href="../../assets/css/style.css">
     <!-- End layout styles -->
     <link rel="shortcut icon" href="../../assets/images/tabicon.ico" />
+    <script type="text/javascript">
+      document.addEventListener('DOMContentLoaded', () => {
+        // Append Quizzes according to the Number
+        const quizNumAdd = document.getElementById('quiz-num-add');
+
+        quizNumAdd.addEventListener('click', (event) => {
+          event.preventDefault();
+          const container = document.getElementById('container');
+
+          container.innerHTML = "";
+          let quizNum = document.getElementById('quiz-num').value;
+          let parser = new DOMParser();
+
+          for (let i = 1; i <= quizNum; i++) {
+            let nodeString = `
+              <div class="col-12 stretch-card grid-margin">
+                <div class="card">
+                  <div class="card-body">
+                    <h3 class="page-title mb-4"> Quiz Number ${i} </h3>                      
+                    <div class="d-flex">
+                      <p class="me-2 mb-4">Q)</p>
+                      <textarea class="question form-control mb-4" rows="3" placeholder="Enter the Question" required></textarea>
+                    </div>                    
+                    <div class="d-flex">
+                      <p class="me-2 mb-0">a)</p>                        
+                      <textarea class="first-opt form-control mb-1" rows="3" placeholder="Enter the first Option" required></textarea>
+                    </div>
+                    <div class="d-flex">
+                      <p class="me-2 mb-0">b)</p>                        
+                      <textarea class="second-opt form-control mb-1" rows="3" placeholder="Enter the second Option" required></textarea>
+                    </div>
+                    <div class="d-flex">
+                      <p class="me-2">c)</p>                        
+                      <textarea class="third-opt form-control mb-4" rows="3" placeholder="Enter the third Option" required></textarea>
+                    </div>
+                    <div class="d-flex mb-4 align-items-center">
+                      <p class="me-2 mb-0">Right answer is</p>
+                      <div class="d-flex">
+                        <div class="form-check me-3">
+                          <label class="form-check-label">
+                            <input type="radio" class="form-check-input" name="rightAns_${i}" value="a" required>
+                            a <i class="input-helper"></i>
+                          </label>
+                        </div>
+                        <div class="form-check me-3">
+                          <label class="form-check-label">
+                            <input type="radio" class="form-check-input" name="rightAns_${i}" value="b">
+                            b <i class="input-helper"></i>
+                          </label>
+                        </div>
+                        <div class="form-check">
+                          <label class="form-check-label">
+                            <input type="radio" class="form-check-input" name="rightAns_${i}" value="c">
+                            c <i class="input-helper"></i>
+                          </label>
+                        </div>
+                      </div>
+                    </div>                                        
+                  </div>
+                </div>
+              </div>
+            `;
+            let DOM = parser.parseFromString(nodeString, 'text/html');
+            let nodeHTML = DOM.firstChild.children[1].children[0];
+            
+            container.append(nodeHTML);
+          }
+        });
+        
+        // Free or Paid?
+        const courseType = document.getElementById('course-type');
+
+        courseType.addEventListener('change', (event) => {
+          event.preventDefault();
+          document.getElementById('entry-lp').classList.toggle('d-none');
+          document.getElementById('entry_LP').toggleAttribute('required');
+
+          document.getElementById('price-container').classList.toggle('d-none');
+          document.getElementById('price').toggleAttribute('required');
+        });
+
+        // Add Course
+        const addCourseForm = document.getElementById('add-course-form');
+
+        addCourseForm.addEventListener('submit', async (event) => {
+          event.preventDefault();
+          document.getElementById('add-course-msg').innerText = "";
+
+          const container = document.getElementById('container');          
+
+          if (container.children.length === 0) {
+            document.getElementById('add-course-msg').innerText = "Add Quizzes first.";
+          } else {
+            let course = new FormData();
+            // HTMLCollection to Array
+            let quizzes_collection = container.children;
+            let quizzes_array = [...quizzes_collection];
+            // Quizzes data
+            let quizzes = [];
+
+            quizzes_array.forEach(quizDiv => {
+              let quiz = {};
+              
+              let opts = [];
+              let opt_1 = {}, opt_2 = {}, opt_3 = {};
+              
+              opt_1.text = quizDiv.getElementsByClassName('first-opt')[0].value;
+              opt_2.text = quizDiv.getElementsByClassName('second-opt')[0].value;
+              opt_3.text = quizDiv.getElementsByClassName('third-opt')[0].value;
+              opts.push(opt_1);
+              opts.push(opt_2);
+              opts.push(opt_3);
+              
+              quiz.quest = quizDiv.getElementsByClassName('question')[0].value;
+              quiz.opts = opts;
+              quiz.ans = quizDiv.querySelector('input[type="radio"]:checked').value;
+              
+              quizzes.push(quiz);
+            });
+            
+            course.append('name', document.getElementById('name').value);
+            course.append('desc', document.getElementById('desc').value);
+            course.append('category', document.getElementById('category').value);
+            if (courseType.value === 'paid') course.append('entry_LP', document.getElementById('entry_LP').value);
+            course.append('goal_LP', document.getElementById('goal_LP').value);
+            if (courseType.value === 'paid') course.append('price', document.getElementById('price').value);
+            course.append('syllabus', document.getElementById('course-syllabus').files[0]);
+            course.append('img', document.getElementById('course-img').files[0]);
+            course.append('quizzes', JSON.stringify(quizzes));
+
+            let response = await fetch('courseAddServer.php', {
+              method: "POST",
+              body: course
+            });
+            let res = await response.json();
+
+            if (res.syllabus) document.getElementById('add-course-msg').innerText = res.syllabus;
+            else if (res.img) document.getElementById('add-course-msg').innerText = res.img;
+            else if (res.msg) document.getElementById('add-course-msg').innerText = res.msg;
+            if (res.success) setTimeout(() => window.location.href = "course_view.php", 1500);
+          }
+        });
+      });
+    </script>
   </head>
   <body>
     <div class="container-scroller">
@@ -140,7 +284,7 @@
                 </ol>
               </nav>
             </div>
-            <form action="#" method="post" class="form-sample">
+            <form id="add-course-form" action="course_add.php" method="post" class="form-sample" enctype="multipart/form-data">
               <div class="row">
                 <div class="col-12 grid-margin stretch-card">
                   <div class="card">
@@ -151,7 +295,7 @@
                           <div class="form-group row">
                             <label class="col-sm-3 col-form-label">Name</label>
                             <div class="col-sm-9">
-                              <input type="text" class="form-control" />
+                              <input id="name" type="text" class="form-control" required/>
                             </div>
                           </div>
                         </div>
@@ -159,17 +303,15 @@
                           <div class="form-group row">
                             <label class="col-sm-3 col-form-label">Description</label>
                             <div class="col-sm-9">
-                              <textarea class="form-control" id="" rows="4"></textarea>
+                              <textarea class="form-control" id="desc" rows="4" required></textarea>
                             </div>
                           </div>
                         </div>
-                      </div>
-                      <div class="row">
                         <div class="col-md-6">
                           <div class="form-group row">
                             <label class="col-sm-3 col-form-label">Category</label>
                             <div class="col-sm-9">
-                              <input type="text" class="form-control" />
+                              <input id="category" type="text" class="form-control" required/>
                             </div>
                           </div>
                         </div>
@@ -177,16 +319,30 @@
                           <div class="form-group row">
                             <label class="col-sm-3 col-form-label">Type</label>
                             <div class="col-sm-9">
-                              <select class="form-control form-control-sm">
-                                <option>Free</option>
-                                <option>Paid</option>
+                              <select id="course-type" class="form-control form-control-sm" required>
+                                <option value="free">Free</option>
+                                <option value="paid" selected>Paid</option>
                               </select>
                             </div>
                           </div>
                         </div>
-                      </div>
-                      <div class="row">
+                        <div id="entry-lp" class="col-md-6 d-block">
+                          <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Entry LP</label>
+                            <div class="col-sm-9">
+                              <input id="entry_LP" type="number" class="form-control" min="0" required/>
+                            </div>
+                          </div>
+                        </div>
                         <div class="col-md-6">
+                          <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Goal LP</label>
+                            <div class="col-sm-9">
+                              <input id="goal_LP" type="number" class="form-control" min="1" required/>
+                            </div>
+                          </div>
+                        </div>
+                        <div id="price-container" class="col-md-6 d-block">
                           <div class="form-group row">
                             <label class="col-sm-3 col-form-label">Price</label>
                             <div class="col-sm-9">
@@ -195,191 +351,63 @@
                                   <div class="input-group-prepend">
                                     <span class="input-group-text bg-gradient-primary text-white">£</span>
                                   </div>
-                                  <input type="number" step="any" class="form-control" aria-label="">
+                                  <input id="price" type="number" min="1" step="0.01" class="form-control" required>
                                 </div>
                               </div>
                             </div>
                           </div>
                         </div>
                         <div class="col-md-6">
-                          <div class="form-group row">
-                            <label class="col-sm-3 col-form-label">Entry LP</label>
+                          <div class="form-group row align-items-center">
+                            <label class="col-sm-3 col-form-label">Course Syllabus</label>
                             <div class="col-sm-9">
-                              <input type="number" class="form-control" />
+                              <input id="course-syllabus" role="button" type="file" required>
                             </div>
-                          </div>
-                        </div>
-                      </div>                      
-                      <div class="row">
-                        <div class="col-md-6">
-                          <div class="form-group row">
-                            <label class="col-sm-3 col-form-label">Goal LP</label>
-                            <div class="col-sm-9">
-                              <input type="number" class="form-control" />
-                            </div>
-                          </div>
+                          </div> 
                         </div>
                         <div class="col-md-6">
-                          <div class="form-group row">
-                            <label class="col-sm-3 col-form-label">Learning Material</label>
+                          <div class="form-group row align-items-center">
+                            <label class="col-sm-3 col-form-label">Course Image</label>
                             <div class="col-sm-9">
-                              <input type="file" name="" class="file-upload-default">
-                              <div class="input-group col-xs-12">
-                                <input type="text" class="form-control file-upload-info" disabled placeholder="Upload Image">
-                                <span class="input-group-append">
-                                  <button class="file-upload-browse btn btn-gradient-primary" type="button">Upload</button>
-                                </span>
-                              </div>
+                              <input id="course-img" role="button" type="file" required>
                             </div>
                           </div> 
                         </div>  
-                      </div>                  
+                      </div>
                     </div>
                   </div>                  
                 </div>
                 <div class="col-12 stretch-card grid-margin">
                   <div class="card">
-                    <div class="card-body">
-                      <h3 class="page-title mb-4"> Quiz Number 1 </h3>                      
-                      <div class="d-flex">
-                        <p class="me-2 mb-4">Q)</p>                        
-                        <textarea class="form-control mb-4" id="" rows="3" placeholder="Enter the Question"></textarea>
-                      </div>                    
-                      <div class="d-flex">
-                        <p class="me-2 mb-0">a)</p>                        
-                        <textarea class="form-control mb-1" id="" rows="3" placeholder="Enter the first answer"></textarea>
-                      </div>
-                      <div class="d-flex">
-                        <p class="me-2 mb-0">b)</p>                        
-                        <textarea class="form-control mb-1" id="" rows="3" placeholder="Enter the second answer"></textarea>
-                      </div>
-                      <div class="d-flex">
-                        <p class="me-2">c)</p>                        
-                        <textarea class="form-control mb-4" id="" rows="3" placeholder="Enter the third answer"></textarea>
-                      </div>
-                      <div class="d-flex mb-4 align-items-center">
-                        <p class="me-2 mb-0">Right answer is</p>                 
-                        <div class="d-flex">
-                          <div class="form-check me-3">
-                            <label class="form-check-label">
-                              <input type="radio" class="form-check-input" name="membershipRadios" id="" value="">
-                              a <i class="input-helper"></i>
-                            </label>
-                          </div>
-                          <div class="form-check me-3">
-                            <label class="form-check-label">
-                              <input type="radio" class="form-check-input" name="membershipRadios" id="" value="">
-                              b <i class="input-helper"></i>
-                            </label>
-                          </div>
-                          <div class="form-check">
-                            <label class="form-check-label">
-                              <input type="radio" class="form-check-input" name="membershipRadios" id="" value="">
-                              c <i class="input-helper"></i>
-                            </label>
+                    <div class="card-body row align-items-center">
+                      <div class="col-8">
+                        <div class="form-group row align-items-center mb-0">
+                          <label class="col-6 col-form-label">Choose Quiz Number</label>
+                          <div class="col-6">
+                            <input id="quiz-num" type="number" class="form-control" min="3" required/>
                           </div>
                         </div>
-                      </div>                                        
+                      </div>
+                      <div class="col-4">
+                        <button id="quiz-num-add" class="btn btn-gradient-info" type="button">Add</button>
+                      </div>
                     </div>
                   </div>
-                </div>   
-                <div class="col-12 stretch-card grid-margin">
-                  <div class="card">
-                    <div class="card-body">
-                      <h3 class="page-title mb-4"> Quiz Number 2 </h3>                      
-                      <div class="d-flex">
-                        <p class="me-2 mb-4">Q)</p>                        
-                        <textarea class="form-control mb-4" id="" rows="3" placeholder="Enter the Question"></textarea>
-                      </div>                    
-                      <div class="d-flex">
-                        <p class="me-2 mb-0">a)</p>                        
-                        <textarea class="form-control mb-1" id="" rows="3" placeholder="Enter the first answer"></textarea>
-                      </div>
-                      <div class="d-flex">
-                        <p class="me-2 mb-0">b)</p>                        
-                        <textarea class="form-control mb-1" id="" rows="3" placeholder="Enter the second answer"></textarea>
-                      </div>
-                      <div class="d-flex">
-                        <p class="me-2">c)</p>                        
-                        <textarea class="form-control mb-4" id="" rows="3" placeholder="Enter the third answer"></textarea>
-                      </div>
-                      <div class="d-flex mb-4 align-items-center">
-                        <p class="me-2 mb-0">Right answer is</p>                 
-                        <div class="d-flex">
-                          <div class="form-check me-3">
-                            <label class="form-check-label">
-                              <input type="radio" class="form-check-input" name="membershipRadios" id="" value="">
-                              a <i class="input-helper"></i>
-                            </label>
-                          </div>
-                          <div class="form-check me-3">
-                            <label class="form-check-label">
-                              <input type="radio" class="form-check-input" name="membershipRadios" id="" value="">
-                              b <i class="input-helper"></i>
-                            </label>
-                          </div>
-                          <div class="form-check">
-                            <label class="form-check-label">
-                              <input type="radio" class="form-check-input" name="membershipRadios" id="" value="">
-                              c <i class="input-helper"></i>
-                            </label>
-                          </div>
-                        </div>
-                      </div>                                        
-                    </div>
-                  </div>
-                </div>   
-                <div class="col-12 stretch-card grid-margin">
-                  <div class="card">
-                    <div class="card-body">
-                      <h3 class="page-title mb-4"> Quiz Number 3 </h3>                      
-                      <div class="d-flex">
-                        <p class="me-2 mb-4">Q)</p>                        
-                        <textarea class="form-control mb-4" id="" rows="3" placeholder="Enter the Question"></textarea>
-                      </div>                    
-                      <div class="d-flex">
-                        <p class="me-2 mb-0">a)</p>                        
-                        <textarea class="form-control mb-1" id="" rows="3" placeholder="Enter the first answer"></textarea>
-                      </div>
-                      <div class="d-flex">
-                        <p class="me-2 mb-0">b)</p>                        
-                        <textarea class="form-control mb-1" id="" rows="3" placeholder="Enter the second answer"></textarea>
-                      </div>
-                      <div class="d-flex">
-                        <p class="me-2">c)</p>                        
-                        <textarea class="form-control mb-4" id="" rows="3" placeholder="Enter the third answer"></textarea>
-                      </div>
-                      <div class="d-flex mb-4 align-items-center">
-                        <p class="me-2 mb-0">Right answer is</p>                 
-                        <div class="d-flex">
-                          <div class="form-check me-3">
-                            <label class="form-check-label">
-                              <input type="radio" class="form-check-input" name="membershipRadios" id="" value="">
-                              a <i class="input-helper"></i>
-                            </label>
-                          </div>
-                          <div class="form-check me-3">
-                            <label class="form-check-label">
-                              <input type="radio" class="form-check-input" name="membershipRadios" id="" value="">
-                              b <i class="input-helper"></i>
-                            </label>
-                          </div>
-                          <div class="form-check">
-                            <label class="form-check-label">
-                              <input type="radio" class="form-check-input" name="membershipRadios" id="" value="">
-                              c <i class="input-helper"></i>
-                            </label>
-                          </div>
-                        </div>
-                      </div>                                        
-                    </div>
-                  </div>
-                </div>                  
+                </div>
+                <div id="container">
+                  <!-- Data rendered by Javaacript -->
+
+
+                  <!-- Data rendered by Javaacript -->
+                </div>
                 <div class="col-12 d-flex justify-content-around">
                   <button type="submit" class="btn-lg btn-gradient-success btn-fw">Add Course</button>
                   <button type="reset" class="btn-lg btn-gradient-danger btn-fw">Clear</button>
-                </div>   
-              </div>              
+                </div>
+                <div class="d-flex justify-content-center">
+                  <p id="add-course-msg" class="text-danger"></p>
+                </div> 
+              </div>
             </form>
           </div>
           <!-- content-wrapper ends -->
