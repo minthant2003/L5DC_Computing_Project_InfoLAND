@@ -1,4 +1,14 @@
-<?php session_start(); ?>
+<?php 
+  session_start(); 
+  require "../../db_config.php";
+  
+  // Display all categories in Filtering bar
+  $sql = "SELECT DISTINCT Category FROM course";
+  $stmt = mysqli_prepare($conn, $sql);
+  mysqli_stmt_execute($stmt);
+
+  $result = mysqli_stmt_get_result($stmt);
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -18,6 +28,145 @@
     <link rel="stylesheet" href="../../assets/css/style.css">
     <!-- End layout styles -->
     <link rel="shortcut icon" href="../../assets/images/tabicon.ico" />
+    <script type="text/javascript">
+      document.addEventListener('DOMContentLoaded', () => {
+        // Global variable for Previous & Next pagination
+        let current, numPages;
+
+        // Display Courses data with Pagination
+        const viewCourses = async (currentPage) => {
+          current = parseInt(currentPage);
+          let category = document.getElementById('category').value;
+          let price = document.getElementById('price').value;
+          const t_body = document.getElementById('t-body');
+          const paginationContainer = document.getElementById('pagination-container');
+          const paginationLabel = document.getElementById('pagination-label');
+          let response;
+          let parser = new DOMParser();
+
+          t_body.innerHTML = "";
+          paginationLabel.innerText = "";
+          paginationContainer.innerHTML = "";
+
+          if (category === '*' && price === '*') {
+            response = await fetch(`courseViewPaginationServer.php?current=${current}&param=*`, { method: "GET" });
+          } else if (category !== '*' && price === '*') {
+            response = await fetch(`courseViewPaginationServer.php?current=${current}&category=${category}`, { method: "GET" });
+          } else if (category === '*' && price !== '*') {
+            response = await fetch(`courseViewPaginationServer.php?current=${current}&price=${price}`, { method: "GET" });
+          } else if (category !== '*' && price !== '*') {
+            response = await fetch(`courseViewPaginationServer.php?current=${current}&category=${category}&price=${price}`, { method: "GET" });
+          }
+
+          let res = await response.json();
+          // Records found or Not
+          if (res.hasRecords) {
+            paginationContainer.style.display = "flex";
+            let courses = res.courses;
+            numPages = res.numPages;
+            
+            courses.forEach((course) => {
+              let nodeString = `
+                <table>
+                  <tbody>
+                    <tr>
+                      <td>${course.Course_ID}</td>
+                      <td>${course.Name}</td>
+                      <td style="white-space:normal;">
+                        <div class="lh-base" style="width:20rem; height:5rem; overflow-y:auto;">
+                          ${course.Description}
+                        </div>                              
+                      </td>
+                      <td>${course.Category}</td>
+                      <td>${course.Entry_LP}</td>
+                      <td>${course.Goal_LP}</td>
+                      <td>${ parseFloat(course.Price) === 0 ? 'Free' : `£ ${course.Price}` }</td>
+                      <td>${course.Syllabus}</td>
+                      <td>${course.Image}</td>
+                      <td><a href="../quizzes/quizzes.php?id=${course.Course_ID}">View Quizzes</a></td>
+                      <td><a href="course_update.php?id=${course.Course_ID}">Update Course</a></td>
+                      <td><button class="btn btn-inverse-danger btn-fw" data-id="${course.Course_ID}">Delete</button></td>
+                    </tr>
+                  </tbody>
+                </table>
+              `;
+              let DOM = parser.parseFromString(nodeString, 'text/html');
+              let nodeHTML = DOM.firstChild.children[1].children[0].children[0].children[0];
+              
+              t_body.append(nodeHTML);
+            });
+
+            // Pagination Interactivity
+            const paginationLinkRender = (innerText) => {
+              let nodeString;
+              // Check Active Page for Highlight
+              nodeString = (current === innerText) ? `<li class="page-item active"><a class="page-link" href="course_view.php">${innerText}</a></li>`
+                : `<li class="page-item"><a class="page-link" href="course_view.php">${innerText}</a></li>`;
+              let DOM = parser.parseFromString(nodeString, 'text/html');
+              let nodeHTML = DOM.firstChild.children[1].children[0];
+              
+              paginationContainer.append(nodeHTML);
+            }
+
+            paginationLabel.innerText = `Showing ${current} of ${numPages} pages`;
+            paginationLinkRender('Previous');
+            for (let i = 1; i <= numPages; i++) {
+              paginationLinkRender(i);
+            }
+            paginationLinkRender('Next');
+          } else {
+            paginationContainer.style.display = "none";
+            let nodeString = `
+              <table>
+                <tbody>
+                  <tr>
+                    <td colspan="12">${res.msg}</td>
+                  </tr>
+                </tbody>
+              </table>
+            `;
+            let DOM = parser.parseFromString(nodeString, 'text/html');
+            let nodeHTML = DOM.firstChild.children[1].children[0].children[0].children[0];
+            
+            t_body.append(nodeHTML);
+
+            // Pagination Interactivity
+            paginationLabel.innerText = "Showing 0 of 0 pages";
+          }
+        }
+
+        // Page Loaded
+        viewCourses(1);
+
+        // Filtering the Courses by Category & Price
+        const filterForm = document.getElementById('filter-form');
+
+        filterForm.addEventListener('submit', (event) => {
+          event.preventDefault();
+          viewCourses(1);
+        });
+
+        // Pagination Links
+        const paginationContainer = document.getElementById('pagination-container');
+
+        paginationContainer.addEventListener('click', (event) => {
+          event.preventDefault();
+          let elem = event.target;
+
+          if (elem.tagName === 'A' && elem.innerText !== 'Previous' && elem.innerText !== 'Next') {
+            viewCourses(elem.innerText);
+          } else if (elem.tagName === 'A' && elem.innerText === 'Previous') {
+            if (current > 1) {
+              viewCourses(--current);
+            }
+          } else if (elem.tagName === 'A' && elem.innerText === 'Next') {
+            if (current < numPages) {
+              viewCourses(++current);
+            }
+          }
+        });
+      });
+    </script>
   </head>
   <body>
     <div class="container-scroller">
@@ -139,30 +288,27 @@
                   <li class="breadcrumb-item active" aria-current="page">Courses</li>
                 </ol>
               </nav>
-            </div>           
-            <form action="course_view.php" method="">
+            </div>
+            <form id="filter-form" action="course_view.php" method="get">
               <div class="row">
                 <div class="col-md-8 stretch-card grid-margin">
                   <div class="card bg-gradient-success">
                     <div class="card-body d-flex">
-                      <select class="form-control" name="" id="">
-                        <option value="">Category</option>
-                        <option value="">Programming</option>
-                        <option value="">Networking</option>
+                      <select id="category" class="form-control" name="category">
+                        <option value="*" selected>Category</option>
+                        <?php while ($row = mysqli_fetch_assoc($result)) { ?>
+                          <option value="<?= $row['Category'] ?>"><?php if (isset($row['Category'])) echo $row['Category']; ?></option>
+                        <?php } ?>
                       </select>
-                      <select class="form-control" name="" id="">
-                        <option value="">Name</option>
-                        <option value="">Java</option>
-                        <option value="">CCNA</option>
+                      <select id="price" class="form-control" name="price">
+                        <option value="*" selected>Price</option>
+                        <option value="free">Free</option>
+                        <option value="paid">Paid</option>
                       </select>
-                      <select class="form-control" name="" id="">
-                        <option value="">Free</option>
-                        <option value="">Paid</option>
-                      </select>                      
                     </div>
                   </div>
                 </div>
-                <div class="col-md-4 stretch-card grid-margin">                
+                <div class="col-md-4 stretch-card grid-margin">
                   <div class="card">
                     <div class="card-body d-flex flex-wrap justify-content-around">
                       <input type="submit" value="Filter" class="px-4 px-md-2 px-xl-4 py-3 rounded-3 btn-gradient-primary">
@@ -187,66 +333,18 @@
                           <th>Entry LP</th>
                           <th>Goal LP</th>
                           <th>Price</th>
-                          <th>Learning Material</th>
+                          <th>Syllabus</th>
+                          <th>Image</th>
                           <th>Quizzes</th>
                           <th>Action</th>
                           <th>Action</th>
                         </tr>
                       </thead>
-                      <tbody>
-                        <form action="course_view.php" method="post">
-                          <tr>
-                            <td>1</td>
-                            <td>Programming with JAVA</td>
-                            <td style="white-space:normal;">
-                              <div class="lh-base" style="width:20rem; height:5rem; overflow-y:auto;">
-                                JAVA Introduction to Advanced JAVA Introduction to Advanced JAVA Introduction to Advanced JAVA Introduction to Advanced JAVA Introduction to Advanced JAVA Introduction to Advanced
-                              </div>                              
-                            </td>
-                            <td>Software Engineering</td>
-                            <td>30</td>
-                            <td>5</td>
-                            <td>£ 100</td>
-                            <td>Programming with JAVA.pdf</td>
-                            <td><a href="../quizzes/quizzes.php">View Quizzes</a></td>
-                            <td><a href="course_update.php">Update Course</a></td>
-                            <td><button type="submit" class="btn btn-inverse-danger btn-fw">Delete</button></td>
-                          </tr>
-                          <tr>
-                            <td>1</td>
-                            <td>Programming with JAVA</td>
-                            <td style="white-space:normal;">
-                              <div class="lh-base" style="width:20rem; height:5rem; overflow-y:auto;">
-                                JAVA Introduction to Advanced JAVA Introduction to Advanced JAVA Introduction to Advanced 
-                              </div>                              
-                            </td>
-                            <td>Software Engineering</td>
-                            <td>0</td>
-                            <td>5</td>
-                            <td>Free</td>
-                            <td>Programming with JAVA.pdf</td>
-                            <td><a href="../quizzes/quizzes.php">View Quizzes</a></td>
-                            <td><a href="course_update.php">Update Course</a></td>
-                            <td><button type="submit" class="btn btn-inverse-danger btn-fw">Delete</button></td>
-                          </tr>
-                          <tr>
-                            <td>1</td>
-                            <td>Programming with JAVA</td>
-                            <td style="white-space:normal;">
-                              <div class="lh-base" style="width:20rem; height:5rem; overflow-y:auto;">
-                                JAVA Introduction to Advanced JAVA Introduction to Advanced 
-                              </div>                              
-                            </td>
-                            <td>Software Engineering</td>
-                            <td>30</td>
-                            <td>5</td>
-                            <td>£ 100</td>
-                            <td>Programming with JAVA.pdf</td>
-                            <td><a href="../quizzes/quizzes.php">View Quizzes</a></td>
-                            <td><a href="course_update.php">Update Course</a></td>
-                            <td><button type="submit" class="btn btn-inverse-danger btn-fw">Delete</button></td>
-                          </tr>
-                        </form>
+                      <tbody id="t-body">
+                        <!-- Data rendered by javascript -->
+
+
+                        <!-- Data rendered by javascript -->
                       </tbody>
                     </table>
                   </div>
@@ -257,18 +355,13 @@
               <div class="col-md-8 grind-margin stretch-card">
                 <div class="card">
                   <div class="card-body d-flex justify-content-around align-items-center flex-wrap">
-                    <h5>Showing 1 of 10 pages</h5>
-                    <nav aria-label="Page navigation example">
-                      <ul class="pagination mb-0">
-                        <li class="page-item"><a class="page-link" href="#">First</a></li>
-                        <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-                        <li class="page-item"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item"><a class="page-link" href="#">Next</a></li>
-                        <li class="page-item"><a class="page-link" href="#">Last</a></li>
-                      </ul>
-                    </nav>
+                    <h5 id="pagination-label"></h5>
+                    <ul id="pagination-container" class="pagination mb-0">
+                      <!-- Data rendered by javascript -->
+
+
+                      <!-- Data rendered by javascript -->
+                    </ul>
                   </div>
                 </div>
               </div>              
@@ -304,3 +397,4 @@
     <!-- End custom js for this page -->
   </body>
 </html>
+<?php mysqli_close($conn) ?>
