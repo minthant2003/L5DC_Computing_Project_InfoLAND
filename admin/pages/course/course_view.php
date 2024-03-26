@@ -85,7 +85,7 @@
                       <td>${course.Image}</td>
                       <td><a href="../quizzes/quizzes.php?id=${course.Course_ID}">View Quizzes</a></td>
                       <td><a href="course_update.php?id=${course.Course_ID}">Update Course</a></td>
-                      <td><button class="btn btn-inverse-danger btn-fw" data-id="${course.Course_ID}">Delete</button></td>
+                      <td><button class="btn btn-inverse-danger btn-fw delete-btn" data-id="${course.Course_ID}">Delete</button></td>
                     </tr>
                   </tbody>
                 </table>
@@ -162,6 +162,26 @@
           } else if (elem.tagName === 'A' && elem.innerText === 'Next') {
             if (current < numPages) {
               viewCourses(++current);
+            }
+          }
+        });
+
+        // Delete the Course
+        const t_body = document.getElementById('t-body');
+
+        t_body.addEventListener('click', async (event) => {
+          let elem = event.target;
+          
+          if (elem.tagName === 'BUTTON' && elem.classList.contains('delete-btn')) {
+            event.preventDefault();
+            let id = elem.dataset.id;
+
+            if (confirm('Are you sure you want to delete the course?')) {
+              let response = await fetch(`courseDeleteServer.php?id=${id}`, { method: "GET" });
+              let res = await response.json();
+
+              if (res.msg) alert(res.msg);
+              if (res.success) viewCourses(1);
             }
           }
         });
