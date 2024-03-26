@@ -1,4 +1,33 @@
-<?php session_start(); ?>
+<?php
+  session_start();
+  require "../../db_config.php";
+
+  if ($_SERVER['REQUEST_METHOD'] === "GET" && isset($_GET['id'])) {
+    $id = $_GET['id'];
+
+    // The Specified Course Data
+    $sql = "SELECT * FROM course WHERE Course_ID=?";
+    $stmt = mysqli_prepare($conn, $sql);
+    mysqli_stmt_bind_param($stmt, "i", $id);
+    mysqli_stmt_execute($stmt);
+
+    $result = mysqli_stmt_get_result($stmt);
+    if (mysqli_num_rows($result) === 1) {
+      $course = mysqli_fetch_assoc($result);
+    }
+
+    // All available Course Categories
+    $categories = [];
+    $sql = "SELECT DISTINCT Category FROM course";
+    $stmt = mysqli_prepare($conn, $sql);
+    mysqli_stmt_execute($stmt);
+
+    $result = mysqli_stmt_get_result($stmt);
+    while ($category = mysqli_fetch_assoc($result)) {
+      $categories[] = $category;
+    }
+  }
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -18,6 +47,74 @@
     <link rel="stylesheet" href="../../assets/css/style.css">
     <!-- End layout styles -->
     <link rel="shortcut icon" href="../../assets/images/tabicon.ico" />
+    <script type="text/javascript">
+      document.addEventListener('DOMContentLoaded', () => {
+        const courseType = document.getElementById('course-type');
+
+        // Method for Free or Paid
+        const freeOrPaid = () => {
+          if (courseType !== null && courseType.value === 'free') {
+            document.getElementById('entry-lp').style.display = "none";
+            document.getElementById('entry_LP').required = false;
+
+            document.getElementById('price-container').style.display = "none";
+            document.getElementById('price').required = false;
+          } else if (courseType !== null && courseType.value === 'paid') {
+            document.getElementById('entry-lp').style.display = "block";
+            document.getElementById('entry_LP').required = true;
+
+            document.getElementById('price-container').style.display = "block";
+            document.getElementById('price').required = true;
+          }
+        }
+
+        // Page Loaded
+        freeOrPaid();
+
+        // Course Type changed
+        if (courseType !== null) {
+          courseType.addEventListener('change', (event) => {
+            event.preventDefault();
+            freeOrPaid();
+          });
+        }
+
+        // Update the Course Info
+        const updateForm = document.getElementById('update-form');
+
+        if (updateForm !== null) {
+          updateForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            document.getElementById('update-course-msg').innerText = "";
+
+            let course = new FormData();
+            let params = new URLSearchParams(window.location.search);
+            let id = params.get('id');
+            
+            course.append('id', id);
+            course.append('name', document.getElementById('name').value);
+            course.append('desc', document.getElementById('desc').value);
+            course.append('category', document.getElementById('category').value);
+            if (courseType.value === 'paid') course.append('entry_LP', document.getElementById('entry_LP').value);
+            course.append('goal_LP', document.getElementById('goal_LP').value);
+            if (courseType.value === 'paid') course.append('price', document.getElementById('price').value);
+            course.append('syllabus', document.getElementById('course-syllabus').files[0]);
+            course.append('img', document.getElementById('course-img').files[0]);
+
+            let response = await fetch('courseUpdateServer.php', {
+              method: "POST",
+              body: course
+            });
+            let res = await response.json();
+
+            if (res.syllabus) document.getElementById('update-course-msg').innerText = res.syllabus;
+            else if (res.img) document.getElementById('update-course-msg').innerText = res.img;
+            else if (res.msg) document.getElementById('update-course-msg').innerText = res.msg;
+            if (res.success) setTimeout(() => window.location.href = "course_view.php", 1500);
+          });
+        }
+      });
+    </script>
   </head>
   <body>
     <div class="container-scroller">
@@ -145,107 +242,118 @@
               <div class="card">
                 <div class="card-body">
                   <h4 class="card-title">Update form</h4>
-                  <form action="#" method="post" class="form-sample">
-                    <p class="card-description mb-0"> Course Name: Programming with JAVA </p>  
-                    <p class="card-description"> Course ID: 1 </p>
-                    <div class="row">
-                      <div class="col-md-6">
-                        <div class="form-group row">
-                          <label class="col-sm-3 col-form-label">Name</label>
-                          <div class="col-sm-9">
-                            <input type="text" class="form-control" />
+                  <?php if (isset($course)) { ?>
+                    <form id="update-form" action="course_update.php" method="post" class="form-sample">
+                      <p class="card-description mb-0"> Course Name: <?php if (isset($course)) echo $course['Name']; ?> </p>
+                      <p class="card-description"> Course ID: <?php if (isset($course)) echo $course['Course_ID']; ?> </p>
+                      <div class="row">
+                        <div class="col-md-6">
+                          <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Name</label>
+                            <div class="col-sm-9">
+                              <input id="name" type="text" class="form-control" value="<?php if (isset($course)) echo $course['Name']; ?>" required/>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                      <div class="col-md-6">
-                        <div class="form-group row">
-                          <label class="col-sm-3 col-form-label">Description</label>
-                          <div class="col-sm-9">
-                            <textarea class="form-control" id="" rows="4"></textarea>
+                        <div class="col-md-6">
+                          <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Description</label>
+                            <div class="col-sm-9">
+                              <textarea id="desc" class="form-control" rows="4" required><?php if (isset($course)) echo $course['Description']; ?></textarea>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-md-6">
-                        <div class="form-group row">
-                          <label class="col-sm-3 col-form-label">Category</label>
-                          <div class="col-sm-9">
-                            <select class="form-control form-control-sm">
-                              <option>Software Engineering</option>
-                              <option>Networking</option>
-                              <option>Cyber Security</option>
-                              <option>Cloud Computing</option>
-                            </select>
+                        <div class="col-md-6">
+                          <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Category</label>
+                            <div class="col-sm-9">
+                              <select id="category" class="form-control form-control-sm" required>
+                                <?php foreach($categories as $category) {
+                                  if ($course['Category'] === $category['Category']) { ?>
+                                    <option value="<?= $category['Category']; ?>" selected><?= $category['Category']; ?></option>
+                                  <?php } else { ?>
+                                    <option value="<?= $category['Category']; ?>"><?= $category['Category']; ?></option>
+                                  <?php }
+                                } ?>
+                              </select>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                      <div class="col-md-6">
-                        <div class="form-group row">
-                          <label class="col-sm-3 col-form-label">Type</label>
-                          <div class="col-sm-9">
-                            <select class="form-control form-control-sm">
-                              <option>Free</option>
-                              <option>Paid</option>
-                            </select>
+                        <div class="col-md-6">
+                          <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Type</label>
+                            <div class="col-sm-9">
+                              <select id="course-type" class="form-control form-control-sm" required>
+                                <?php if ((float) $course['Price'] === 0.00) { ?>
+                                  <option value="free" selected>Free</option>
+                                  <option value="paid">Paid</option>
+                                <?php } else { ?>
+                                  <option value="free">Free</option>
+                                  <option value="paid" selected>Paid</option>
+                                <?php } ?>
+                              </select>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-md-6">
-                        <div class="form-group row">
-                          <label class="col-sm-3 col-form-label">Price</label>
-                          <div class="col-sm-9">
-                            <div class="form-group">
-                              <div class="input-group">
-                                <div class="input-group-prepend">
-                                  <span class="input-group-text bg-gradient-primary text-white">£</span>
+                        <div id="entry-lp" class="col-md-6">
+                          <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Entry LP</label>
+                            <div class="col-sm-9">
+                              <input id="entry_LP" type="number" class="form-control" min="0"/>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Goal LP</label>
+                            <div class="col-sm-9">
+                              <input id="goal_LP" type="number" class="form-control" min="1" required/>
+                            </div>
+                          </div>
+                        </div>
+                        <div id="price-container" class="col-md-6">
+                          <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Price</label>
+                            <div class="col-sm-9">
+                              <div class="form-group">
+                                <div class="input-group">
+                                  <div class="input-group-prepend">
+                                    <span class="input-group-text bg-gradient-primary text-white">£</span>
+                                  </div>
+                                  <input id="price" type="number" min="1" step="0.01" class="form-control"/>
                                 </div>
-                                <input type="number" step="any" class="form-control" aria-label="">
                               </div>
                             </div>
                           </div>
                         </div>
-                      </div>
-                      <div class="col-md-6">
-                        <div class="form-group row">
-                          <label class="col-sm-3 col-form-label">Entry LP</label>
-                          <div class="col-sm-9">
-                            <input type="number" class="form-control" />
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="row">   
-                      <div class="col-md-6">
-                        <div class="form-group row">
-                          <label class="col-sm-3 col-form-label">Goal LP</label>
-                          <div class="col-sm-9">
-                            <input type="number" class="form-control" />
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-md-6">
-                        <div class="form-group row">
-                          <label class="col-sm-3 col-form-label">Learning Material</label>
-                          <div class="col-sm-9">
-                            <input type="file" name="" class="file-upload-default">
-                            <div class="input-group col-xs-12">
-                              <input type="text" class="form-control file-upload-info" disabled placeholder="Upload Image">
-                              <span class="input-group-append">
-                                <button class="file-upload-browse btn btn-gradient-primary" type="button">Upload</button>
-                              </span>
+                        <div class="col-md-6">
+                          <div class="form-group row align-items-center">
+                            <label class="col-sm-3 col-form-label">Course Syllabus</label>
+                            <div class="col-sm-9">
+                              <input id="course-syllabus" role="button" type="file" required>
                             </div>
                           </div>
-                        </div> 
-                      </div>                                         
-                    </div>
-                    <div class="d-flex justify-content-around">
-                      <button type="submit" class="btn-lg btn-gradient-success btn-fw">Update</button>
-                      <button type="reset" class="btn-lg btn-gradient-danger btn-fw">Clear</button>
-                    </div>                 
-                  </form>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="form-group row align-items-center">
+                            <label class="col-sm-3 col-form-label">Course Image</label>
+                            <div class="col-sm-9">
+                              <input id="course-img" role="button" type="file" required>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="d-flex justify-content-around">
+                        <button type="submit" class="btn-lg btn-gradient-success btn-fw">Update</button>
+                        <button type="reset" class="btn-lg btn-gradient-danger btn-fw">Clear</button>
+                      </div>
+                      <div class="d-flex justify-content-center">
+                        <p id="update-course-msg" class="text-danger"></p>
+                      </div>
+                    </form>
+                  <?php } else { ?>
+                    <p class="text-danger card-description mb-0">No Record found.</p>
+                  <?php } ?>
                 </div>
               </div>
             </div>
@@ -281,3 +389,4 @@
     <!-- End custom js for this page -->
   </body>
 </html>
+<?php mysqli_close($conn); ?>
