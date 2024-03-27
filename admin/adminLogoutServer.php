@@ -4,8 +4,8 @@
     if ($_SERVER['REQUEST_METHOD'] === "GET") {
         // Clear Session data of authorised admin
         if (isset($_SESSION['admin']) && $_SESSION['admin_authorised'] === true) {
-            session_unset();
-            session_destroy();
+            unset($_SESSION['admin']);
+            unset($_SESSION['admin_authorised']);
 
             $response['msg'] = "Signing out is successful.";
             $response['success'] = true;

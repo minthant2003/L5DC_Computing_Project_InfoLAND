@@ -6,8 +6,8 @@
         if (isset($_COOKIE['learner_id']) && $_SESSION['learner_authorised'] === true) {
             setcookie("learner_id", "", time() - 60*60, "/");            
 
-            session_unset();
-            session_destroy();
+            unset($_SESSION['learner']);
+            unset($_SESSION['learner_authorised']);
 
             $response['msg'] = "Logging out is successful. Please wait for a moment.";
             $response['success'] = true;
@@ -15,8 +15,8 @@
         
         // Unset Session of the authorised learner
         elseif (empty($_COOKIE['learner_id']) && isset($_SESSION['learner']) && $_SESSION['learner_authorised'] === true) {
-            session_unset();
-            session_destroy();
+            unset($_SESSION['learner']);
+            unset($_SESSION['learner_authorised']);
 
             $response['msg'] = "Logging out is successful. Please wait for a moment.";
             $response['success'] = true;
