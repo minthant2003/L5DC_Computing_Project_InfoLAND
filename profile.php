@@ -10,6 +10,125 @@
   <?php include("cssExternal.html"); ?>
   <script type="text/javascript">
     document.addEventListener('DOMContentLoaded', () => {
+      // Get the Learner ID
+      const body = document.querySelector('body');
+      let id = body.dataset.id;
+
+      let parser = new DOMParser();
+
+      // Enrolled Courses
+      const viewEnrolledCourses = async () => {
+        const enroll_t_body = document.getElementById('enroll-t-body');
+        let success = 0;
+
+        enroll_t_body.innerHTML = "";
+        
+        let response = await fetch(`viewEnrollOrCompleteCourses.php?id=${id}&success=${success}`, { method: "GET" });
+        let res = await response.json();
+
+        // Records found or Not
+        if (res.hasRecords) {
+          let courses = res.courses;
+
+          courses.forEach((course) => {
+            let nodeString = `
+              <table>
+                <tbody>
+                  <tr>
+                    <td>
+                      <a href="course.php?id=${course.Course_ID}"><img src="course_img/${course.Image}" alt="Course image" 
+                        class="alignleft img-thumbnail" style="max-width:60px; margin: 0 10px">${course.Name}</a>
+                    </td>
+                    <td>
+                      In progress
+                    </td>
+                    <td>
+                      <a type="button" href="takeCourse&Quizzes.php?id=${course.Course_ID}" 
+                        class="btn btn-primary">Take Course & Quizzes</a>                      
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            `;
+            let DOM = parser.parseFromString(nodeString, 'text/html');
+            let nodeHTML = DOM.firstChild.children[1].children[0].children[0].children[0];
+            
+            enroll_t_body.append(nodeHTML);
+          });
+        } else {          
+          let nodeString = `
+            <table>
+              <tbody>
+                <tr>
+                  <td colspan="3">${res.msg}</td>
+                </tr>
+              </tbody>
+            </table>
+          `;
+          let DOM = parser.parseFromString(nodeString, 'text/html');
+          let nodeHTML = DOM.firstChild.children[1].children[0].children[0].children[0];
+          
+          enroll_t_body.append(nodeHTML);     
+        }
+      }
+
+      // Completed Courses
+      const viewCompletedCourses = async () => {
+        const complete_t_body = document.getElementById('complete-t-body');
+        let success = 1;
+
+        complete_t_body.innerHTML = "";
+        
+        let response = await fetch(`viewEnrollOrCompleteCourses.php?id=${id}&success=${success}`, { method: "GET" });
+        let res = await response.json();
+
+        // Records found or Not
+        if (res.hasRecords) {
+          let courses = res.courses;
+
+          courses.forEach((course) => {
+            let nodeString = `
+              <table>
+                <tbody>
+                  <tr>
+                    <td>
+                      <a href="course.php?id=${course.Course_ID}"><img src="course_img/${course.Image}" alt="Course Image" 
+                        class="alignleft img-thumbnail" style="max-width:60px; margin: 0 10px">${course.Name}</a>
+                    </td>
+                    <td>
+                      Completed
+                    </td>
+                    <td>
+                      <button data-id="${course.Course_ID}" class="btn btn-default">Take Certificate</button>
+                      <a href="takeCourse&Quizzes.php?id=${course.Course_ID}" type="button" 
+                        class="btn btn-success">Re-visit the course</a>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            `;
+            let DOM = parser.parseFromString(nodeString, 'text/html');
+            let nodeHTML = DOM.firstChild.children[1].children[0].children[0].children[0];
+            
+            complete_t_body.append(nodeHTML);
+          });
+        } else {          
+          let nodeString = `
+            <table>
+              <tbody>
+                <tr>
+                  <td colspan="3">${res.msg}</td>
+                </tr>
+              </tbody>
+            </table>
+          `;
+          let DOM = parser.parseFromString(nodeString, 'text/html');
+          let nodeHTML = DOM.firstChild.children[1].children[0].children[0].children[0];
+          
+          complete_t_body.append(nodeHTML);     
+        }
+      }
+
       // Edit form show impl
       document.getElementById('profile-edit-btn').addEventListener('click', (event) => {
         event.preventDefault();
@@ -71,10 +190,14 @@
           setTimeout(() => window.location.href = "index.php", 1500);
         }
       })
+
+      // Page Loaded
+      viewEnrolledCourses();
+      viewCompletedCourses();
     })
   </script>
 </head>
-<body>
+<body data-id="<?php if (isset($_SESSION['learner'])) echo $_SESSION['learner']['id']; ?>">
   <?php include("loader.html"); ?>
 
   <div id="wrapper">
@@ -193,7 +316,7 @@
               </div>
               <hr class="invis">
 
-              <h1 class="course-title">In-progress Courses</h1>
+              <h1 class="course-title">Enrolled Courses</h1>
               <div class="in-progress">
                 <table class="table table-bordered">
                   <thead>
@@ -203,46 +326,11 @@
                       <th>Action</th>
                     </tr>
                   </thead>
-                  <tbody>
-                    <tr>
-                      <td>
-                        <a href="course.php"><img src="upload/xcourse_01.png.pagespeed.ic.XTOvCuUmZu.png" alt="" class="alignleft img-thumbnail" style="max-width:60px; margin: 0 10px">Web Design & Development</a>
-                      </td>
-                      <td>
-                        In progress
-                      </td>
-                      <td>
-                        <form action="download_Quiz.php" method="post">
-                          <button type="submit" class="btn btn-primary">Take Course & Quizzes</button>
-                        </form>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <a href="course.php"><img src="upload/xcourse_02.png.pagespeed.ic.PL7Wu2UcSB.png" alt="" class="alignleft img-thumbnail" style="max-width:60px; margin: 0 10px">Network System Design & Development</a>
-                      </td>
-                      <td>
-                        In progress
-                      </td>
-                      <td>
-                        <form action="download_Quiz.php" method="post">
-                          <button type="submit" class="btn btn-primary">Take Course & Quizzes</button>
-                        </form>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <a href="course.php"><img src="upload/xcourse_03.png.pagespeed.ic.8e1MyY5M7i.png" alt="" class="alignleft img-thumbnail" style="max-width:60px; margin: 0 10px">Programming Concepts & Logic</a>
-                      </td>
-                      <td>
-                        In progress
-                      </td>
-                      <td>
-                        <form action="download_Quiz.php" method="post">
-                          <button type="submit" class="btn btn-primary">Take Course & Quizzes</button>
-                        </form>
-                      </td>
-                    </tr>
+                  <tbody id="enroll-t-body">
+                    <!-- Data Rendered by javascript -->
+
+
+                    <!-- Data Rendered by javascript -->
                   </tbody>
                 </table>
               </div>
@@ -258,35 +346,11 @@
                       <th>Action</th>
                     </tr>
                   </thead>
-                  <tbody>
-                    <tr>
-                      <td>
-                        <a href="course.php"><img src="upload/xcourse_04.png.pagespeed.ic.2rIKmUwjA7.png" alt="" class="alignleft img-thumbnail" style="max-width:60px; margin: 0 10px">Cyber Security</a>
-                      </td>
-                      <td>
-                        Completed
-                      </td>
-                      <td>
-                        <form action="profile.php" method="post">
-                          <button type="submit" class="btn btn-default">Take Certificate</button>
-                          <button type="submit" class="btn btn-success">Re-visit the course</button>
-                        </form>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <a href="course.php"><img src="upload/xcourse_05.png.pagespeed.ic.mrKpzOf8LX.png" alt="" class="alignleft img-thumbnail" style="max-width:60px; margin: 0 10px">Cloud Computing</a>
-                      </td>
-                      <td>
-                        Completed
-                      </td>
-                      <td>
-                        <form action="profile.php" method="post">
-                          <button type="submit" class="btn btn-default">Take Certificate</button>
-                          <button type="submit" class="btn btn-success">Re-visit the course</button>
-                        </form>
-                      </td>
-                    </tr>
+                  <tbody id="complete-t-body">
+                    <!-- Data Rendered by javascript -->
+
+
+                    <!-- Data Rendered by javascript -->
                   </tbody>
                 </table>
               </div>
