@@ -86,7 +86,7 @@
 
                         // Insert into Quiz table (Success)
                         if (mysqli_stmt_execute($stmt)) {
-                            $sql = "SELECT * FROM quiz WHERE Question=?";
+                            $sql = "SELECT * FROM quiz WHERE Question=?"; // UNIQUE QUESTION FOR EACH QUIZ *
                             $stmt = mysqli_prepare($conn, $sql);
                             mysqli_stmt_bind_param($stmt, "s", $quest);
                             mysqli_stmt_execute($stmt);
