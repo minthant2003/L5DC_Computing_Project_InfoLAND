@@ -18,6 +18,222 @@
     <link rel="stylesheet" href="../../assets/css/style.css">
     <!-- End layout styles -->
     <link rel="shortcut icon" href="../../assets/images/tabicon.ico" />
+    <script type="text/javascript">
+      document.addEventListener('DOMContentLoaded', async () => {
+        let quizContainer = document.getElementById('quiz-container');
+
+        let params = new URLSearchParams(window.location.search);
+        let courseID = params.get('id');           
+
+        // Method for Rendering Quizzzes data
+        const renderQuizzes = async () => {
+          let parser = new DOMParser();
+          let counter = 0;
+
+          quizContainer.innerHTML = "";
+
+          let response = await fetch(`renderQuizzesServer.php?id=${courseID}`, { method: "GET" });
+          let quizzes = await response.json();
+
+          quizzes.forEach(quiz => {
+            counter++;
+            let nodeString = `
+              <div class="col-12 stretch-card grid-margin">
+                <div class="card">
+                  <div class="card-body">
+                    <h3 class="page-title mb-4"> Quiz Number ${counter} </h3>
+                    <form class="update-form" action="quizzes.php" method="post">
+                      <div>
+                        <div class="d-flex">
+                          <p class="me-2 mb-4">Q)</p>
+                          <p class="mb-4">${quiz.quest}</p>
+                        </div>                    
+                        <div class="d-flex">
+                          <p class="me-2 mb-0">a)</p>
+                          <p class="mb-0">${quiz.opts[0].text}</p>
+                        </div>
+                        <div class="d-flex">
+                          <p class="me-2 mb-0">b)</p>
+                          <p class="mb-0">${quiz.opts[1].text}</p>
+                        </div>
+                        <div class="d-flex">
+                          <p class="me-2">c)</p>
+                          <p>${quiz.opts[2].text}</p>
+                        </div>
+                        <div class="d-flex mb-4 align-items-center">
+                          <div class="d-flex">
+                            <p class="me-2 mb-0">Right answer is</p>
+                            <mark class="bg-warning text-white mb-0">${quiz.ans}</mark>
+                          </div>                          
+                        </div>
+                        <div class="d-flex flex-wrap justify-content-around">
+                          <button type="button" class="btn-lg btn-gradient-primary btn-fw">Update</button>
+                          <button type="button" class="btn-lg btn-gradient-danger btn-fw" data-id="${quiz.id}">Delete</button>
+                        </div>
+                      </div>
+                      <div class="d-none">
+                        <div class="d-flex">
+                          <p class="me-2 mb-4">Q)</p>
+                          <textarea class="quest form-control mb-4" rows="3" placeholder="Enter the Question" required>${quiz.quest}</textarea>
+                        </div>
+                        <div class="d-flex">
+                          <p class="me-2 mb-0">a)</p>
+                          <textarea class="opt-1 form-control mb-1" rows="3" placeholder="Enter the first option" 
+                            data-id="${quiz.opts[0].id}" required>${quiz.opts[0].text}</textarea>
+                        </div>
+                        <div class="d-flex">
+                          <p class="me-2 mb-0">b)</p>
+                          <textarea class="opt-2 form-control mb-1" rows="3" placeholder="Enter the second option" 
+                            data-id="${quiz.opts[1].id}" required>${quiz.opts[1].text}</textarea>
+                        </div>
+                        <div class="d-flex">
+                          <p class="me-2">c)</p>
+                          <textarea class="opt-3 form-control mb-4" rows="3" placeholder="Enter the third option" 
+                            data-id="${quiz.opts[2].id}" required>${quiz.opts[2].text}</textarea>
+                        </div>
+                        <div class="d-flex mb-4 align-items-center">
+                          <div>
+                            <p class="me-2 mb-0">Right answer is</p>
+                          </div>
+                          <div class="d-flex">
+                            <div class="form-check me-3">
+                              <label class="form-check-label">
+                                <input type="radio" class="form-check-input" name="opt-${counter}" value="a" required>
+                                a <i class="input-helper"></i>
+                              </label>
+                            </div>
+                            <div class="form-check me-3">
+                              <label class="form-check-label">
+                                <input type="radio" class="form-check-input" name="opt-${counter}" value="b">
+                                b <i class="input-helper"></i>
+                              </label>
+                            </div>
+                            <div class="form-check">
+                              <label class="form-check-label">
+                                <input type="radio" class="form-check-input" name="opt-${counter}" value="c">
+                                c <i class="input-helper"></i>
+                              </label>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="d-flex mb-4 flex-wrap justify-content-around">
+                          <button type="submit" class="update-btn btn-lg btn-gradient-success btn-fw" data-id="${quiz.id}">Submit</button>
+                          <button type="reset" class="btn-lg btn-gradient-danger btn-fw">Reset</button>
+                          <button type="button" class="btn-lg btn-gradient-info btn-fw">Cancel</button>
+                        </div>
+                        <div class="d-flex justify-content-center">
+                          <p class="update-msg text-danger"></p>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            `;
+            let DOM = parser.parseFromString(nodeString, 'text/html');
+            let nodeHTML = DOM.firstChild.children[1].children[0];
+
+            quizContainer.append(nodeHTML);
+          });
+
+          updateFormsAddEvent();
+        }
+
+        // Method for Update Form submit
+        const updateFormsAddEvent = () => {
+          let updateFormsNodeList = document.querySelectorAll('.update-form');
+          let updateFormsArr = Array.from(updateFormsNodeList);
+
+          updateFormsArr.forEach(updateForm => {
+            updateForm.addEventListener('submit', async (event) => {
+              event.preventDefault();
+              let updateFormElem = event.target;
+              
+              updateFormElem.children[1].querySelector('.update-msg').innerText = "";
+
+              let quiz = new FormData();
+              let opt_1 = {}, opt_2 = {}, opt_3 = {};
+              let opts = [];
+
+              let quizID = updateFormElem.children[1].querySelector('.update-btn').dataset.id;
+              let quest = updateFormElem.children[1].querySelector('.quest').value;
+              let opt_1_text = updateFormElem.children[1].querySelector('.opt-1').value;
+              let opt_1_id = updateFormElem.children[1].querySelector('.opt-1').dataset.id;
+              let opt_2_text = updateFormElem.children[1].querySelector('.opt-2').value;
+              let opt_2_id = updateFormElem.children[1].querySelector('.opt-2').dataset.id;
+              let opt_3_text = updateFormElem.children[1].querySelector('.opt-3').value;
+              let opt_3_id = updateFormElem.children[1].querySelector('.opt-3').dataset.id;
+              let ans = updateFormElem.children[1].querySelector('input[type="radio"]:checked').value;
+
+              opt_1.id = opt_1_id;
+              opt_1.text = opt_1_text;
+              opt_2.id = opt_2_id;
+              opt_2.text = opt_2_text;
+              opt_3.id = opt_3_id;
+              opt_3.text = opt_3_text;
+
+              opts.push(opt_1);
+              opts.push(opt_2);
+              opts.push(opt_3);
+
+              quiz.append('id', quizID);
+              quiz.append('quest', quest);
+              quiz.append('ans', ans);
+              quiz.append('opts', JSON.stringify(opts));
+
+              let response = await fetch('quizUpdateServer.php', {
+                method: "POST",
+                body: quiz
+              });
+              let res = await response.json();
+
+              if (res.msg) updateFormElem.children[1].querySelector('.update-msg').innerText = res.msg;
+              if (res.success) setTimeout(() => renderQuizzes() , 1500);
+            });
+          });
+        }
+
+        // Page Loaded
+        renderQuizzes();
+
+        // Update Form Control Centre
+        quizContainer.addEventListener('click', async (event) => {
+          let elem = event.target;
+
+          if (elem.tagName === 'BUTTON' && elem.innerText === 'Update') {
+            event.preventDefault();
+            let formDiv = elem.parentNode.parentNode.parentNode;
+            
+            formDiv.children[0].classList.toggle('d-none');
+            formDiv.children[1].classList.toggle('d-none');
+          } else if (elem.tagName === 'BUTTON' && elem.innerText === 'Cancel') {
+            event.preventDefault();
+            let formDiv = elem.parentNode.parentNode.parentNode;
+
+            formDiv.children[0].classList.toggle('d-none');
+            formDiv.children[1].classList.toggle('d-none');
+          } 
+          else if (elem.tagName === 'BUTTON' && elem.innerText === 'Delete') {
+            // Logic for Quiz Delete
+            let quizzesDiv = quizContainer.children;
+            
+            if (quizzesDiv.length <= 3) {
+              alert('Could not Delete. Each Course must have at least 3 Quizzes.');
+            } else {
+              if (confirm('Are you sure you want to Delete the Quiz?')) {
+                let quizID = elem.dataset.id;
+
+                let response = await fetch(`quizDeleteServer.php?id=${quizID}`, { method: "GET" });
+                let res = await response.json();
+
+                if (res.msg) alert(res.msg);
+                if (res.success) renderQuizzes();
+              }
+            }
+          }
+        });        
+      });
+    </script>
   </head>
   <body>
     <div class="container-scroller">
@@ -140,185 +356,12 @@
                   <li class="breadcrumb-item active" aria-current="page">Quizzes</li>
                 </ol>
               </nav>
-            </div>   
-            <div class="row">
-              <div class="col-12 stretch-card grid-margin">
-                <div class="card">
-                  <div class="card-body">
-                    <h3 class="page-title mb-4"> Quiz Number 1 </h3>                    
-                    <form action="#" method="post">
-                      <div class="d-flex">
-                        <p class="me-2 mb-4">Q)</p>
-                        <p class="mb-4">What is HTML? What is HTML? What is HTML? What is HTML?</p>
-                        <!-- <textarea class="form-control mb-4" id="" rows="3" placeholder="Enter the Question"></textarea> -->
-                      </div>                    
-                      <div class="d-flex">
-                        <p class="me-2 mb-0">a)</p>
-                        <p class="mb-0">HTML is a programming language. HTML is a programming language.</p>
-                        <!-- <textarea class="form-control mb-1" id="" rows="3" placeholder="Enter the first answer"></textarea> -->
-                      </div>
-                      <div class="d-flex">
-                        <p class="me-2 mb-0">b)</p>
-                        <p class="mb-0">It is a style-sheet language.</p>
-                        <!-- <textarea class="form-control mb-1" id="" rows="3" placeholder="Enter the second answer"></textarea> -->
-                      </div>
-                      <div class="d-flex">
-                        <p class="me-2">c)</p>
-                        <p class="">HTML is used in networking device.</p>
-                        <!-- <textarea class="form-control mb-4" id="" rows="3" placeholder="Enter the third answer"></textarea> -->
-                      </div>
-                      <div class="d-flex mb-4 align-items-center">
-                        <p class="me-2 mb-0">Right answer is</p>
-                        <mark class="bg-warning text-white mb-0">a</mark>
-                        <!-- <div class="d-flex">
-                          <div class="form-check me-3">
-                            <label class="form-check-label">
-                              <input type="radio" class="form-check-input" name="membershipRadios" id="" value="" checked>
-                              a <i class="input-helper"></i>
-                            </label>
-                          </div>
-                          <div class="form-check me-3">
-                            <label class="form-check-label">
-                              <input type="radio" class="form-check-input" name="membershipRadios" id="" value="">
-                              b <i class="input-helper"></i>
-                            </label>
-                          </div>
-                          <div class="form-check">
-                            <label class="form-check-label">
-                              <input type="radio" class="form-check-input" name="membershipRadios" id="" value="">
-                              c <i class="input-helper"></i>
-                            </label>
-                          </div>
-                        </div> -->
-                      </div>
-                      <div class="d-flex flex-wrap justify-content-around">
-                        <button type="button" class="btn-lg btn-gradient-primary btn-fw">Update</button>
-                        <!-- <button type="submit" class="btn-lg btn-gradient-success btn-fw">Submit</button>
-                        <button type="reset" class="btn-lg btn-gradient-danger btn-fw">Reset</button>
-                        <button type="button" class="btn-lg btn-gradient-info btn-fw">Cancel</button> -->
-                      </div>
-                    </form>
-                  </div>
-                </div>
-              </div>   
-              <div class="col-12 stretch-card grid-margin">
-                <div class="card">
-                  <div class="card-body">
-                    <h3 class="page-title mb-4"> Quiz Number 1 </h3>                    
-                    <form action="#" method="post">
-                      <div class="d-flex">
-                        <p class="me-2 mb-4">Q)</p>
-                        <p class="mb-4">What is HTML? What is HTML? What is HTML? What is HTML?</p>
-                        <!-- <textarea class="form-control mb-4" id="" rows="3" placeholder="Enter the Question"></textarea> -->
-                      </div>                    
-                      <div class="d-flex">
-                        <p class="me-2 mb-0">a)</p>
-                        <p class="mb-0">HTML is a programming language. HTML is a programming language.</p>
-                        <!-- <textarea class="form-control mb-1" id="" rows="3" placeholder="Enter the first answer"></textarea> -->
-                      </div>
-                      <div class="d-flex">
-                        <p class="me-2 mb-0">b)</p>
-                        <p class="mb-0">It is a style-sheet language.</p>
-                        <!-- <textarea class="form-control mb-1" id="" rows="3" placeholder="Enter the second answer"></textarea> -->
-                      </div>
-                      <div class="d-flex">
-                        <p class="me-2">c)</p>
-                        <p class="">HTML is used in networking device.</p>
-                        <!-- <textarea class="form-control mb-4" id="" rows="3" placeholder="Enter the third answer"></textarea> -->
-                      </div>
-                      <div class="d-flex mb-4 align-items-center">
-                        <p class="me-2 mb-0">Right answer is</p>
-                        <mark class="bg-warning text-white mb-0">a</mark>
-                        <!-- <div class="d-flex">
-                          <div class="form-check me-3">
-                            <label class="form-check-label">
-                              <input type="radio" class="form-check-input" name="membershipRadios" id="" value="" checked>
-                              a <i class="input-helper"></i>
-                            </label>
-                          </div>
-                          <div class="form-check me-3">
-                            <label class="form-check-label">
-                              <input type="radio" class="form-check-input" name="membershipRadios" id="" value="">
-                              b <i class="input-helper"></i>
-                            </label>
-                          </div>
-                          <div class="form-check">
-                            <label class="form-check-label">
-                              <input type="radio" class="form-check-input" name="membershipRadios" id="" value="">
-                              c <i class="input-helper"></i>
-                            </label>
-                          </div>
-                        </div> -->
-                      </div>
-                      <div class="d-flex flex-wrap justify-content-around">
-                        <button type="button" class="btn-lg btn-gradient-primary btn-fw">Update</button>
-                        <!-- <button type="submit" class="btn-lg btn-gradient-success btn-fw">Submit</button>
-                        <button type="reset" class="btn-lg btn-gradient-danger btn-fw">Reset</button>
-                        <button type="button" class="btn-lg btn-gradient-info btn-fw">Cancel</button> -->
-                      </div>
-                    </form>
-                  </div>
-                </div>
-              </div>
-              <div class="col-12 stretch-card grid-margin">
-                <div class="card">
-                  <div class="card-body">
-                    <h3 class="page-title mb-4"> Quiz Number 1 </h3>                    
-                    <form action="#" method="post">
-                      <div class="d-flex">
-                        <p class="me-2 mb-4">Q)</p>
-                        <p class="mb-4">What is HTML? What is HTML? What is HTML? What is HTML?</p>
-                        <!-- <textarea class="form-control mb-4" id="" rows="3" placeholder="Enter the Question"></textarea> -->
-                      </div>                    
-                      <div class="d-flex">
-                        <p class="me-2 mb-0">a)</p>
-                        <p class="mb-0">HTML is a programming language. HTML is a programming language.</p>
-                        <!-- <textarea class="form-control mb-1" id="" rows="3" placeholder="Enter the first answer"></textarea> -->
-                      </div>
-                      <div class="d-flex">
-                        <p class="me-2 mb-0">b)</p>
-                        <p class="mb-0">It is a style-sheet language.</p>
-                        <!-- <textarea class="form-control mb-1" id="" rows="3" placeholder="Enter the second answer"></textarea> -->
-                      </div>
-                      <div class="d-flex">
-                        <p class="me-2">c)</p>
-                        <p class="">HTML is used in networking device.</p>
-                        <!-- <textarea class="form-control mb-4" id="" rows="3" placeholder="Enter the third answer"></textarea> -->
-                      </div>
-                      <div class="d-flex mb-4 align-items-center">
-                        <p class="me-2 mb-0">Right answer is</p>
-                        <mark class="bg-warning text-white mb-0">a</mark>
-                        <!-- <div class="d-flex">
-                          <div class="form-check me-3">
-                            <label class="form-check-label">
-                              <input type="radio" class="form-check-input" name="membershipRadios" id="" value="" checked>
-                              a <i class="input-helper"></i>
-                            </label>
-                          </div>
-                          <div class="form-check me-3">
-                            <label class="form-check-label">
-                              <input type="radio" class="form-check-input" name="membershipRadios" id="" value="">
-                              b <i class="input-helper"></i>
-                            </label>
-                          </div>
-                          <div class="form-check">
-                            <label class="form-check-label">
-                              <input type="radio" class="form-check-input" name="membershipRadios" id="" value="">
-                              c <i class="input-helper"></i>
-                            </label>
-                          </div>
-                        </div> -->
-                      </div>
-                      <div class="d-flex flex-wrap justify-content-around">
-                        <button type="button" class="btn-lg btn-gradient-primary btn-fw">Update</button>
-                        <!-- <button type="submit" class="btn-lg btn-gradient-success btn-fw">Submit</button>
-                        <button type="reset" class="btn-lg btn-gradient-danger btn-fw">Reset</button>
-                        <button type="button" class="btn-lg btn-gradient-info btn-fw">Cancel</button> -->
-                      </div>
-                    </form>
-                  </div>
-                </div>
-              </div>
+            </div>
+            <div id="quiz-container" class="row">
+              <!-- Data Rendered by javascript -->
+
+
+              <!-- Data Rendered by javascript -->
             </div>
           </div>
           <!-- content-wrapper ends -->
