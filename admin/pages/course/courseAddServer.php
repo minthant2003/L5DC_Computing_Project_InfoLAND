@@ -70,8 +70,8 @@
                     $stmt = mysqli_prepare($conn, $sql);
                     mysqli_stmt_bind_param($stmt, "s", $name);
                     mysqli_stmt_execute($stmt);
-                    $result = mysqli_stmt_get_result($stmt);
-                    $course = mysqli_fetch_assoc($result);
+                    $courseResult = mysqli_stmt_get_result($stmt);
+                    $course = mysqli_fetch_assoc($courseResult);
 
                     $courseId = $course['Course_ID'];
                     foreach ($quizzes as $quiz) {
@@ -90,8 +90,8 @@
                             $stmt = mysqli_prepare($conn, $sql);
                             mysqli_stmt_bind_param($stmt, "s", $quest);
                             mysqli_stmt_execute($stmt);
-                            $result = mysqli_stmt_get_result($stmt);
-                            $quiz = mysqli_fetch_assoc($result);
+                            $quizResult = mysqli_stmt_get_result($stmt);
+                            $quiz = mysqli_fetch_assoc($quizResult);
 
                             $quizId = $quiz['Quiz_ID'];
                             foreach ($opts as $opt) {
