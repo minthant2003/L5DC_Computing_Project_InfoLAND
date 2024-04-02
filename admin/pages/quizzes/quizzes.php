@@ -19,7 +19,7 @@
     <!-- End layout styles -->
     <link rel="shortcut icon" href="../../assets/images/tabicon.ico" />
     <script type="text/javascript">
-      document.addEventListener('DOMContentLoaded', async () => {
+      document.addEventListener('DOMContentLoaded', () => {
         let quizContainer = document.getElementById('quiz-container');
 
         let params = new URLSearchParams(window.location.search);
@@ -135,67 +135,58 @@
 
             quizContainer.append(nodeHTML);
           });
-
-          updateFormsAddEvent();
-        }
-
-        // Method for Update Form submit
-        const updateFormsAddEvent = () => {
-          let updateFormsNodeList = document.querySelectorAll('.update-form');
-          let updateFormsArr = Array.from(updateFormsNodeList);
-
-          updateFormsArr.forEach(updateForm => {
-            updateForm.addEventListener('submit', async (event) => {
-              event.preventDefault();
-              let updateFormElem = event.target;
-              
-              updateFormElem.children[1].querySelector('.update-msg').innerText = "";
-
-              let quiz = new FormData();
-              let opt_1 = {}, opt_2 = {}, opt_3 = {};
-              let opts = [];
-
-              let quizID = updateFormElem.children[1].querySelector('.update-btn').dataset.id;
-              let quest = updateFormElem.children[1].querySelector('.quest').value;
-              let opt_1_text = updateFormElem.children[1].querySelector('.opt-1').value;
-              let opt_1_id = updateFormElem.children[1].querySelector('.opt-1').dataset.id;
-              let opt_2_text = updateFormElem.children[1].querySelector('.opt-2').value;
-              let opt_2_id = updateFormElem.children[1].querySelector('.opt-2').dataset.id;
-              let opt_3_text = updateFormElem.children[1].querySelector('.opt-3').value;
-              let opt_3_id = updateFormElem.children[1].querySelector('.opt-3').dataset.id;
-              let ans = updateFormElem.children[1].querySelector('input[type="radio"]:checked').value;
-
-              opt_1.id = opt_1_id;
-              opt_1.text = opt_1_text;
-              opt_2.id = opt_2_id;
-              opt_2.text = opt_2_text;
-              opt_3.id = opt_3_id;
-              opt_3.text = opt_3_text;
-
-              opts.push(opt_1);
-              opts.push(opt_2);
-              opts.push(opt_3);
-
-              quiz.append('id', quizID);
-              quiz.append('quest', quest);
-              quiz.append('ans', ans);
-              quiz.append('opts', JSON.stringify(opts));
-
-              let response = await fetch('quizUpdateServer.php', {
-                method: "POST",
-                body: quiz
-              });
-              let res = await response.json();
-
-              if (res.msg) updateFormElem.children[1].querySelector('.update-msg').innerText = res.msg;
-              if (res.success) setTimeout(() => renderQuizzes() , 1500);
-            });
-          });
         }
 
         // Page Loaded
         renderQuizzes();
 
+        // Update Quiz Information
+        quizContainer.addEventListener('submit', async (event) => {
+          event.preventDefault();
+          let updateFormElem = event.target;
+          
+          updateFormElem.children[1].querySelector('.update-msg').innerText = "";
+
+          let quiz = new FormData();
+          let opt_1 = {}, opt_2 = {}, opt_3 = {};
+          let opts = [];
+
+          let quizID = updateFormElem.children[1].querySelector('.update-btn').dataset.id;
+          let quest = updateFormElem.children[1].querySelector('.quest').value;
+          let opt_1_text = updateFormElem.children[1].querySelector('.opt-1').value;
+          let opt_1_id = updateFormElem.children[1].querySelector('.opt-1').dataset.id;
+          let opt_2_text = updateFormElem.children[1].querySelector('.opt-2').value;
+          let opt_2_id = updateFormElem.children[1].querySelector('.opt-2').dataset.id;
+          let opt_3_text = updateFormElem.children[1].querySelector('.opt-3').value;
+          let opt_3_id = updateFormElem.children[1].querySelector('.opt-3').dataset.id;
+          let ans = updateFormElem.children[1].querySelector('input[type="radio"]:checked').value;
+
+          opt_1.id = opt_1_id;
+          opt_1.text = opt_1_text;
+          opt_2.id = opt_2_id;
+          opt_2.text = opt_2_text;
+          opt_3.id = opt_3_id;
+          opt_3.text = opt_3_text;
+
+          opts.push(opt_1);
+          opts.push(opt_2);
+          opts.push(opt_3);
+
+          quiz.append('id', quizID);
+          quiz.append('quest', quest);
+          quiz.append('ans', ans);
+          quiz.append('opts', JSON.stringify(opts));
+
+          let response = await fetch('quizUpdateServer.php', {
+            method: "POST",
+            body: quiz
+          });
+          let res = await response.json();
+
+          if (res.msg) updateFormElem.children[1].querySelector('.update-msg').innerText = res.msg;
+          if (res.success) setTimeout(() => renderQuizzes() , 1500);
+        });
+                
         // Update Form Control Centre
         quizContainer.addEventListener('click', async (event) => {
           let elem = event.target;
@@ -212,7 +203,7 @@
 
             formDiv.children[0].classList.toggle('d-none');
             formDiv.children[1].classList.toggle('d-none');
-          } 
+          }
           else if (elem.tagName === 'BUTTON' && elem.innerText === 'Delete') {
             // Logic for Quiz Delete
             let quizzesDiv = quizContainer.children;
