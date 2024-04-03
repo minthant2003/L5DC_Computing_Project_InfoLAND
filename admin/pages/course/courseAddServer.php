@@ -48,6 +48,42 @@
                 $response['msg'] = "Please select another Course Name.";
                 echo json_encode($response);
             } else {
+                $counter = 0;
+                $quests = [];
+
+                // Check whether Quiz Questions are Unique (Across Input Questions) 
+                foreach ($quizzes as $quiz) {
+                    $quest = $quiz['quest'];
+                    $quests[] = $quest;
+                }
+                if (sizeof($quests) !== sizeof(array_unique($quests))) {
+                    $response['msg'] = "The Questions of the Quizzes must be Unique.";
+                    echo json_encode($response);
+
+                    mysqli_close($conn);
+                    exit;
+                }
+
+                // Check whether Quiz Questions are Unique (with Database)
+                foreach ($quizzes as $quiz) {
+                    $counter++;
+                    $quest = $quiz['quest'];
+
+                    $sql = "SELECT * FROM quiz WHERE Question=?";
+                    $stmt = mysqli_prepare($conn, $sql);
+                    mysqli_stmt_bind_param($stmt, "s", $quest);
+                    mysqli_stmt_execute($stmt);
+                    $quizResult = mysqli_stmt_get_result($stmt);
+                    
+                    if (mysqli_num_rows($quizResult) === 1) {
+                        $response['msg'] = "The Question of Quiz Number {$counter} already exits in the System. Please choose the another one.";
+                        echo json_encode($response);
+    
+                        mysqli_close($conn);
+                        exit;
+                    }
+                }
+
                 // Free or Paid
                 if (isset($entry_LP) && isset($price)) {
                     $sql = "INSERT INTO course (Name, Description, Category, Entry_LP, Goal_LP, Price, Syllabus, Image)
@@ -117,3 +153,8 @@
     }
 
     mysqli_close($conn);
+
+    // 1. Validate
+    // 2. Insert into Course table
+    // 3. Insert into Quiz table
+    // 4. Insert into Options table

@@ -23,7 +23,7 @@
         let quizContainer = document.getElementById('quiz-container');
 
         let params = new URLSearchParams(window.location.search);
-        let courseID = params.get('id');           
+        let courseID = params.get('id');
 
         // Method for Rendering Quizzzes data
         const renderQuizzes = async () => {
@@ -222,7 +222,134 @@
               }
             }
           }
-        });        
+        });
+
+        // Append Quizzes according to the Number
+        const quizNumAdd = document.getElementById('quiz-num-add');
+
+        quizNumAdd.addEventListener('click', (event) => {
+          event.preventDefault();
+          const moreQuizContainer = document.getElementById('more-quiz-container');
+
+          moreQuizContainer.innerHTML = "";
+          let quizNum = document.getElementById('quiz-num').value;
+          let parser = new DOMParser();
+
+          for (let i = 1; i <= quizNum; i++) {
+            let nodeString = `
+              <div class="col-12 stretch-card grid-margin">
+                <div class="card">
+                  <div class="card-body">
+                    <h3 class="page-title mb-4"> Quiz Number ${i} </h3>                      
+                    <div class="d-flex">
+                      <p class="me-2 mb-4">Q)</p>
+                      <textarea class="question form-control mb-4" rows="3" placeholder="Enter the Question" required></textarea>
+                    </div>                    
+                    <div class="d-flex">
+                      <p class="me-2 mb-0">a)</p>                        
+                      <textarea class="first-opt form-control mb-1" rows="3" placeholder="Enter the first Option" required></textarea>
+                    </div>
+                    <div class="d-flex">
+                      <p class="me-2 mb-0">b)</p>                        
+                      <textarea class="second-opt form-control mb-1" rows="3" placeholder="Enter the second Option" required></textarea>
+                    </div>
+                    <div class="d-flex">
+                      <p class="me-2">c)</p>                        
+                      <textarea class="third-opt form-control mb-4" rows="3" placeholder="Enter the third Option" required></textarea>
+                    </div>
+                    <div class="d-flex mb-4 align-items-center">
+                      <p class="me-2 mb-0">Right answer is</p>
+                      <div class="d-flex">
+                        <div class="form-check me-3">
+                          <label class="form-check-label">
+                            <input type="radio" class="form-check-input" name="rightAns_${i}" value="a" required>
+                            a <i class="input-helper"></i>
+                          </label>
+                        </div>
+                        <div class="form-check me-3">
+                          <label class="form-check-label">
+                            <input type="radio" class="form-check-input" name="rightAns_${i}" value="b">
+                            b <i class="input-helper"></i>
+                          </label>
+                        </div>
+                        <div class="form-check">
+                          <label class="form-check-label">
+                            <input type="radio" class="form-check-input" name="rightAns_${i}" value="c">
+                            c <i class="input-helper"></i>
+                          </label>
+                        </div>
+                      </div>
+                    </div>                                        
+                  </div>
+                </div>
+              </div>
+            `;
+            let DOM = parser.parseFromString(nodeString, 'text/html');
+            let nodeHTML = DOM.firstChild.children[1].children[0];
+            
+            moreQuizContainer.append(nodeHTML);
+          }
+        });
+
+        // Add More Quizzes
+        const addMoreQuizzesForm = document.getElementById('add-more-quizzes-form');
+
+        addMoreQuizzesForm.addEventListener('submit', async (event) => {
+          event.preventDefault();
+          document.getElementById('add-quizzes-msg').innerText = "";
+
+          const moreQuizContainer = document.getElementById('more-quiz-container');
+
+          if (moreQuizContainer.children.length === 0) {
+            document.getElementById('add-quizzes-msg').innerText = "Add Quizzes first.";
+          } else {
+            let moreQuizzes = new FormData();
+            // HTMLCollection to Array
+            let quizzes_collection = moreQuizContainer.children;
+            let quizzes_array = [...quizzes_collection];
+            // Quizzes data
+            let quizzes = [];
+
+            quizzes_array.forEach(quizDiv => {
+              let quiz = {};
+              
+              let opts = [];
+              let opt_1 = {}, opt_2 = {}, opt_3 = {};
+              
+              opt_1.text = quizDiv.getElementsByClassName('first-opt')[0].value;
+              opt_2.text = quizDiv.getElementsByClassName('second-opt')[0].value;
+              opt_3.text = quizDiv.getElementsByClassName('third-opt')[0].value;
+              opts.push(opt_1);
+              opts.push(opt_2);
+              opts.push(opt_3);
+              
+              quiz.quest = quizDiv.getElementsByClassName('question')[0].value;
+              quiz.opts = opts;
+              quiz.ans = quizDiv.querySelector('input[type="radio"]:checked').value;
+              
+              quizzes.push(quiz);
+            });
+
+            moreQuizzes.append('courseID', courseID);
+            moreQuizzes.append('quizzes', JSON.stringify(quizzes));
+
+            let response = await fetch('moreQuizzesAddServer.php', {
+              method: "POST",
+              body: moreQuizzes
+            });
+            let res = await response.json();
+
+            if (res.msg) document.getElementById('add-quizzes-msg').innerText = res.msg;
+            if (res.success) {
+              setTimeout(() => {
+                renderQuizzes();
+                moreQuizContainer.innerHTML = "";
+                document.getElementById('quiz-num').value = "";
+                document.getElementById('add-quizzes-msg').innerText = "";
+              }, 1500);
+            }
+          }
+        });
       });
     </script>
   </head>
@@ -354,6 +481,40 @@
 
               <!-- Data Rendered by javascript -->
             </div>
+            <form id="add-more-quizzes-form" action="quizzes.php" method="post">
+              <div class="row">
+                <div class="col-12 stretch-card grid-margin">
+                  <div class="card">
+                    <div class="card-body row align-items-center">
+                      <div class="col-8">
+                        <div class="form-group row align-items-center mb-0">
+                          <label class="col-6 col-form-label">Add More Quizzes</label>
+                          <div class="col-6">
+                            <input id="quiz-num" type="number" class="form-control" min="1" required/>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-4">
+                        <button id="quiz-num-add" class="btn btn-gradient-info" type="button">Add</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div id="more-quiz-container">
+                  <!-- Data rendered by Javascript -->
+  
+  
+                  <!-- Data rendered by Javascript -->
+                </div>
+                <div class="col-12 d-flex justify-content-around">
+                  <button type="submit" class="btn-lg btn-gradient-success btn-fw">Add Quizzes</button>
+                  <button type="reset" class="btn-lg btn-gradient-danger btn-fw">Clear</button>
+                </div>
+                <div class="d-flex justify-content-center">
+                  <p id="add-quizzes-msg" class="text-danger"></p>
+                </div>
+              </div>
+            </form>
           </div>
           <!-- content-wrapper ends -->
           <!-- partial:../../partials/_footer.php -->
