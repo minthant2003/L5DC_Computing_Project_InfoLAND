@@ -154,11 +154,16 @@
               <small>Course Syllabus for : <span><a href="course.php?id=<?php if (isset($course)) echo $course['Course_ID']; ?>">
                 <?php if (isset($course)) echo $course['Name']; ?></a></span> </small>
               <h3 class="course-title">Course Syllabus</h3>
-              <!--  -->
-              <!--  -->
-              <a href="takeCourse&Quizzes.php">Click Here to get the Full Course for Web Design & Development.</a>
-              <!--  -->
-              <!--  -->
+              <canvas id="syllabus-viewer" data-syllabus="<?php if (isset($course)) echo $course['Syllabus']; ?>"></canvas>
+              <div style="display: flex; justify-content: center; align-items: center;">
+                <div style="margin-right: 15px;">
+                  <button id="prev" class="btn btn-default">Prev</button>
+                  <button id="next" class="btn btn-default">Next</button>
+                </div>
+                <div>
+                  Showing <span id="current-page"></span> of <span id="num-pages"></span> Pages
+                </div>
+              </div>
               <hr class="invis">
 
               <?php if (isset($course) && $course['Success'] === 0) { ?>
@@ -196,6 +201,7 @@
   </div>
 
   <?php include("jsExternal.html"); ?>
+  <script src="my_js/courseSyllabusViewer.js" type="module"></script>
 </body>
 </html>
 <?php mysqli_close($conn); ?>
