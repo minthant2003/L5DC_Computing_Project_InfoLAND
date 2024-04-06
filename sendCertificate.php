@@ -43,7 +43,7 @@
             $mail->Port = "465";
     
             // Parameter
-            $mail->setFrom("mathanwinn2@gmail.com", "Ma Than Win");
+            $mail->setFrom("", "");
             $mail->addAddress($receiptEmail, $receiptFullname);
             $mail->addStringAttachment($certificateAttach, "certificate.png");
     
