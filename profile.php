@@ -99,7 +99,8 @@
                       Completed
                     </td>
                     <td>
-                      <button data-id="${course.Course_ID}" class="btn btn-default">Take Certificate</button>
+                      <button data-id="${course.Course_ID}" data-certificate="${course.Certificate}" 
+                        class="take-certificate btn btn-default">Take Certificate</button>
                       <a href="takeCourse&Quizzes.php?id=${course.Course_ID}" type="button" 
                         class="btn btn-success">Re-visit the course</a>
                     </td>
@@ -194,7 +195,43 @@
       // Page Loaded
       viewEnrolledCourses();
       viewCompletedCourses();
-    })
+
+      // Take Certificate Impl
+      const complete_tBody = document.getElementById('complete-t-body');
+
+      complete_tBody.addEventListener('click', async (evt) => {
+        let elem = evt.target;
+        document.getElementById('take-certificate-msg').innerText = "";
+
+        if (elem.tagName === 'BUTTON' && elem.classList.contains('take-certificate')) {
+          evt.preventDefault();
+          let courseID = elem.dataset.id;
+          let certificate = elem.dataset.certificate;
+          let response;
+          let res;
+
+          if (parseInt(certificate) === 1) {
+            if (confirm('Certificate already taken! Take the Certificate Again?')) {
+              document.getElementById('take-certificate-msg').innerText = "Please wait for a moment.";
+
+              response = await fetch(`sendCertificate.php?id=${courseID}`, { method: "GET" });
+              res = await response.json();
+
+              if (res.mailMsg) document.getElementById('take-certificate-msg').innerText = res.mailMsg;
+              if (res.success) viewCompletedCourses();
+            }
+          } else if (parseInt(certificate) === 0) {
+            document.getElementById('take-certificate-msg').innerText = "Please wait for a moment.";
+
+            response = await fetch(`sendCertificate.php?id=${courseID}`, { method: "GET" });
+            res = await response.json();
+
+            if (res.mailMsg) document.getElementById('take-certificate-msg').innerText = res.mailMsg;
+            if (res.success) viewCompletedCourses();
+          }          
+        }
+      });
+    });
   </script>
 </head>
 <body data-id="<?php if (isset($_SESSION['learner'])) echo $_SESSION['learner']['id']; ?>">
@@ -353,6 +390,9 @@
                     <!-- Data Rendered by javascript -->
                   </tbody>
                 </table>
+              </div>
+              <div style="display: flex; justify-content: center;">
+                <p id="take-certificate-msg" class="text-danger"></p>
               </div>
               <hr class="invis">
               <hr class="invis">              
